@@ -141,3 +141,46 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# ==========================================================
+# PI 4CCOMP 2026/2 - CTI Global
+# Bloco Python / Ciencia de Dados
+# O template acima e de Node.js e veio com o repositorio.
+# ==========================================================
+
+# Ambiente virtual Python
+.venv/
+venv/
+env/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ----------------------------------------------------------
+# DADOS DA CTI - NAO COMMITAR
+# Dado financeiro real de empresa parceira. Nao pode subir
+# para repositorio, conforme secao 3 do enunciado do PI.
+# ----------------------------------------------------------
+data/*
+*.csv
+*.parquet
+
+# Excecao: amostra ficticia ou agregada para demonstracao.
+# Usa-se "data/*" e nao "data/" porque o Git nao entra em
+# diretorio excluido - com "data/" a negacao abaixo nao funcionaria.
+!data/sample/
+!data/sample/**
+
+# Observacao: arquivos .xlsx NAO sao ignorados de proposito,
+# porque a planilha de validacao de KPIs deve ser versionada.
+
+# Segredos
+.env
+.env.local
+*.key
+*.pem
