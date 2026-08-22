@@ -166,15 +166,26 @@ __pycache__/
 # Dado financeiro real de empresa parceira. Nao pode subir
 # para repositorio, conforme secao 3 do enunciado do PI.
 # ----------------------------------------------------------
-data/*
+# A regra abaixo ignora o CONTEUDO das camadas de dados, mas
+# mantem as PASTAS visiveis no GitHub (via .gitkeep), para que
+# todo o grupo enxergue a estrutura ao clonar o repositorio.
+#
+# Atencao: padrao com barra no meio e ANCORADO na raiz. Por isso
+# o caminho completo "src/data" - um simples "data/*" nao pegaria
+# nada dentro de src/. Se o grupo mover os dados para outro lugar,
+# este bloco precisa ser atualizado junto.
+src/data/**
+!src/data/**/
+!src/data/**/.gitkeep
+
+# Formatos pesados, em qualquer lugar do repositorio
 *.csv
 *.parquet
 
-# Excecao: amostra ficticia ou agregada para demonstracao.
-# Usa-se "data/*" e nao "data/" porque o Git nao entra em
-# diretorio excluido - com "data/" a negacao abaixo nao funcionaria.
-!data/sample/
-!data/sample/**
+# Excecao: amostra ficticia ou agregada, publicavel junto do
+# dashboard na nuvem. Precisa vir DEPOIS de *.csv para vencer,
+# porque no .gitignore o ultimo padrao que casa e o que vale.
+!src/data/sample/**
 
 # Observacao: arquivos .xlsx NAO sao ignorados de proposito,
 # porque a planilha de validacao de KPIs deve ser versionada.
