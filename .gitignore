@@ -195,3 +195,8 @@ src/data/**
 .env.local
 *.key
 *.pem
+
+# Documento-mestre de trabalho pessoal (Claude Code).
+# Fica local: e instrucao de trabalho, nao documentacao de grupo,
+# e este repositorio e publico.
+CLAUDE.md
