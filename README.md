@@ -178,8 +178,6 @@ Abra [src/notebooks/01_perfil.ipynb](src/notebooks/01_perfil.ipynb), selecione o
 
 O notebook carrega os dados, apresenta o perfil, executa verificações e gera duas figuras em `imagens/`. Uma nova execução pode atualizar essas figuras. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
-Ainda não existe comando para iniciar o dashboard nem uma suíte automatizada de testes. As verificações disponíveis estão no notebook.
-
 ## Documentação
 
 - [E1 de Engenharia — PDF](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf)
@@ -188,16 +186,6 @@ Ainda não existe comando para iniciar o dashboard nem uma suíte automatizada d
 - [Documentos da Entrega 1](documentos/Entrega%201)
 - [Documentos da Entrega 2](documentos/Entrega%202)
 - [Issues do projeto](https://github.com/2026-2-NCC4/Projeto6/issues)
-
-## Próximos passos
-
-- [ ] Implementar a preparação reproduzível e o dicionário de dados.
-- [ ] Confirmar o tratamento de sinais, EBITDA, cenários repetidos e regras do ranking.
-- [ ] Completar a análise descritiva e suas interpretações.
-- [ ] Produzir o dicionário de KPIs e a planilha de validação.
-- [ ] Consolidar o relatório de Ciência de Dados e revisar a E1 de Engenharia.
-- [ ] Conferir a consistência dos resultados entre todas as disciplinas.
-- [ ] Desenvolver regressão, dashboard, sensibilidade e publicação para a E2.
 
 ## Licença e uso dos dados
 
