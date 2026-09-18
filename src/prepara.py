@@ -196,49 +196,165 @@ def verificar(bruto, nomeadas, sem_conta, base, marcas):
 
 
 # ---------------------------------------------------------------- dicionário
+# Totais e subtotais do balanço, na ordem em que aparecem no arquivo. As contas que vêm
+# depois de cada marcador pertencem ao grupo dele (conferido: a soma fecha, exceto no
+# Passivo Circulante).
+MARCADORES_BAL = {
+    "BAL - Total do Ativo": ("Ativo", "total"),
+    "BAL - Ativo Circulante": ("Ativo circulante", "subtotal"),
+    "BAL - Realizável a Longo Prazo": ("Realizável a longo prazo", "subtotal"),
+    "BAL - Permanente": ("Ativo permanente", "subtotal"),
+    "BAL - Total do Passivo": ("Passivo e patrimônio líquido", "total"),
+    "BAL - Passivo Circulante": ("Passivo circulante", "subtotal"),
+    "BAL - Exigível a Longo Prazo": ("Exigível a longo prazo", "subtotal"),
+    "BAL - Patrimônio Líquido": ("Patrimônio líquido", "subtotal"),
+}
+RESULTADOS = {
+    "DRE - Resultado Operacional", "DRE - Resultado Financeiro", "DRE - Resultado Antes do Imposto de Renda",
+    "DRE - Resultado Líquido", "DRE - Resultado Líquido após Equivalência", "DRE - EBITDA",
+    "FLU - Geração de Caixa",
+}
+OBSERVACOES = {
+    "BAL - Total do Passivo": "Inclui o patrimônio líquido. Somado ao Total do Ativo, dá zero",
+    "BAL - Passivo Circulante": "Não é igual à soma das contas do seu grupo; o sinal também varia. Pergunta pendente à CTI",
+    "BAL - Total do Ativo": "Fica negativo em parte dos cenários no Ano 12, no encerramento",
+    "BAL - Depreciação Acumulada": "Conta redutora do ativo",
+    "BAL - Amortização Acumulada": "Conta redutora do ativo",
+    "BAL - Amortização - Intangível": "Conta redutora do ativo",
+    "BAL - Emprést": "Distinta de BAL - Empréstimos: grupo e sinal diferentes",
+    "BAL - Outros deb": "Distinta de BAL - Outros Débitos: grupo e sinal diferentes",
+    "DRE - EBITDA": "Fornecido pela CTI. Não reconcilia com o Resultado Operacional somado à Depreciação e Amortização",
+    "DRE - Resultado Operacional": "Receita + Tributos + Custos + Depreciação e Amortização",
+    "DRE - Resultado Financeiro": "Receitas Financeiras + Despesas Financeiras",
+    "DRE - Resultado Antes do Imposto de Renda": "Resultado Operacional + Resultado Financeiro + Outros Resultados Operacionais",
+    "DRE - Resultado Líquido": "Resultado Antes do Imposto de Renda + Imposto de Renda e Contribuição Social",
+    "DRE - Resultado Líquido após Equivalência": "Igual ao Resultado Líquido em todos os registros",
+    "FLU - Geração de Caixa": "Soma de Receita, Tributos, Custos, Investimentos, Entradas, Despesas Financeiras, Imposto de Renda e Distribuição para Acionista",
+    "FLU - Resultado Financeiro": "Informativa: não entra na Geração de Caixa",
+    "FLU - Saldo Final": "Saldo Inicial + Geração de Caixa",
+}
+
+
+def descrever_sinal(valores):
+    """Resume o sinal observado de uma conta em todos os registros."""
+    total = len(valores)
+    contagem = {"positivo": int((valores > 0).sum()), "negativo": int((valores < 0).sum()),
+                "zero": int((valores == 0).sum())}
+    presentes = {k: n for k, n in contagem.items() if n > 0}
+    if len(presentes) == 1:
+        return "sempre " + next(iter(presentes))
+
+    def registros(n):
+        return f"{n} registro{'s' if n > 1 else ''}"
+
+    # Menos de 1% some no arredondamento: nesses casos mostra a contagem
+    raros = {k: n for k, n in presentes.items() if n / total < 0.01}
+    comuns = {k: n for k, n in presentes.items() if k not in raros}
+    if len(comuns) == 1:
+        adjetivo = {"positivo": ("positivo", "positivos"), "negativo": ("negativo", "negativos"),
+                    "zero": ("igual a zero", "iguais a zero")}
+        excecoes = " e ".join(f"{registros(n)} {adjetivo[k][n > 1]}" for k, n in raros.items())
+        return f"sempre {next(iter(comuns))}, exceto {excecoes}"
+    partes = [f"{k} em {n / total:.0%}" for k, n in comuns.items()]
+    partes += [f"{k} em {registros(n)}" for k, n in raros.items()]
+    return ", ".join(partes)
+
+
+def descrever_cobertura(anos):
+    faltam = sorted(set(range(1, 13)) - set(int(a) for a in anos))
+    if not faltam:
+        return "todos os anos"
+    if len(faltam) == 1:
+        return f"ausente no Ano {faltam[0]}"
+    return "ausente nos anos " + ", ".join(map(str, faltam[:-1])) + f" e {faltam[-1]}"
+
+
 def gerar_dicionario(nomeadas, contas):
-    """Descreve cada campo da base analítica. Não contém valores da CTI."""
-    natureza_bloco = {
-        "BAL": "Saldo no fim do ano (não somar entre anos). Ativo positivo; passivo e PL negativos",
-        "DRE": "Movimento do ano. Receitas positivas; custos e despesas negativos",
-        "FLU": "Movimento do ano. Entradas positivas; saídas negativas",
-    }
-    anos_por_conta = nomeadas.groupby("conta")["ano_n"].unique()
+    """Descreve cada campo da base analítica, com grupo, sinal e cobertura calculados do próprio dado."""
+    # Ordem das contas num grupo com cobertura completa, para atribuir o grupo do balanço
+    completo = nomeadas.groupby(["cenario", "ano_n"])["conta"].transform("size")
+    amostra = nomeadas[completo == completo.max()]
+    primeiro = amostra[["cenario", "ano_n"]].iloc[0]
+    ordem = amostra[(amostra["cenario"] == primeiro["cenario"]) & (amostra["ano_n"] == primeiro["ano_n"])]
+    ordem = ordem.sort_values("linha_origem")["conta"].tolist()
+
+    grupo_bal, grupo_atual = {}, None
+    for c in ordem:
+        if c in MARCADORES_BAL:
+            grupo_atual = MARCADORES_BAL[c][0]
+            grupo_bal[c] = MARCADORES_BAL[c]
+        elif c.startswith("BAL"):
+            grupo_bal[c] = (grupo_atual, "detalhe")
+
+    sinais = nomeadas.groupby("conta")["valor"].apply(descrever_sinal)
+    anos = nomeadas.groupby("conta")["ano_n"].unique()
+
     linhas = [
-        ("cenario", "texto", "bruto", "Identificador do cenário de Monte Carlo (Total Cen_00001 a Total Cen_01200)", ""),
-        ("ano_n", "inteiro", "derivado", "Ano do horizonte, de 1 a 12, extraído do campo ano", ""),
-        ("ano_calendario", "inteiro", "derivado", "Ano por convenção da CTI: Ano 1 = 2027 ... Ano 12 = 2038", ""),
+        ("identificacao", "cenario", "texto", "bruto", "", "", "", "", "", "código",
+         "Identificador do cenário de Monte Carlo, de Total Cen_00001 a Total Cen_01200"),
+        ("identificacao", "ano_n", "inteiro", "derivado", "", "", "", "", "", "ano (1 a 12)",
+         "Ano do horizonte, extraído do campo ano"),
+        ("identificacao", "ano_calendario", "inteiro", "derivado", "", "", "", "", "", "ano",
+         "Ano pela convenção da CTI: Ano 1 = 2027, Ano 12 = 2038"),
     ]
     for c in contas:
         bloco = c.split(" - ")[0]
-        natureza = natureza_bloco[bloco]
-        if c in ("FLU - Saldo Inicial", "FLU - Saldo Final"):
-            natureza = "Saldo de caixa (não somar entre anos)"
-        anos = sorted(int(a) for a in anos_por_conta[c])
-        faltam = sorted(set(range(1, 13)) - set(anos))
-        cobertura = "todos os anos" if not faltam else "ausente no(s) ano(s) " + ", ".join(map(str, faltam))
-        linhas.append((c, "decimal", "bruto", f"Conta do bloco {bloco}. {natureza}. Cobertura: {cobertura}", "R$"))
+        if bloco == "BAL":
+            grupo, tipo_linha = grupo_bal[c]
+            natureza = "saldo no fim do ano"
+        else:
+            grupo = "Demonstração do resultado" if bloco == "DRE" else "Fluxo de caixa"
+            tipo_linha = "resultado" if c in RESULTADOS else "detalhe"
+            natureza = "movimento do ano"
+            if c in ("FLU - Saldo Inicial", "FLU - Saldo Final"):
+                tipo_linha, natureza = "saldo", "saldo de caixa"
+        linhas.append(("conta", c, "decimal", "bruto", bloco, grupo, tipo_linha, natureza,
+                       sinais[c] + " / " + descrever_cobertura(anos[c]), "R$", OBSERVACOES.get(c, "")))
     linhas += [
-        ("encerramento", "booleano", "derivado", "Verdadeiro no Ano 12, encerramento da concessão", ""),
-        ("residuo_balanco", "decimal", "derivado", "BAL - Total do Ativo + BAL - Total do Passivo; deve ser próximo de zero", "R$"),
-        ("conferencia_modelo", "decimal", "bruto", "Primeira linha sem nome de conta do grupo; coincide com o resíduo do balanço", "R$"),
-        ("margem_ebitda", "decimal", "derivado", "DRE - EBITDA / DRE - Receita (EBITDA como fornecido pela CTI)", "fração"),
-        ("margem_operacional", "decimal", "derivado", "DRE - Resultado Operacional / DRE - Receita", "fração"),
-        ("margem_liquida", "decimal", "derivado", "DRE - Resultado Líquido / DRE - Receita", "fração"),
-        ("grupo_repeticao", "texto", "derivado", "Grupo de cenários com trajetória idêntica nos 12 anos; vazio se o cenário é único", ""),
-        ("cenario_repetido", "booleano", "derivado", "Verdadeiro se o cenário pertence a um grupo de repetição", ""),
-        ("copia_excedente", "booleano", "derivado", "Verdadeiro para as cópias além da primeira de cada grupo; usar para análise sem cópias", ""),
+        ("derivado", "encerramento", "booleano", "derivado", "", "", "", "", "", "verdadeiro ou falso",
+         "Verdadeiro no Ano 12, encerramento da concessão"),
+        ("derivado", "residuo_balanco", "decimal", "derivado", "", "", "", "", "", "R$",
+         "Total do Ativo + Total do Passivo; deve ser próximo de zero"),
+        ("derivado", "conferencia_modelo", "decimal", "bruto", "", "", "", "", "", "R$",
+         "Primeira linha sem nome de conta do grupo; coincide com o resíduo do balanço"),
+        ("derivado", "margem_ebitda", "decimal", "derivado", "", "", "", "", "", "fração da receita (0,77 = 77%)",
+         "EBITDA dividido pela Receita, com o EBITDA como fornecido pela CTI"),
+        ("derivado", "margem_operacional", "decimal", "derivado", "", "", "", "", "", "fração da receita (0,77 = 77%)",
+         "Resultado Operacional dividido pela Receita"),
+        ("derivado", "margem_liquida", "decimal", "derivado", "", "", "", "", "", "fração da receita (0,77 = 77%)",
+         "Resultado Líquido dividido pela Receita"),
+        ("derivado", "grupo_repeticao", "texto", "derivado", "", "", "", "", "", "rótulo (G01)",
+         "Grupo de cenários com trajetória idêntica nos 12 anos; vazio se o cenário é único"),
+        ("derivado", "cenario_repetido", "booleano", "derivado", "", "", "", "", "", "verdadeiro ou falso",
+         "Verdadeiro se o cenário pertence a um grupo de repetição"),
+        ("derivado", "copia_excedente", "booleano", "derivado", "", "", "", "", "", "verdadeiro ou falso",
+         "Verdadeiro nas cópias além da primeira de cada grupo; filtrar para analisar sem cópias"),
     ]
-    return pd.DataFrame(linhas, columns=["campo", "tipo", "origem", "descricao", "unidade"])
+    colunas = ["secao", "campo", "tipo", "origem", "bloco", "grupo", "tipo_linha", "natureza",
+               "sinal_e_cobertura", "unidade", "descricao"]
+    return pd.DataFrame(linhas, columns=colunas)
 
 
 def salvar_dicionario_md(dicionario, caminho):
-    """Grava o dicionário como tabela Markdown, legível direto no GitHub."""
-    linhas = ["# Dicionário de dados da base analítica", "",
-              "Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano.", "",
-              "| Campo | Tipo | Origem | Descrição | Unidade |", "|---|---|---|---|---|"]
-    for r in dicionario.itertuples(index=False):
-        linhas.append(f"| `{r.campo}` | {r.tipo} | {r.origem} | {r.descricao} | {r.unidade} |")
+    """Grava o dicionário em Markdown, em duas tabelas, legível direto no GitHub."""
+    linhas = [
+        "# Dicionário de dados da base analítica", "",
+        "Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano (14.400 linhas).",
+        "Grupo, tipo de linha, sinal e cobertura de cada conta são calculados a partir do próprio dado.", "",
+        "## Identificação e campos derivados", "",
+        "| Campo | Tipo | Origem | Unidade | Descrição |", "|---|---|---|---|---|",
+    ]
+    for r in dicionario[dicionario["secao"] != "conta"].itertuples(index=False):
+        linhas.append(f"| `{r.campo}` | {r.tipo} | {r.origem} | {r.unidade} | {r.descricao} |")
+    linhas += [
+        "", "## Contas contábeis", "",
+        "Todas em R$. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser "
+        "somados junto com elas. **Sinal e cobertura:** o sinal observado em todos os registros e os anos em que "
+        "a conta aparece.", "",
+        "| Conta | Grupo | Tipo de linha | Natureza | Sinal e cobertura | Observação |", "|---|---|---|---|---|---|",
+    ]
+    for r in dicionario[dicionario["secao"] == "conta"].itertuples(index=False):
+        linhas.append(f"| {r.campo} | {r.grupo} | {r.tipo_linha} | {r.natureza} | {r.sinal_e_cobertura} | {r.descricao} |")
     caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
 
 
