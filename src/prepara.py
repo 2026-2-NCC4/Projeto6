@@ -214,25 +214,112 @@ RESULTADOS = {
     "DRE - Resultado Líquido", "DRE - Resultado Líquido após Equivalência", "DRE - EBITDA",
     "FLU - Geração de Caixa",
 }
+# O que cada conta representa. Onde a CTI não detalhou a composição, o texto diz isso.
+DEFINICOES = {
+    "BAL - Total do Ativo": "Soma de todos os bens e direitos da concessionária",
+    "BAL - Ativo Circulante": "Bens e direitos realizáveis em até um ano",
+    "BAL - Disponível": "Caixa e equivalentes de caixa",
+    "BAL - Contas a Receber - SWAP": "Valores a receber de contratos de swap (derivativos)",
+    "BAL - Contas a Receber - Partes Relacionadas": "Valores a receber de empresas do mesmo grupo econômico",
+    "BAL - Contas a Receber - Clientes": "Valores a receber pelos serviços prestados na concessão",
+    "BAL - Estoques Diversos": "Materiais e insumos em estoque",
+    "BAL - Outros Créditos": "Outros direitos de curto prazo",
+    "BAL - Realizável a Longo Prazo": "Direitos realizáveis após um ano",
+    "BAL - At Fiscal Diferido": "Ativo fiscal diferido: tributos a recuperar em exercícios futuros",
+    "BAL - Créditos Tributários": "Tributos a recuperar",
+    "BAL - Outorga da Concessão": "Direito de outorga da concessão registrado como ativo",
+    "BAL - Outros Créditos LP": "Outros direitos de longo prazo",
+    "BAL - Permanente": "Investimentos, imobilizado e intangível, líquidos de depreciação e amortização",
+    "BAL - Investimentos - Imobilizado": "Bens físicos usados na operação, pelo valor de aquisição",
+    "BAL - Investimentos - Intangível": "Direitos sem forma física, como o de explorar a concessão, pelo valor de aquisição",
+    "BAL - Diferido": "Gastos que beneficiam exercícios futuros (ativo diferido)",
+    "BAL - Depreciação Acumulada": "Desgaste acumulado do imobilizado",
+    "BAL - Amortização Acumulada": "Amortização acumulada de ativos de longo prazo",
+    "BAL - Amortização - Intangível": "Amortização acumulada do intangível",
+    "BAL - Total do Passivo": "Soma das obrigações com terceiros e do patrimônio líquido",
+    "BAL - Passivo Circulante": "Obrigações com vencimento em até um ano",
+    "BAL - Empréstimos": "Empréstimos e financiamentos de curto prazo",
+    "BAL - Contas a Pagar - Parte Relacionada": "Valores a pagar a empresas do mesmo grupo econômico",
+    "BAL - Fornecedores": "Valores a pagar a fornecedores",
+    "BAL - Encargos Sociais e Trabalhistas": "Salários, férias e encargos a pagar",
+    "BAL - Tributos a pagar": "Tributos a recolher",
+    "BAL - Impostos": "Impostos a pagar; a diferença para Tributos a pagar não foi detalhada pela CTI",
+    "BAL - Obrigações com o Poder Concedente": "Valores devidos ao poder concedente pelo contrato de concessão",
+    "BAL - Outros Débitos": "Outras obrigações de curto prazo",
+    "BAL - Provisão Manutenção": "Provisão para a manutenção da infraestrutura prevista no contrato",
+    "BAL - Exigível a Longo Prazo": "Obrigações com vencimento após um ano",
+    "BAL - Emprést": "Empréstimos e financiamentos de longo prazo",
+    "BAL - Prov para Contingências": "Provisão para processos e riscos com perda provável",
+    "BAL - Outros deb": "Outras obrigações de longo prazo",
+    "BAL - Patrimônio Líquido": "Recursos dos acionistas: capital, reservas e resultados",
+    "BAL - Capital Social": "Capital investido pelos acionistas",
+    "BAL - Reservas de Capital": "Reservas formadas por aportes que não vêm do resultado",
+    "BAL - Reservas Legais": "Reserva obrigatória por lei, formada a partir do lucro",
+    "BAL - Reserva de Retenção de Lucros": "Lucros mantidos na empresa em vez de distribuídos",
+    "BAL - Dividendos Antecipados": "Dividendos pagos antes do fim do exercício",
+    "BAL - Resultado Acumulado": "Resultados de exercícios anteriores ainda não destinados",
+    "BAL - Resultado do Período": "Resultado do exercício corrente, registrado no patrimônio líquido",
+    "DRE - Receita": "Receita da operação da concessão",
+    "DRE - Tributos": "Tributos sobre a receita",
+    "DRE - Custos": "Custos da operação",
+    "DRE - Depreciação e Amortização": "Despesa de depreciação e amortização do ano",
+    "DRE - Resultado Operacional": "Resultado da operação, antes do resultado financeiro",
+    "DRE - Receitas Financeiras": "Rendimentos de aplicações e outras receitas financeiras",
+    "DRE - Despesas Financeiras": "Juros e outros encargos financeiros",
+    "DRE - Resultado Financeiro": "Saldo entre receitas e despesas financeiras",
+    "DRE - Outros Resultados Operacionais": "Outras receitas e despesas operacionais",
+    "DRE - Resultado Antes do Imposto de Renda": "Resultado antes do imposto de renda e da contribuição social",
+    "DRE - Imposto de Renda e Contribuição Social": "IRPJ e CSLL sobre o lucro",
+    "DRE - Resultado Líquido": "Lucro ou prejuízo do ano",
+    "DRE - Resultado Líquido após Equivalência": "Resultado líquido após a equivalência patrimonial",
+    "DRE - EBITDA": "Lucro antes de juros, impostos, depreciação e amortização",
+    "FLU - Saldo Inicial": "Caixa no início do ano",
+    "FLU - Receita": "Recebimentos da receita no ano",
+    "FLU - Tributos": "Pagamentos de tributos sobre a receita",
+    "FLU - Custos": "Pagamentos de custos da operação",
+    "FLU - Investimentos": "Pagamentos de investimentos em ativos",
+    "FLU - Entradas": "Outras entradas de caixa; a composição não foi detalhada pela CTI",
+    "FLU - Despesas Financeiras": "Pagamentos de juros e encargos financeiros",
+    "FLU - Resultado Financeiro": "Resultado financeiro do ano",
+    "FLU - Imposto de Renda e Contribuição Social": "Pagamentos de IRPJ e CSLL",
+    "FLU - Distribuição para Acionista": "Dividendos e outras distribuições pagas aos acionistas",
+    "FLU - Geração de Caixa": "Variação do caixa no ano",
+    "FLU - Saldo Final": "Caixa no fim do ano",
+}
+# Alertas e fórmulas conferidos no dado, acrescentados depois da definição.
 OBSERVACOES = {
-    "BAL - Total do Passivo": "Inclui o patrimônio líquido. Somado ao Total do Ativo, dá zero",
-    "BAL - Passivo Circulante": "Não é igual à soma das contas do seu grupo; o sinal também varia. Pergunta pendente à CTI",
     "BAL - Total do Ativo": "Fica negativo em parte dos cenários no Ano 12, no encerramento",
+    "BAL - Disponível": "Igual ao FLU - Saldo Final em todos os registros",
+    "BAL - Estoques Diversos": "Valores muito pequenos em relação às demais contas",
     "BAL - Depreciação Acumulada": "Conta redutora do ativo",
     "BAL - Amortização Acumulada": "Conta redutora do ativo",
     "BAL - Amortização - Intangível": "Conta redutora do ativo",
+    "BAL - Total do Passivo": "Inclui o patrimônio líquido; somado ao Total do Ativo, dá zero",
+    "BAL - Passivo Circulante": "Não é igual à soma das contas do seu grupo e o sinal varia. Pergunta pendente à CTI",
     "BAL - Emprést": "Distinta de BAL - Empréstimos: grupo e sinal diferentes",
     "BAL - Outros deb": "Distinta de BAL - Outros Débitos: grupo e sinal diferentes",
-    "DRE - EBITDA": "Fornecido pela CTI. Não reconcilia com o Resultado Operacional somado à Depreciação e Amortização",
-    "DRE - Resultado Operacional": "Receita + Tributos + Custos + Depreciação e Amortização",
-    "DRE - Resultado Financeiro": "Receitas Financeiras + Despesas Financeiras",
-    "DRE - Resultado Antes do Imposto de Renda": "Resultado Operacional + Resultado Financeiro + Outros Resultados Operacionais",
-    "DRE - Resultado Líquido": "Resultado Antes do Imposto de Renda + Imposto de Renda e Contribuição Social",
+    "BAL - Dividendos Antecipados": "Reduz o patrimônio líquido, por isso tem sinal oposto às demais contas do grupo",
+    "DRE - Resultado Operacional": "Cálculo: Receita + Tributos + Custos + Depreciação e Amortização",
+    "DRE - Resultado Financeiro": "Cálculo: Receitas Financeiras + Despesas Financeiras",
+    "DRE - Resultado Antes do Imposto de Renda": "Cálculo: Resultado Operacional + Resultado Financeiro + Outros Resultados Operacionais",
+    "DRE - Resultado Líquido": "Cálculo: Resultado Antes do Imposto de Renda + Imposto de Renda e Contribuição Social",
     "DRE - Resultado Líquido após Equivalência": "Igual ao Resultado Líquido em todos os registros",
-    "FLU - Geração de Caixa": "Soma de Receita, Tributos, Custos, Investimentos, Entradas, Despesas Financeiras, Imposto de Renda e Distribuição para Acionista",
+    "DRE - EBITDA": "Fornecido pela CTI; não reconcilia com o Resultado Operacional somado à Depreciação e Amortização",
+    "FLU - Saldo Inicial": "Igual ao Saldo Final do ano anterior",
     "FLU - Resultado Financeiro": "Informativa: não entra na Geração de Caixa",
-    "FLU - Saldo Final": "Saldo Inicial + Geração de Caixa",
+    "FLU - Geração de Caixa": "Cálculo: Receita + Tributos + Custos + Investimentos + Entradas + Despesas Financeiras + Imposto de Renda + Distribuição para Acionista",
+    "FLU - Saldo Final": "Cálculo: Saldo Inicial + Geração de Caixa",
 }
+
+
+def descrever_conta(conta):
+    """Definição da conta, seguida do alerta ou da fórmula, quando houver."""
+    if conta not in DEFINICOES:
+        raise KeyError(f"Conta sem definição no dicionário: {conta}")
+    texto = DEFINICOES[conta]
+    if conta in OBSERVACOES:
+        texto += ". " + OBSERVACOES[conta]
+    return texto
 
 
 def descrever_sinal(valores):
@@ -309,7 +396,7 @@ def gerar_dicionario(nomeadas, contas):
             if c in ("FLU - Saldo Inicial", "FLU - Saldo Final"):
                 tipo_linha, natureza = "saldo", "saldo de caixa"
         linhas.append(("conta", c, "decimal", "bruto", bloco, grupo, tipo_linha, natureza,
-                       sinais[c] + " / " + descrever_cobertura(anos[c]), "R$", OBSERVACOES.get(c, "")))
+                       sinais[c] + " / " + descrever_cobertura(anos[c]), "R$", descrever_conta(c)))
     linhas += [
         ("derivado", "encerramento", "booleano", "derivado", "", "", "", "", "", "verdadeiro ou falso",
          "Verdadeiro no Ano 12, encerramento da concessão"),
@@ -351,10 +438,10 @@ def salvar_dicionario_md(dicionario, caminho):
         "Todas em R$. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser "
         "somados junto com elas. **Sinal e cobertura:** o sinal observado em todos os registros e os anos em que "
         "a conta aparece.", "",
-        "| Conta | Grupo | Tipo de linha | Natureza | Sinal e cobertura | Observação |", "|---|---|---|---|---|---|",
+        "| Conta | Descrição | Grupo | Tipo de linha | Natureza | Sinal e cobertura |", "|---|---|---|---|---|---|",
     ]
     for r in dicionario[dicionario["secao"] == "conta"].itertuples(index=False):
-        linhas.append(f"| {r.campo} | {r.grupo} | {r.tipo_linha} | {r.natureza} | {r.sinal_e_cobertura} | {r.descricao} |")
+        linhas.append(f"| {r.campo} | {r.descricao} | {r.grupo} | {r.tipo_linha} | {r.natureza} | {r.sinal_e_cobertura} |")
     caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
 
 
