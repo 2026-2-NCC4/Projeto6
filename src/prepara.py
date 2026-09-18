@@ -396,13 +396,13 @@ def gerar_dicionario(nomeadas, contas):
             if c in ("FLU - Saldo Inicial", "FLU - Saldo Final"):
                 tipo_linha, natureza = "saldo", "saldo de caixa"
         linhas.append(("conta", c, "decimal", "bruto", bloco, grupo, tipo_linha, natureza,
-                       sinais[c] + " / " + descrever_cobertura(anos[c]), "R$", descrever_conta(c)))
+                       sinais[c] + " / " + descrever_cobertura(anos[c]), "reais", descrever_conta(c)))
     linhas += [
         ("derivado", "encerramento", "booleano", "derivado", "", "", "", "", "", "verdadeiro ou falso",
          "Verdadeiro no Ano 12, encerramento da concessão"),
-        ("derivado", "residuo_balanco", "decimal", "derivado", "", "", "", "", "", "R$",
+        ("derivado", "residuo_balanco", "decimal", "derivado", "", "", "", "", "", "reais",
          "Total do Ativo + Total do Passivo; deve ser próximo de zero"),
-        ("derivado", "conferencia_modelo", "decimal", "bruto", "", "", "", "", "", "R$",
+        ("derivado", "conferencia_modelo", "decimal", "bruto", "", "", "", "", "", "reais",
          "Primeira linha sem nome de conta do grupo; coincide com o resíduo do balanço"),
         ("derivado", "margem_ebitda", "decimal", "derivado", "", "", "", "", "", "fração da receita (0,77 = 77%)",
          "EBITDA dividido pela Receita, com o EBITDA como fornecido pela CTI"),
@@ -435,7 +435,7 @@ def salvar_dicionario_md(dicionario, caminho):
         linhas.append(f"| `{r.campo}` | {r.tipo} | {r.origem} | {r.unidade} | {r.descricao} |")
     linhas += [
         "", "## Contas contábeis", "",
-        "Todas em R$. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser "
+        "Valores em reais. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser "
         "somados junto com elas. **Sinal e cobertura:** o sinal observado em todos os registros e os anos em que "
         "a conta aparece.", "",
         "| Conta | Descrição | Grupo | Tipo de linha | Natureza | Sinal e cobertura |", "|---|---|---|---|---|---|",
