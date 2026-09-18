@@ -11,8 +11,8 @@ Grupo, tipo de linha, sinal e cobertura de cada conta são calculados a partir d
 | `ano_n` | inteiro | derivado | ano (1 a 12) | Ano do horizonte, extraído do campo ano |
 | `ano_calendario` | inteiro | derivado | ano | Ano pela convenção da CTI: Ano 1 = 2027, Ano 12 = 2038 |
 | `encerramento` | booleano | derivado | verdadeiro ou falso | Verdadeiro no Ano 12, encerramento da concessão |
-| `residuo_balanco` | decimal | derivado | R$ | Total do Ativo + Total do Passivo; deve ser próximo de zero |
-| `conferencia_modelo` | decimal | bruto | R$ | Primeira linha sem nome de conta do grupo; coincide com o resíduo do balanço |
+| `residuo_balanco` | decimal | derivado | R\$ | Total do Ativo + Total do Passivo; deve ser próximo de zero |
+| `conferencia_modelo` | decimal | bruto | R\$ | Primeira linha sem nome de conta do grupo; coincide com o resíduo do balanço |
 | `margem_ebitda` | decimal | derivado | fração da receita (0,77 = 77%) | EBITDA dividido pela Receita, com o EBITDA como fornecido pela CTI |
 | `margem_operacional` | decimal | derivado | fração da receita (0,77 = 77%) | Resultado Operacional dividido pela Receita |
 | `margem_liquida` | decimal | derivado | fração da receita (0,77 = 77%) | Resultado Líquido dividido pela Receita |
@@ -22,7 +22,7 @@ Grupo, tipo de linha, sinal e cobertura de cada conta são calculados a partir d
 
 ## Contas contábeis
 
-Todas em R$. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser somados junto com elas. **Sinal e cobertura:** o sinal observado em todos os registros e os anos em que a conta aparece.
+Todas em R\$. **Tipo de linha:** total e subtotal já somam as contas do seu grupo, então não devem ser somados junto com elas. **Sinal e cobertura:** o sinal observado em todos os registros e os anos em que a conta aparece.
 
 | Conta | Descrição | Grupo | Tipo de linha | Natureza | Sinal e cobertura |
 |---|---|---|---|---|---|

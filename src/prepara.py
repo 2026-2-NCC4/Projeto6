@@ -442,7 +442,10 @@ def salvar_dicionario_md(dicionario, caminho):
     ]
     for r in dicionario[dicionario["secao"] == "conta"].itertuples(index=False):
         linhas.append(f"| {r.campo} | {r.descricao} | {r.grupo} | {r.tipo_linha} | {r.natureza} | {r.sinal_e_cobertura} |")
-    caminho.write_text("\n".join(linhas) + "\n", encoding="utf-8")
+    # "$" escapado: vários visualizadores de Markdown tratam "$" como início de fórmula
+    # matemática e apagam o texto entre dois cifrões, como em duas linhas seguidas com "R$"
+    texto = "\n".join(linhas).replace("$", "\\$")
+    caminho.write_text(texto + "\n", encoding="utf-8")
 
 
 # ---------------------------------------------------------------- execução
