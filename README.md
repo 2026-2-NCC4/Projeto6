@@ -35,10 +35,6 @@ Conforme o contexto registrado no notebook do grupo, os dados representam proje�
 | Luiz Henrique |
 | Eric Aloise |
 
-**Professor orientador indicado na entrega de Engenharia:** Luis Pires.
-
-A identificação acima segue o documento de Engenharia publicado pelo grupo. A relação dos demais professores das disciplinas e os links dos integrantes serão complementados após confirmação.
-
 ## Entregas das disciplinas
 
 | Disciplina | Entrega 1 — 25/09/2026 | Entrega 2 — 06/11/2026 |
@@ -49,45 +45,6 @@ A identificação acima segue o documento de Engenharia publicado pelo grupo. A 
 | Projeto Interdisciplinar: Ciência de Dados | Identificação e exploração das fontes, preparação dos dados e relatório em Word/PDF, com a etapa analítica em notebook/Colab. | Código Python e dashboard funcional publicado na nuvem, com pelo menos cinco indicadores, filtros e documentação. |
 
 As datas seguem a matriz do enunciado e devem ser acompanhadas no cronograma oficial dos professores. A apresentação final inclui **demonstração, banner e pitch de até quatro minutos**, durante a Semana FECAP de Tecnologia.
-
-## Situação atual
-
-**Atualização: 17/09/2026.**
-
-| Frente | Situação |
-|---|---|
-| Perfil e auditoria dos dados | Notebook disponível, com sete verificações de qualidade e duas visualizações exploratórias. A verificação do balanço foi corrigida para respeitar a convenção de sinais. |
-| Engenharia — E1 | Documento publicado em PDF e DOCX; revisão e integração com as demais frentes continuam. |
-| Preparação dos dados | Próxima etapa: transformar a exploração em um processo reproduzível, com base derivada e dicionário. |
-| Estatística — E1 | Exploração inicial disponível; faltam completar as medidas, os gráficos e o relatório exigidos. |
-| Finanças — E1 | Demonstrativos, indicadores e planilha de validação ainda pendentes; decisões de sinais, EBITDA e ranking permanecem em aberto. |
-| Dashboard e regressão | Planejados para a E2. Ainda não há aplicação publicada. |
-
-A prioridade é preparar uma versão comum dos dados para que notebook, planilha e relatórios utilizem os mesmos números e critérios.
-
-## Dados e preservação da fonte
-
-A entrada utilizada pelo notebook é `Demonstrativo Fecap v3.csv`. A estrutura registrada na exploração contém:
-
-| Característica | Descrição |
-|---|---|
-| Campos de entrada | `ano`, `cenario`, `conta` e `valor` |
-| Volume registrado | 1.002.000 linhas, 1.200 cenários e 12 anos de horizonte |
-| Contas nomeadas distintas | 69, distribuídas entre BAL, DRE e FLU |
-| Leitura | CSV sem cabeçalho, separado por ponto e vírgula, codificação Latin-1 e números no formato brasileiro |
-| Granularidade analítica pretendida | Uma linha por cenário e ano: 14.400 combinações |
-
-**A base original da CTI é somente leitura e não é distribuída neste repositório.** O acesso deve ser obtido pelos canais autorizados do projeto. Transformações e cálculos devem gerar arquivos separados, preservando os registros originais.
-
-Alguns cuidados orientam a preparação:
-
-- Ausência de uma conta não equivale automaticamente a zero.
-- Cenários são alternativas e não devem ser somados como partes de uma mesma operação.
-- A cobertura de contas varia ao longo do horizonte, especialmente no Ano 12.
-- O notebook identifica 95 cenários envolvidos em repetição e 94 cópias excedentes por comparação de assinaturas após arredondamento a seis casas. O tratamento dessas trajetórias deve ser documentado; não há exclusão automática.
-- Fórmulas, sinais, critérios de ranking e premissas financeiras dependem de validação.
-
-Os resultados atualmente disponíveis são os registrados no notebook. A reprodução independente e a validação integrada devem acompanhar as próximas versões.
 
 ## Tecnologias
 
@@ -192,10 +149,3 @@ O notebook carrega os dados, apresenta o perfil, executa verificações e gera d
 A licença de distribuição do código e da documentação ainda será definida pelo grupo; não há arquivo de licença publicado nesta versão.
 
 Os dados fornecidos pela CTI não estão incluídos em uma licença de código. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
-
-## Referências
-
-- **FECAP.** `PI_4CCOMP_202602_CTI_Ciencia_de_Dados_FINAL.pdf` — enunciado institucional do PI 2026/2, disponibilizado à turma.
-- **Grupo 6.** Documento da E1 de Engenharia e notebook de perfil, disponíveis nos links acima.
-- [Template institucional de PI da FECAP](https://github.com/fecaphub/Template_PI) — referência de organização do README.
-- [Projeto10 da turma 2026-2-NCC4](https://github.com/2026-2-NCC4/Projeto10) — referência de apresentação e da tabela de entregas por disciplina.
