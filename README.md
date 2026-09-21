@@ -122,7 +122,7 @@ Abra [src/notebooks/01_perfil.ipynb](src/notebooks/01_perfil.ipynb), selecione o
 
 O notebook carrega os dados, apresenta o perfil, executa verificações e gera duas figuras em `imagens/`. Uma nova execução pode atualizar essas figuras. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
-## 📋 Licença/License
+## Licença/License
 
 <a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by Gustavo Pires, Lúcio Vecchio, Luiz Henrique, Eric Aloise and <a href="https://www.fecap.br/">FECAP - Fundação de Comércio Álvares Penteado</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" width="20" height="20"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Atribuição" width="20" height="20">.
 
