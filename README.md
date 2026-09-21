@@ -1,14 +1,16 @@
-<div align="center">
+# FECAP - Fundação de Comércio Álvares Penteado
+
+<p align="center">
+<a href="https://github.com/2026-2-NCC4/Projeto6"><img src="imagens/logo_devleaders.png" alt="Logo DevLeaders" width="30%" border="0"></a>
+</p>
 
 # CTI — Plataforma Analítica de Planejamento Financeiro
 
-**[FECAP — Fundação Escola de Comércio Álvares Penteado](https://www.fecap.br/)**  
-Ciência da Computação · 4º semestre · 2026/2  
-**Projeto Interdisciplinar · Grupo 6 · CTI Global**
+## DevLeaders
 
-[Sobre o projeto](#sobre-o-projeto) · [Equipe](#equipe) · [Entregas](#entregas-das-disciplinas) · [Execução](#execução-local) · [Documentação](#documentação)
+## Integrantes: Gustavo Pires, Lúcio Vecchio, Luiz Henrique, Eric Aloise
 
-</div>
+## Professores Orientadores: <a href="https://www.linkedin.com/in/eduardo-savino/">Eduardo Savino</a>, <a href="https://www.linkedin.com/in/luisspires/">Luis Pires</a>, <a href="https://www.linkedin.com/in/mauricio-lopes-42b8b33a3/">Mauricio Lopes</a>, <a href="https://www.linkedin.com/in/professorrodnil/">Rodnil da Silva</a>
 
 ## Sobre o projeto
 
@@ -26,57 +28,42 @@ Conforme o contexto registrado no notebook do grupo, os dados representam proje�
 - Disponibilizar um dashboard com pelo menos cinco indicadores, filtros e notas metodológicas.
 - Documentar requisitos, decisões de projeto, resultados e limitações.
 
-## Equipe
-
-| Integrante |
-|---|
-| Gustavo Pires |
-| Lúcio Vecchio |
-| Luiz Henrique |
-| Eric Aloise |
-
 ## Entregas das disciplinas
 
-| Disciplina | Entrega 1 — 25/09/2026 | Entrega 2 — 06/11/2026 |
+| Disciplina | Entrega 1 | Entrega 2 |
 |---|---|---|
-| Análise Inferencial de Dados | Análise descritiva: média, mediana, moda, variância, desvio padrão, histogramas e boxplots, com interpretação. | Modelo de regressão, interpretação dos coeficientes, avaliação do ajuste, diagnóstico e limitações. |
-| Contabilidade e Finanças | Dicionário de KPIs e planilha de validação, com fórmulas, fontes, unidades e premissas. Incorporar os demonstrativos, índices e ranking orientados em aula. | Visão financeira integrada ao dashboard e análise de sensibilidade, coerentes com os indicadores validados. |
-| Engenharia de Software e Arquitetura de Sistemas | Métodos ágeis, engenharia de requisitos, entradas, processamento, saídas e reflexões do grupo. [PDF publicado](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf). | Design de software e pelo menos dois diagramas UML, com resultados e reflexões sobre a evolução do projeto. |
-| Projeto Interdisciplinar: Ciência de Dados | Identificação e exploração das fontes, preparação dos dados e relatório em Word/PDF, com a etapa analítica em notebook/Colab. | Código Python e dashboard funcional publicado na nuvem, com pelo menos cinco indicadores, filtros e documentação. |
-
-As datas seguem a matriz do enunciado e devem ser acompanhadas no cronograma oficial dos professores. A apresentação final inclui **demonstração, banner e pitch de até quatro minutos**, durante a Semana FECAP de Tecnologia.
-
-## Tecnologias
-
-| Uso | Tecnologia / situação |
-|---|---|
-| Linguagem | Python; o notebook registra ambiente Python 3.13.5 |
-| Exploração e preparação | Pandas, com notebook Jupyter |
-| Visualização exploratória | Matplotlib |
-| Dependências | [requirements.txt](requirements.txt) |
-| Modelagem estatística | SciPy, Statsmodels e Scikit-learn constam nas dependências; implementação prevista para a E2 |
-| Dashboard | Streamlit, Plotly e Altair constam nas dependências; aplicação ainda não implementada |
-| Documentação e versionamento | Markdown, Word/PDF, Git e GitHub |
-
-A presença de uma biblioteca nas dependências não significa que sua funcionalidade já foi implementada.
+| Análise Inferencial de Dados | [Documentos](documentos/Entrega%201/An%C3%A1lise%20Inferencial%20de%20Dados) | [Documentos](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados) |
+| Contabilidade e Finanças | [Documentos](documentos/Entrega%201/Contabilidade%20e%20Finan%C3%A7as) | [Documentos](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as) |
+| Engenharia de Software e Arquitetura de Sistemas | [PDF](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf) | [Documentos](documentos/Entrega%202/ES%20e%20ML) |
+| Projeto Interdisciplinar: Ciência de Dados | [Notebook](src/notebooks/02_preparacao.ipynb) · [Documentos](documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) | [Documentos](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) |
 
 ## Estrutura de pastas
 
-| Caminho | Conteúdo |
-|---|---|
-| [documentos/Entrega 1](documentos/Entrega%201) | Documentos da primeira entrega, separados por disciplina |
-| [documentos/Entrega 1/ES e ML](documentos/Entrega%201/ES%20e%20ML) | PDF e DOCX da E1 de Engenharia |
-| [documentos/Entrega 2](documentos/Entrega%202) | Estrutura reservada aos documentos da segunda entrega |
-| [src/notebooks](src/notebooks) | Notebook de perfil, auditoria e exploração |
-| [src/data/raw](src/data/raw) | Cópia local autorizada dos dados de entrada, preservada |
-| [src/data/staging](src/data/staging) | Destino previsto para dados intermediários |
-| [src/data/processed](src/data/processed) | Destino previsto para a base analítica preparada |
-| [imagens](imagens) | Visualizações exportadas pelo notebook |
-| [.gitignore](.gitignore) | Regras de exclusão de dados, ambientes e arquivos locais |
-| [requirements.txt](requirements.txt) | Dependências declaradas do ambiente Python |
-| [README.md](README.md) | Apresentação, navegação e instruções do projeto |
-
-As pastas de dados são mantidas no GitHub por arquivos `.gitkeep`; seus dados não acompanham o clone. Ainda não há script de preparação nem diretório de aplicação do dashboard publicado.
+```text
+Projeto6/
+├── documentos/
+│   ├── Entrega 1/
+│   │   ├── Análise Inferencial de Dados/
+│   │   ├── Contabilidade e Finanças/
+│   │   ├── ES e ML/
+│   │   └── Projeto Interdisciplinar Ciência de Dados/
+│   └── Entrega 2/
+│       ├── Análise Inferencial de Dados/
+│       ├── Contabilidade e Finanças/
+│       ├── ES e ML/
+│       └── Projeto Interdisciplinar Ciência de Dados/
+├── imagens/
+├── src/
+│   ├── data/
+│   │   ├── raw/
+│   │   ├── staging/
+│   │   └── processed/
+│   ├── notebooks/
+│   └── prepara.py
+├── LICENSE
+├── requirements.txt
+└── README.md
+```
 
 ## Execução local
 
@@ -135,17 +122,9 @@ Abra [src/notebooks/01_perfil.ipynb](src/notebooks/01_perfil.ipynb), selecione o
 
 O notebook carrega os dados, apresenta o perfil, executa verificações e gera duas figuras em `imagens/`. Uma nova execução pode atualizar essas figuras. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
-## Documentação
+## 📋 Licença/License
 
-- [E1 de Engenharia — PDF](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf)
-- [E1 de Engenharia — versão editável DOCX](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.docx)
-- [Notebook de perfil e auditoria](src/notebooks/01_perfil.ipynb)
-- [Documentos da Entrega 1](documentos/Entrega%201)
-- [Documentos da Entrega 2](documentos/Entrega%202)
-- [Issues do projeto](https://github.com/2026-2-NCC4/Projeto6/issues)
+<a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by Gustavo Pires, Lúcio Vecchio, Luiz Henrique, Eric Aloise and <a href="https://www.fecap.br/">FECAP - Fundação de Comércio Álvares Penteado</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" width="20" height="20"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Atribuição" width="20" height="20">.
 
-## Licença e uso dos dados
+Os dados fornecidos pela CTI não estão incluídos nesta licença. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
 
-A licença de distribuição do código e da documentação ainda será definida pelo grupo; não há arquivo de licença publicado nesta versão.
-
-Os dados fornecidos pela CTI não estão incluídos em uma licença de código. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
