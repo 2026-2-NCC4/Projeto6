@@ -8,7 +8,7 @@
 
 ## DevLeaders
 
-## Integrantes: Gustavo Pires, Lúcio Vecchio, Luiz Henrique, Eric Aloise
+## Integrantes: <a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/eduardo-savino/">Eduardo Savino</a>, <a href="https://www.linkedin.com/in/luisspires/">Luis Pires</a>, <a href="https://www.linkedin.com/in/mauricio-lopes-42b8b33a3/">Mauricio Lopes</a>, <a href="https://www.linkedin.com/in/professorrodnil/">Rodnil da Silva</a>
 
@@ -122,9 +122,12 @@ Abra [src/notebooks/01_perfil.ipynb](src/notebooks/01_perfil.ipynb), selecione o
 
 O notebook carrega os dados, apresenta o perfil, executa verificações e gera duas figuras em `imagens/`. Uma nova execução pode atualizar essas figuras. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
-## Licença/License
+## Licença
 
-<a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by Gustavo Pires, Lúcio Vecchio, Luiz Henrique, Eric Aloise and <a href="https://www.fecap.br/">FECAP - Fundação de Comércio Álvares Penteado</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" width="20" height="20"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Atribuição" width="20" height="20">.
+<a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by
+
+<a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>, <a href="https://www.fecap.br/">FECAP</a>
+
+is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="Creative Commons" width="14" height="14"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="Atribuição" width="14" height="14">
 
 Os dados fornecidos pela CTI não estão incluídos nesta licença. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
-
