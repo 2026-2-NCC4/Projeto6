@@ -12,9 +12,13 @@ Saídas em src/data/processed/ (fora do Git, pois contêm valores da CTI):
     base_longa.parquet           uma linha por cenário, ano e conta
     auditoria_sem_conta.parquet  as linhas sem nome de conta, preservadas
     relatorio_qualidade.json     resultado das verificações e identificação da entrada
+    dicionario_dados.csv         o dicionário de dados em CSV, para abrir em planilha
 
 Saída versionada (não contém valores):
     documentos/Entrega 1/Projeto Interdisciplinar Ciência de Dados/dicionario_dados.md
+
+Se alguma verificação falhar, a execução é interrompida antes de gravar qualquer arquivo,
+e as saídas da última execução aprovada continuam como estavam.
 """
 
 import hashlib
@@ -157,26 +161,66 @@ def derivar(base, sem_conta, contas):
 
 # ---------------------------------------------------------------- verificar
 def verificar(bruto, nomeadas, sem_conta, base, marcas):
-    """Confere contagens e identidades contábeis. Cada teste informa quantos grupos foram comparáveis."""
-    def teste(nome, diferenca):
+    """Confere contagens e identidades contábeis.
+
+    Cada teste declara quantos grupos deveriam ser comparáveis. Um valor ausente onde a conta
+    deveria existir reprova o teste, em vez de ser ignorado.
+    """
+    b = base
+    todos = len(b)
+    sem_encerramento = int((b["ano_n"] < 12).sum())  # o Ano 12 não tem PL nem Exigível LP
+    sem_primeiro_ano = int((b["ano_n"] > 1).sum())   # o Ano 1 não tem ano anterior
+
+    def teste(nome, diferenca, esperados=todos):
         comparaveis = int(diferenca.notna().sum())
         ok = int((diferenca.abs() < TOLERANCIA).sum())
-        return {"teste": nome, "comparaveis": comparaveis, "aprovados": ok,
-                "passou": comparaveis > 0 and ok == comparaveis,
+        return {"teste": nome, "esperados": esperados, "comparaveis": comparaveis, "aprovados": ok,
+                "passou": comparaveis == esperados and ok == comparaveis,
                 "maior_diferenca": float(diferenca.abs().max())}
 
-    b = base
+    def soma(contas):
+        return b[contas].sum(axis=1, min_count=len(contas))  # vazio se faltar alguma parcela
+
+    anterior = b.sort_values(["cenario", "ano_n"]).groupby("cenario")["FLU - Saldo Final"].shift(1)
     testes = [
+        teste("Linhas lidas = contas + linhas sem conta",
+              pd.Series([len(bruto) - (len(nomeadas) + len(sem_conta))]), esperados=1),
+        teste("Todo cenário tem os 12 anos",
+              pd.Series([len(b) - b["cenario"].nunique() * 12]), esperados=1),
         teste("Total do Ativo + Total do Passivo = 0", b["residuo_balanco"]),
         teste("Ativo = Circulante + Realizável LP + Permanente",
-              b["BAL - Total do Ativo"] - (b["BAL - Ativo Circulante"] + b["BAL - Realizável a Longo Prazo"]
-                                           + b["BAL - Permanente"])),
+              b["BAL - Total do Ativo"] - soma(["BAL - Ativo Circulante", "BAL - Realizável a Longo Prazo",
+                                                "BAL - Permanente"])),
         teste("Passivo = Circulante + Exigível LP + Patrimônio Líquido",
-              b["BAL - Total do Passivo"] - (b["BAL - Passivo Circulante"] + b["BAL - Exigível a Longo Prazo"]
-                                             + b["BAL - Patrimônio Líquido"])),
-        teste("Saldo Final = Saldo Inicial + Geração de Caixa",
-              b["FLU - Saldo Final"] - (b["FLU - Saldo Inicial"] + b["FLU - Geração de Caixa"])),
+              b["BAL - Total do Passivo"] - soma(["BAL - Passivo Circulante", "BAL - Exigível a Longo Prazo",
+                                                  "BAL - Patrimônio Líquido"]),
+              esperados=sem_encerramento),
         teste("Conferência do modelo = resíduo do balanço", b["conferencia_modelo"] - b["residuo_balanco"]),
+        teste("DRE: Resultado Operacional = Receita + Tributos + Custos + D&A",
+              b["DRE - Resultado Operacional"] - soma(["DRE - Receita", "DRE - Tributos", "DRE - Custos",
+                                                       "DRE - Depreciação e Amortização"])),
+        teste("DRE: Resultado Financeiro = Receitas + Despesas Financeiras",
+              b["DRE - Resultado Financeiro"] - soma(["DRE - Receitas Financeiras", "DRE - Despesas Financeiras"])),
+        teste("DRE: Antes do IR = Operacional + Financeiro + Outros",
+              b["DRE - Resultado Antes do Imposto de Renda"] - soma(["DRE - Resultado Operacional",
+                                                                     "DRE - Resultado Financeiro",
+                                                                     "DRE - Outros Resultados Operacionais"])),
+        teste("DRE: Líquido = Antes do IR + IR e CS",
+              b["DRE - Resultado Líquido"] - soma(["DRE - Resultado Antes do Imposto de Renda",
+                                                   "DRE - Imposto de Renda e Contribuição Social"])),
+        teste("DRE: Líquido após Equivalência = Líquido",
+              b["DRE - Resultado Líquido após Equivalência"] - b["DRE - Resultado Líquido"]),
+        teste("FLU: Geração de Caixa = soma das entradas e saídas do ano",
+              b["FLU - Geração de Caixa"] - soma(["FLU - Receita", "FLU - Tributos", "FLU - Custos",
+                                                  "FLU - Investimentos", "FLU - Entradas",
+                                                  "FLU - Despesas Financeiras",
+                                                  "FLU - Imposto de Renda e Contribuição Social",
+                                                  "FLU - Distribuição para Acionista"])),
+        teste("FLU: Saldo Final = Saldo Inicial + Geração de Caixa",
+              b["FLU - Saldo Final"] - soma(["FLU - Saldo Inicial", "FLU - Geração de Caixa"])),
+        teste("FLU: Saldo Inicial = Saldo Final do ano anterior",
+              b["FLU - Saldo Inicial"] - anterior, esperados=sem_primeiro_ano),
+        teste("BAL - Disponível = FLU - Saldo Final", b["BAL - Disponível"] - b["FLU - Saldo Final"]),
     ]
     contagens = {
         "linhas_bruto": len(bruto),
@@ -193,6 +237,15 @@ def verificar(bruto, nomeadas, sem_conta, base, marcas):
             bool((sem_conta.loc[sem_conta["posicao"] > 1, "valor"] == 0).all()),
     }
     return {"contagens": contagens, "testes": testes}
+
+
+def exigir_aprovacao(relatorio):
+    """Interrompe a preparação se algum teste falhou: uma base reprovada não pode virar a oficial."""
+    falhas = [t for t in relatorio["testes"] if not t["passou"]]
+    if falhas:
+        detalhes = "\n".join(f"  {t['teste']}: {t['aprovados']} aprovados, {t['comparaveis']} comparáveis, "
+                             f"{t['esperados']} esperados" for t in falhas)
+        raise ValueError(f"{len(falhas)} verificação(ões) falharam; nenhum arquivo foi gravado:\n{detalhes}")
 
 
 # ---------------------------------------------------------------- dicionário
@@ -294,8 +347,8 @@ OBSERVACOES = {
     "BAL - Depreciação Acumulada": "Conta redutora do ativo",
     "BAL - Amortização Acumulada": "Conta redutora do ativo",
     "BAL - Amortização - Intangível": "Conta redutora do ativo",
-    "BAL - Total do Passivo": "Inclui o patrimônio líquido; somado ao Total do Ativo, dá zero",
-    "BAL - Passivo Circulante": "Não é igual à soma das contas do seu grupo e o sinal varia. Pergunta pendente à CTI",
+    "BAL - Total do Passivo": "Inclui o patrimônio líquido; somado ao Total do Ativo, fecha em zero, com diferença de centavos",
+    "BAL - Passivo Circulante": "Não é igual à soma das contas do seu grupo e o sinal varia. Pendente de esclarecimento pela CTI",
     "BAL - Emprést": "Distinta de BAL - Empréstimos: grupo e sinal diferentes",
     "BAL - Outros deb": "Distinta de BAL - Outros Débitos: grupo e sinal diferentes",
     "BAL - Dividendos Antecipados": "Reduz o patrimônio líquido, por isso tem sinal oposto às demais contas do grupo",
@@ -304,7 +357,8 @@ OBSERVACOES = {
     "DRE - Resultado Antes do Imposto de Renda": "Cálculo: Resultado Operacional + Resultado Financeiro + Outros Resultados Operacionais",
     "DRE - Resultado Líquido": "Cálculo: Resultado Antes do Imposto de Renda + Imposto de Renda e Contribuição Social",
     "DRE - Resultado Líquido após Equivalência": "Igual ao Resultado Líquido em todos os registros",
-    "DRE - EBITDA": "Fornecido pela CTI; não reconcilia com o Resultado Operacional somado à Depreciação e Amortização",
+    "DRE - EBITDA": "Fornecido pela CTI. Não reconcilia com o Resultado Operacional antes da Depreciação e Amortização "
+                    "(Resultado Operacional menos a D&A, que é negativa na base); a memória de cálculo não foi informada",
     "FLU - Saldo Inicial": "Igual ao Saldo Final do ano anterior",
     "FLU - Resultado Financeiro": "Informativa: não entra na Geração de Caixa",
     "FLU - Geração de Caixa": "Cálculo: Receita + Tributos + Custos + Investimentos + Entradas + Despesas Financeiras + Imposto de Renda + Distribuição para Acionista",
@@ -424,9 +478,13 @@ def gerar_dicionario(nomeadas, contas):
 
 def salvar_dicionario_md(dicionario, caminho):
     """Grava o dicionário em Markdown, em duas tabelas, legível direto no GitHub."""
+    n = dicionario["secao"].value_counts()
     linhas = [
         "# Dicionário de dados da base analítica", "",
-        "Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano (14.400 linhas).",
+        "Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano (14.400 linhas); "
+        "a chave é `cenario` + `ano_n`.",
+        f"São {len(dicionario)} campos: {n['identificacao']} de identificação, {n['conta']} contas e "
+        f"{n['derivado']} derivados.",
         "Grupo, tipo de linha, sinal e cobertura de cada conta são calculados a partir do próprio dado.", "",
         "## Identificação e campos derivados", "",
         "| Campo | Tipo | Origem | Unidade | Descrição |", "|---|---|---|---|---|",
@@ -462,6 +520,7 @@ def main(raiz=None):
     base, contas = formatar(nomeadas)
     base, marcas = derivar(base, sem_conta, contas)
     relatorio = verificar(bruto, nomeadas, sem_conta, base, marcas)
+    exigir_aprovacao(relatorio)
     hash_depois = hash_arquivo(p["bruto"])
 
     if hash_antes != hash_depois:

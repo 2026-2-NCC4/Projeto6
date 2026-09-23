@@ -1,6 +1,7 @@
 # Dicionário de dados da base analítica
 
-Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano (14.400 linhas).
+Gerado por `src/prepara.py`. Uma linha da base analítica = um cenário em um ano (14.400 linhas); a chave é `cenario` + `ano_n`.
+São 81 campos: 3 de identificação, 69 contas e 9 derivados.
 Grupo, tipo de linha, sinal e cobertura de cada conta são calculados a partir do próprio dado.
 
 ## Identificação e campos derivados
@@ -46,8 +47,8 @@ Valores em reais. **Tipo de linha:** total e subtotal já somam as contas do seu
 | BAL - Depreciação Acumulada | Desgaste acumulado do imobilizado. Conta redutora do ativo | Ativo permanente | detalhe | saldo no fim do ano | positivo em 8%, negativo em 92% / todos os anos |
 | BAL - Amortização Acumulada | Amortização acumulada de ativos de longo prazo. Conta redutora do ativo | Ativo permanente | detalhe | saldo no fim do ano | sempre negativo / ausente no Ano 12 |
 | BAL - Amortização - Intangível | Amortização acumulada do intangível. Conta redutora do ativo | Ativo permanente | detalhe | saldo no fim do ano | sempre negativo / todos os anos |
-| BAL - Total do Passivo | Soma das obrigações com terceiros e do patrimônio líquido. Inclui o patrimônio líquido; somado ao Total do Ativo, dá zero | Passivo e patrimônio líquido | total | saldo no fim do ano | positivo em 5%, negativo em 95% / todos os anos |
-| BAL - Passivo Circulante | Obrigações com vencimento em até um ano. Não é igual à soma das contas do seu grupo e o sinal varia. Pergunta pendente à CTI | Passivo circulante | subtotal | saldo no fim do ano | positivo em 62%, negativo em 38% / todos os anos |
+| BAL - Total do Passivo | Soma das obrigações com terceiros e do patrimônio líquido. Inclui o patrimônio líquido; somado ao Total do Ativo, fecha em zero, com diferença de centavos | Passivo e patrimônio líquido | total | saldo no fim do ano | positivo em 5%, negativo em 95% / todos os anos |
+| BAL - Passivo Circulante | Obrigações com vencimento em até um ano. Não é igual à soma das contas do seu grupo e o sinal varia. Pendente de esclarecimento pela CTI | Passivo circulante | subtotal | saldo no fim do ano | positivo em 62%, negativo em 38% / todos os anos |
 | BAL - Empréstimos | Empréstimos e financiamentos de curto prazo | Passivo circulante | detalhe | saldo no fim do ano | positivo em 67%, negativo em 33% / todos os anos |
 | BAL - Contas a Pagar - Parte Relacionada | Valores a pagar a empresas do mesmo grupo econômico | Passivo circulante | detalhe | saldo no fim do ano | sempre negativo / ausente no Ano 12 |
 | BAL - Fornecedores | Valores a pagar a fornecedores | Passivo circulante | detalhe | saldo no fim do ano | sempre negativo / ausente no Ano 12 |
@@ -81,7 +82,7 @@ Valores em reais. **Tipo de linha:** total e subtotal já somam as contas do seu
 | DRE - Imposto de Renda e Contribuição Social | IRPJ e CSLL sobre o lucro | Demonstração do resultado | detalhe | movimento do ano | sempre negativo / todos os anos |
 | DRE - Resultado Líquido | Lucro ou prejuízo do ano. Cálculo: Resultado Antes do Imposto de Renda + Imposto de Renda e Contribuição Social | Demonstração do resultado | resultado | movimento do ano | sempre positivo / todos os anos |
 | DRE - Resultado Líquido após Equivalência | Resultado líquido após a equivalência patrimonial. Igual ao Resultado Líquido em todos os registros | Demonstração do resultado | resultado | movimento do ano | sempre positivo / todos os anos |
-| DRE - EBITDA | Lucro antes de juros, impostos, depreciação e amortização. Fornecido pela CTI; não reconcilia com o Resultado Operacional somado à Depreciação e Amortização | Demonstração do resultado | resultado | movimento do ano | sempre positivo / todos os anos |
+| DRE - EBITDA | Lucro antes de juros, impostos, depreciação e amortização. Fornecido pela CTI. Não reconcilia com o Resultado Operacional antes da Depreciação e Amortização (Resultado Operacional menos a D&A, que é negativa na base); a memória de cálculo não foi informada | Demonstração do resultado | resultado | movimento do ano | sempre positivo / todos os anos |
 | FLU - Saldo Inicial | Caixa no início do ano. Igual ao Saldo Final do ano anterior | Fluxo de caixa | saldo | saldo de caixa | sempre positivo / todos os anos |
 | FLU - Receita | Recebimentos da receita no ano | Fluxo de caixa | detalhe | movimento do ano | sempre positivo / todos os anos |
 | FLU - Tributos | Pagamentos de tributos sobre a receita | Fluxo de caixa | detalhe | movimento do ano | sempre negativo / todos os anos |
