@@ -110,7 +110,17 @@ git status --short
 git check-ignore "src/data/raw/Demonstrativo Fecap v3.csv"
 ```
 
-### 4. Abrir o notebook
+### 4. Gerar a base analítica
+
+Na raiz do projeto:
+
+```bat
+.venv\Scripts\python.exe src\prepara.py
+```
+
+O script lê a cópia da base, executa 15 verificações e gera os arquivos analíticos em `src/data/processed/`, além do dicionário de dados. Se alguma verificação falhar, a execução é interrompida antes da gravação.
+
+### 5. Abrir os notebooks
 
 Na raiz do projeto:
 
@@ -118,9 +128,11 @@ Na raiz do projeto:
 .venv\Scripts\python.exe -m jupyter lab
 ```
 
-Abra [src/notebooks/01_perfil.ipynb](src/notebooks/01_perfil.ipynb), selecione o kernel do ambiente criado e execute as células em ordem.
+Abra [01_perfil.ipynb](src/notebooks/01_perfil.ipynb) (perfil e auditoria) e [02_preparacao.ipynb](src/notebooks/02_preparacao.ipynb) (preparação passo a passo), selecione o kernel do ambiente criado e execute as células em ordem.
 
-O notebook carrega os dados, apresenta o perfil, executa verificações e gera duas figuras em `imagens/`. Uma nova execução pode atualizar essas figuras. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
+No Google Colab, ajuste `CSV_NO_DRIVE` na célula de configuração de cada notebook para o caminho da cópia autorizada no seu Drive. Essa célula clona o repositório e copia a base para o ambiente de execução. A execução real no Colab ainda está pendente de validação.
+
+O notebook 01 gera duas figuras em `imagens/`, que podem ser atualizadas ao executar novamente. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
 ## Licença
 
