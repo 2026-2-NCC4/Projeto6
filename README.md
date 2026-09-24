@@ -130,7 +130,16 @@ Na raiz do projeto:
 
 Abra [01_perfil.ipynb](src/notebooks/01_perfil.ipynb) (perfil e auditoria) e [02_preparacao.ipynb](src/notebooks/02_preparacao.ipynb) (preparação passo a passo), selecione o kernel do ambiente criado e execute as células em ordem.
 
-No Google Colab, ajuste `CSV_NO_DRIVE` na célula de configuração de cada notebook para o caminho da cópia autorizada no seu Drive. Essa célula clona o repositório e copia a base para o ambiente de execução. A execução real no Colab ainda está pendente de validação.
+No Google Colab, ajuste `CSV_NO_DRIVE` na célula de configuração de cada notebook para o caminho da cópia autorizada no seu Drive. Essa célula clona o repositório e copia a base para o ambiente de execução.
+
+Os dois notebooks versionados foram executados integralmente em sessões separadas do Google Colab em 24/09/2026, sobre o commit `3ab2a1e677ca95a5b9bc10692f755971cde7eeed`. Como a montagem do Drive não concluiu nessas sessões, a mesma cópia autorizada foi transferida de forma compactada para o armazenamento efêmero do Colab, conferida pelo SHA-256 e expandida apenas dentro do clone temporário. Nenhum dado da CTI foi incluído no Git.
+
+| Notebook | Registro (BRT) | Ambiente do Colab | Resultado observado |
+|---|---|---|---|
+| `01_perfil.ipynb` | 24/09/2026 15:59 | Python 3.13.15 · pandas 2.2.3 · pyarrow 23.0.1 | 20/20 células de código; V1–V7 executadas; 14.400 grupos de ano e cenário; 14.400 resultados líquidos positivos, nenhum zero ou negativo. |
+| `02_preparacao.ipynb` | 24/09/2026 15:59 | Python 3.13.15 · pandas 2.2.3 · pyarrow 23.0.1 | 10/10 células de código; 15/15 verificações aprovadas; base do passo a passo idêntica à saída do script e à releitura do Parquet. |
+
+A entrada tinha 75.085.191 bytes e SHA-256 `a93fb4555eab2eee7a437b98c2ff5cf4c392336d745a835b529974635cf8a3fc`, confirmado no início e no fim das duas sessões. A revisão independente pelo grupo permanece pendente.
 
 O notebook 01 gera duas figuras em `imagens/`, que podem ser atualizadas ao executar novamente. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
