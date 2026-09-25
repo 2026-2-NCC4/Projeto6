@@ -6,7 +6,7 @@
 
 # CTI — Plataforma Analítica de Planejamento Financeiro
 
-## DevLeaders
+## Grupo: DevLeaders
 
 ## Integrantes: <a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>
 
