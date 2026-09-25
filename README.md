@@ -1,4 +1,4 @@
-''  # FECAP - Fundação de Comércio Álvares Penteado
+# FECAP - Fundação de Comércio Álvares Penteado
 
 <p align="center">
 <a href="https://github.com/2026-2-NCC4/Projeto6"><img src="imagens/logo_devleaders.png" alt="Logo DevLeaders" width="50%" border="0"></a>
