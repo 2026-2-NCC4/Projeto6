@@ -1,6 +1,6 @@
 # Backlog da Entrega 1 — CTI / DevLeaders
 
-**Atualizado em:** 24/09/2026. **Prazo do enunciado:** 25/09/2026, 23:59:56.
+**Atualizado em:** 25/09/2026. **Prazo do enunciado:** 25/09/2026, 23:59:56.
 
 Este quadro registra o trabalho a partir desta revisão. O estado indica a evidência que temos agora, e não uma movimentação retroativa. `Em revisão` significa artefato preparado e testável; `Concluído` exige conferência por outro integrante e publicação no repositório. Um bloqueio externo fica registrado junto do estado; em cada frente, manter no máximo dois itens em andamento.
 
@@ -12,8 +12,8 @@ Este quadro registra o trabalho a partir desta revisão. O estado indica a evid�
 | ENG-01 | Engenharia | Lúcio; Gustavo (revisão) | Em revisão | RF07 e RF09–RF14 têm critérios verificáveis; DOCX/PDF legíveis e equivalentes registram a execução técnica no Colab sem confundi-la com revisão humana. | Revisão independente por Gustavo dos documentos e das evidências publicadas. |
 | ENG-02 | Engenharia | Lúcio; grupo (confirmação) | Em andamento | Backlog nesta pasta com identificadores, responsáveis, estados, bloqueios, critério e evidência; outro integrante confere antes de concluir. | Validar a divisão com o grupo e atualizar estados conforme os arquivos forem publicados. |
 | GER-01 | Integração | Lúcio | Em revisão | Integração publicada no commit `3ab2a1e`; README orienta o fluxo e registra os resultados reais das duas sessões do Colab. | Conferência independente dos links e das evidências publicadas. |
-| EST-01 | Análise Inferencial | Integrante designado pelo grupo (nome a confirmar) | Em andamento, segundo o grupo | Entrega 1 recebida e revisada quanto às medidas, gráficos, recorte dos cenários e fórmulas, com arquivos acessíveis. | Receber artefatos e registrar revisor e conclusão; detalhes não verificados neste quadro. |
-| FIN-01 | Contabilidade e Finanças | Integrante designado pelo grupo (nome a confirmar) | Em andamento, segundo o grupo | Entrega 1 recebida e revisada com demonstrativos, índices, dicionário e planilha de validação conforme orientação da disciplina. | Receber artefatos e conferir sinais, fórmulas, premissas e pendências CTI/professor. |
+| EST-01 | Análise Inferencial | Luiz (entrega); Lúcio (verificação técnica) | Em revisão | Notebook e relatório publicados em `cc0f6df`; 6/6 células de código executadas no Colab em 25/09 sobre a cópia autorizada: 1.002.000 linhas, 799 grupos e duas figuras, sem erro na execução final. | Luiz ou outro integrante confere resultados e texto; registrar a revisão independente. |
+| FIN-01 | Contabilidade e Finanças | Eric (entrega); Lúcio (correção e verificação técnica) | Em revisão | PDF e planilha publicados; `6d8a3de` corrige o rótulo da fonte e exige 216 verificações de KPI mais 24 identidades antes de aprovar. A planilha recalculada tem 240/240 controles aceitos; testes com valor alterado e controle vazio reprovam como esperado. | Eric ou outro integrante confere a versão final; registrar a revisão independente e resolver eventuais premissas da CTI/professor. |
 | GER-02 | Submissão | Grupo | A fazer | As quatro frentes têm arquivos finais revisados no repositório e o canal oficial de entrega registra envio no prazo. | Confirmar procedimento de envio com os professores; enviar e guardar comprovante. |
 
 ## Mudanças de requisito ou fórmula
@@ -26,4 +26,6 @@ Registrar neste arquivo ou em um item vinculado: ID afetado, motivo, data, impac
 - Engenharia: `E1_Engenharia_Software_CTI.docx` e `E1_Engenharia_Software_CTI.pdf` nesta pasta.
 - Fonte financeira: a cópia da CTI fica fora do Git; um hash comprova integridade da entrada, sem publicar linhas financeiras.
 - A execução integral dos dois notebooks no Colab foi registrada em 24/09/2026, no commit `3ab2a1e677ca95a5b9bc10692f755971cde7eeed`. DAD-02 permanece `Em revisão` até a conferência independente. A execução técnica não comprova revisão humana, aprovação da CTI ou submissão à faculdade.
-- A localização dos materiais de Inferencial e Finanças e os responsáveis pessoais ainda precisam ser confirmados; não presumir conclusão pela existência deste backlog.
+- Inferencial: notebook e PDF em `documentos/Entrega 1/Análise Inferencial de Dados/`. O CSV privado foi usado apenas no runtime temporário do Colab, com autorização do titular, e permanece fora do Git.
+- Finanças: planilha de KPIs e dicionário em PDF em `documentos/Entrega 1/Contabilidade e Finanças/`. A validação automatizada foi feita com recálculo da planilha; a abertura final no Excel pelo grupo ainda é uma conferência adicional útil.
+- Os dois itens continuam `Em revisão`: execução técnica e publicação não substituem revisão por outro integrante, decisão sobre o histórico do repositório nem comprovante de submissão no canal oficial.

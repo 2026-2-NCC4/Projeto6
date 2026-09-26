@@ -143,6 +143,12 @@ A entrada tinha 75.085.191 bytes e SHA-256 `a93fb4555eab2eee7a437b98c2ff5cf4c392
 
 O notebook 01 gera duas figuras em `imagens/`, que podem ser atualizadas ao executar novamente. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
 
+### Verificação técnica das frentes de Inferencial e Finanças (25/09/2026)
+
+O [notebook da Análise Inferencial](documentos/Entrega%201/An%C3%A1lise%20Inferencial%20de%20Dados/Entrega_1_Analise_Descritiva_CTI_%281%29.ipynb), publicado em `cc0f6dfe3e5faa357683b3930087a93a9c6cb152`, foi executado por inteiro no Google Colab com a cópia autorizada da base: 6/6 células de código concluídas, 1.002.000 linhas lidas, 799 grupos de conta e ano analisados e duas figuras geradas. A execução final não apresentou erro. O CSV foi enviado apenas ao armazenamento temporário do runtime, sem entrar no Git.
+
+A [planilha de validação financeira](documentos/Entrega%201/Contabilidade%20e%20Finan%C3%A7as/Entrega%201%20de%20Contabilidae%20e%20Finan%C3%A7as%20-%20DevLeaders%28Validacao%20KPI%29.xlsx) foi corrigida em `6d8a3ded727d64edb063eaee08bdc906b3806203`: o nome da conta de patrimônio líquido corresponde à fonte e o resultado final exige 216 controles de KPI e 24 identidades de balanço aceitos. Após recálculo, os 240 controles passam; a alteração deliberada de um valor de entrada e a remoção de um controle fazem o resultado final reprovar. Esses testes automatizados não substituem a conferência independente do grupo nem o comprovante de submissão oficial.
+
 ## Licença
 
 <a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by
