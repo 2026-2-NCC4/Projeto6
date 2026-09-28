@@ -154,7 +154,6 @@ A [planilha de validação financeira](documentos/Entrega%201/Contabilidade%20e%
 <a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by
 
 <a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>, <a href="https://www.fecap.br/">FECAP</a>
-
 is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" width="20" height="20" valign="middle"></p>
 
 Os dados fornecidos pela CTI não estão incluídos nesta licença. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
