@@ -1,0 +1,23 @@
+"""Simulação parcial: volume e demais contas permanecem constantes."""
+import math
+
+def simular(receita, custo, desconto=0., variacao_custo=0., quantidade=10000., meta=0.):
+    valores = [receita,custo,desconto,variacao_custo,quantidade,meta]
+    if not all(math.isfinite(float(x)) for x in valores):
+        raise ValueError("Parâmetros devem ser números finitos.")
+    if receita < 0 or custo > 0:
+        raise ValueError("Simulação requer receita não negativa e custo assinado não positivo.")
+    if not 0 <= desconto <= 1 or not -1 <= variacao_custo <= 2:
+        raise ValueError("Desconto deve estar entre 0 e 100%; custo entre -100% e +200%.")
+    if quantidade <= 0:
+        raise ValueError("Quantidade hipotética deve ser positiva.")
+    r = receita*(1-desconto)
+    c = custo*(1+variacao_custo)
+    margem = r+c
+    original = receita+custo
+    return {"receita":r,"custo":c,"margem":margem,
+            "margem_percentual":margem/r if r else None,
+            "margem_original":original,"variacao_margem":margem-original,
+            "variacao_percentual":(margem-original)/abs(original) if original else None,
+            "ticket_simulado":r/quantidade,"meta_academica":meta,
+            "desvio_meta":margem-meta}

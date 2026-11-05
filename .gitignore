@@ -200,3 +200,7 @@ src/data/**
 # Fica local: e instrucao de trabalho, nao documentacao de grupo,
 # e este repositorio e publico.
 CLAUDE.md
+
+# Segredos de publicação Streamlit (a configuração visual é versionada)
+.streamlit/secrets.toml
+.streamlit/secrets.*.toml
