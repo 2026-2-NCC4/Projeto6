@@ -1,0 +1,5 @@
+# Preservar os bytes dos artefatos acadêmicos ao clonar em Windows ou Linux.
+*.pdf binary
+*.xlsx binary
+*.png binary
+*.jpg binary

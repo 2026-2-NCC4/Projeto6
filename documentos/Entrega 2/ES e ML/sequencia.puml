@@ -1,0 +1,25 @@
+@startuml
+title CTI E2 - consulta e sensibilidade
+actor Usuario
+participant "app" as App
+participant "dados / recortes" as Dados
+participant "sensibilidade" as Sim
+Usuario -> App : seleciona recorte
+activate App
+App -> Dados : validar / filtrar
+activate Dados
+alt entrada inválida
+Dados --> App : erro
+App --> Usuario : mensagem
+else entrada válida
+Dados --> App : médias anuais
+end
+deactivate Dados
+deactivate App
+Usuario -> App : altera hipóteses
+App -> Sim : simular(R, C, d, c)
+activate Sim
+Sim --> App : resultado / erro
+deactivate Sim
+App --> Usuario : comparação / mensagem
+@enduml

@@ -1,0 +1,1570 @@
+{
+  "data_utc": "2026-11-05T21:35:26.575415+00:00",
+  "modo": "CTI",
+  "qualidade": {
+    "contagens": {
+      "linhas_bruto": 1002000,
+      "linhas_contas": 958800,
+      "linhas_sem_conta": 43200,
+      "cenarios": 1200,
+      "anos": 12,
+      "linhas_base_analitica": 14400,
+      "contas": 69,
+      "cenarios_repetidos": 94,
+      "copias_excedentes": 93,
+      "grupos_repeticao": 1,
+      "sem_conta_posicoes_2_e_3_sempre_zero": true
+    },
+    "testes": [
+      {
+        "teste": "Linhas lidas = contas + linhas sem conta",
+        "esperados": 1,
+        "comparaveis": 1,
+        "aprovados": 1,
+        "passou": true,
+        "maior_diferenca": 0.0
+      },
+      {
+        "teste": "Todo cenário tem os 12 anos",
+        "esperados": 1,
+        "comparaveis": 1,
+        "aprovados": 1,
+        "passou": true,
+        "maior_diferenca": 0.0
+      },
+      {
+        "teste": "Total do Ativo + Total do Passivo = 0",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 0.025201797485351562
+      },
+      {
+        "teste": "Ativo = Circulante + Realizável LP + Permanente",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 6.103515625e-05
+      },
+      {
+        "teste": "Passivo = Circulante + Exigível LP + Patrimônio Líquido",
+        "esperados": 13200,
+        "comparaveis": 13200,
+        "aprovados": 13200,
+        "passou": true,
+        "maior_diferenca": 5.340576171875e-05
+      },
+      {
+        "teste": "Conferência do modelo = resíduo do balanço",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 9.609513671874834e-05
+      },
+      {
+        "teste": "DRE: Resultado Operacional = Receita + Tributos + Custos + D&A",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 8.0108642578125e-05
+      },
+      {
+        "teste": "DRE: Resultado Financeiro = Receitas + Despesas Financeiras",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 1.0728836059570312e-06
+      },
+      {
+        "teste": "DRE: Antes do IR = Operacional + Financeiro + Outros",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 6.103515625e-05
+      },
+      {
+        "teste": "DRE: Líquido = Antes do IR + IR e CS",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 5.14984130859375e-05
+      },
+      {
+        "teste": "DRE: Líquido após Equivalência = Líquido",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 0.0
+      },
+      {
+        "teste": "FLU: Geração de Caixa = soma das entradas e saídas do ano",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 0.0001068115234375
+      },
+      {
+        "teste": "FLU: Saldo Final = Saldo Inicial + Geração de Caixa",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 2.002716064453125e-05
+      },
+      {
+        "teste": "FLU: Saldo Inicial = Saldo Final do ano anterior",
+        "esperados": 13200,
+        "comparaveis": 13200,
+        "aprovados": 13200,
+        "passou": true,
+        "maior_diferenca": 0.0
+      },
+      {
+        "teste": "BAL - Disponível = FLU - Saldo Final",
+        "esperados": 14400,
+        "comparaveis": 14400,
+        "aprovados": 14400,
+        "passou": true,
+        "maior_diferenca": 1.049041748046875e-05
+      }
+    ],
+    "entrada_sha256": "a93fb4555eab2eee7a437b98c2ff5cf4c392336d745a835b529974635cf8a3fc",
+    "corresponde_referencia_E1": true,
+    "cobertura_individual": true,
+    "schema": "e2-v1"
+  },
+  "ambiente": {
+    "python": "3.13.14",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "statsmodels": "0.15.0",
+    "streamlit": "1.67.0"
+  },
+  "financas": {
+    "kpis_numericos": 161,
+    "estados_indisponiveis_pendentes": 55,
+    "kpis_total": 216,
+    "identidades": 24,
+    "entradas_numericas": 165,
+    "divergencias": [],
+    "origem": "Comparação com valores salvos da planilha E1; não é novo recálculo do Excel.",
+    "premissas": {
+      "taxa": 0.1,
+      "cac": 4000,
+      "ltv": 45000
+    }
+  },
+  "regressao": {
+    "pergunta": "Associação contemporânea de receita, custos e ano com resultado líquido em projeções simuladas.",
+    "unidade": "milhões de R$ (convenção acadêmica)",
+    "seed": 20261105,
+    "modelo": "multipla",
+    "populacao": "todos os cenários",
+    "anos": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "linhas": 13200,
+    "trajetorias": 1107,
+    "particoes": {
+      "treino": {
+        "linhas": 7293,
+        "grupos": 663,
+        "sha_grupos": "01de1da5c0b785ea4c383aedd742767f0c8606da3ea046a749f2395ccb668649"
+      },
+      "validacao": {
+        "linhas": 3465,
+        "grupos": 222,
+        "sha_grupos": "89de5d3cc0ab9d1ca4c0d52bbbc99c3966861a0f33ad7b2749134a9026cfe8be"
+      },
+      "teste": {
+        "linhas": 2442,
+        "grupos": 222,
+        "sha_grupos": "0daa5a262c6ce1f3769920776de896d07b52bbf5b9c8da017e6b91cbe1cc1b66"
+      }
+    },
+    "intersecao_grupos": 0,
+    "validacao": {
+      "simples": {
+        "MAE_milhoes": 78.26722618689082,
+        "RMSE_milhoes": 100.01176868664845,
+        "R2": 0.9851141850176066
+      },
+      "multipla": {
+        "MAE_milhoes": 47.207204665932615,
+        "RMSE_milhoes": 69.71475698770898,
+        "R2": 0.9927669771519643
+      }
+    },
+    "teste": {
+      "MAE_milhoes": 20.06272878704097,
+      "RMSE_milhoes": 33.62245475732884,
+      "R2": 0.9983680499983312
+    },
+    "baseline_teste": {
+      "MAE_milhoes": 36.17143706690287,
+      "RMSE_milhoes": 83.59309843569409,
+      "R2": 0.9899123766270969
+    },
+    "R2_treino": 0.9981296496981377,
+    "coeficientes": [
+      {
+        "termo": "const",
+        "coeficiente": -1424.9235047768914,
+        "erro_padrao_cluster": 118.99509594303375,
+        "IC95_inferior": -1658.149607162126,
+        "IC95_superior": -1191.6974023916569
+      },
+      {
+        "termo": "receita_milhoes",
+        "coeficiente": 0.592941409342443,
+        "erro_padrao_cluster": 0.024614512370623228,
+        "IC95_inferior": 0.5446978515990059,
+        "IC95_superior": 0.6411849670858801
+      },
+      {
+        "termo": "custos_milhoes",
+        "coeficiente": 0.08306052451709736,
+        "erro_padrao_cluster": 0.07779046231111657,
+        "IC95_inferior": -0.06940597995341158,
+        "IC95_superior": 0.2355270289876063
+      },
+      {
+        "termo": "ano_2",
+        "coeficiente": -99.58113629697277,
+        "erro_padrao_cluster": 12.92087582902346,
+        "IC95_inferior": -124.90558757057286,
+        "IC95_superior": -74.25668502337268
+      },
+      {
+        "termo": "ano_3",
+        "coeficiente": -61.43096160408714,
+        "erro_padrao_cluster": 8.258323950836024,
+        "IC95_inferior": -77.61697912039027,
+        "IC95_superior": -45.244944087784006
+      },
+      {
+        "termo": "ano_4",
+        "coeficiente": -23.589142258468076,
+        "erro_padrao_cluster": 8.362439032169856,
+        "IC95_inferior": -39.97922158443298,
+        "IC95_superior": -7.199062932503171
+      },
+      {
+        "termo": "ano_5",
+        "coeficiente": 100.70109176948264,
+        "erro_padrao_cluster": 22.496108257117115,
+        "IC95_inferior": 56.609529793218975,
+        "IC95_superior": 144.79265374574632
+      },
+      {
+        "termo": "ano_6",
+        "coeficiente": 174.76585990662434,
+        "erro_padrao_cluster": 30.486895302995084,
+        "IC95_inferior": 115.01264311231064,
+        "IC95_superior": 234.51907670093806
+      },
+      {
+        "termo": "ano_7",
+        "coeficiente": 123.37967758099758,
+        "erro_padrao_cluster": 32.09038680948436,
+        "IC95_inferior": 60.48367518444903,
+        "IC95_superior": 186.27567997754613
+      },
+      {
+        "termo": "ano_8",
+        "coeficiente": 92.96960141550196,
+        "erro_padrao_cluster": 40.11539637906419,
+        "IC95_inferior": 14.34486928698766,
+        "IC95_superior": 171.59433354401625
+      },
+      {
+        "termo": "ano_9",
+        "coeficiente": 95.06970897978393,
+        "erro_padrao_cluster": 48.145148549321966,
+        "IC95_inferior": 0.7069517927820357,
+        "IC95_superior": 189.43246616678582
+      },
+      {
+        "termo": "ano_10",
+        "coeficiente": 232.24881603275927,
+        "erro_padrao_cluster": 68.91065133720646,
+        "IC95_inferior": 97.1864212606377,
+        "IC95_superior": 367.31121080488083
+      },
+      {
+        "termo": "ano_11",
+        "coeficiente": 409.3826232639022,
+        "erro_padrao_cluster": 95.86016711028292,
+        "IC95_inferior": 221.50014817575664,
+        "IC95_superior": 597.2650983520477
+      }
+    ],
+    "diagnostico": {
+      "breusch_pagan_LM": 295.3821344188918,
+      "breusch_pagan_p_exploratorio": 4.375490055078223e-56,
+      "correlacao_residuo_defasado": 0.9505937027477538,
+      "VIF": {
+        "receita_milhoes": 61.72896436406511,
+        "custos_milhoes": 24.776324515544612,
+        "ano_2": 2.8020489673609412,
+        "ano_3": 4.330556311710315,
+        "ano_4": 4.742776367576532,
+        "ano_5": 13.799794353083747,
+        "ano_6": 16.565148180792427,
+        "ano_7": 11.098596718695843,
+        "ano_8": 12.663754860261976,
+        "ano_9": 15.68344349914355,
+        "ano_10": 35.24005347580207,
+        "ano_11": 81.86392833265637
+      },
+      "nota": "BP é exploratório: dependência em painel afeta sua calibração. IC agrupado por trajetória; nenhuma conclusão causal."
+    },
+    "medias_teste_ano": [
+      {
+        "ano_n": 1,
+        "observado": 2425.592951778757,
+        "estimado": 2424.7275157743456,
+        "residuo": 0.865436004411199
+      },
+      {
+        "ano_n": 2,
+        "observado": 1978.731966739157,
+        "estimado": 1977.369794901727,
+        "residuo": 1.3621718374301974
+      },
+      {
+        "ano_n": 3,
+        "observado": 2122.1885914075824,
+        "estimado": 2121.1439256612807,
+        "residuo": 1.0446657463016502
+      },
+      {
+        "ano_n": 4,
+        "observado": 2315.167388822774,
+        "estimado": 2313.418540253161,
+        "residuo": 1.7488485696128895
+      },
+      {
+        "ano_n": 5,
+        "observado": 2645.2000047355136,
+        "estimado": 2643.9908320914687,
+        "residuo": 1.2091726440452526
+      },
+      {
+        "ano_n": 6,
+        "observado": 2958.3455418567664,
+        "estimado": 2957.7068799604544,
+        "residuo": 0.6386618963122536
+      },
+      {
+        "ano_n": 7,
+        "observado": 3150.7727238139687,
+        "estimado": 3150.1393761584873,
+        "residuo": 0.6333476554813826
+      },
+      {
+        "ano_n": 8,
+        "observado": 3409.2302797401853,
+        "estimado": 3408.451119517401,
+        "residuo": 0.7791602227841379
+      },
+      {
+        "ano_n": 9,
+        "observado": 3686.598093792499,
+        "estimado": 3684.8839702092805,
+        "residuo": 1.7141235832187531
+      },
+      {
+        "ano_n": 10,
+        "observado": 4156.511927162808,
+        "estimado": 4154.243317611451,
+        "residuo": 2.268609551357504
+      },
+      {
+        "ano_n": 11,
+        "observado": 4682.132146392207,
+        "estimado": 4679.525606794501,
+        "residuo": 2.606539597705957
+      }
+    ],
+    "histograma_residuos_teste": {
+      "contagens": [
+        2,
+        4,
+        4,
+        9,
+        13,
+        9,
+        18,
+        21,
+        29,
+        24,
+        19,
+        39,
+        8,
+        6,
+        25,
+        76,
+        322,
+        896,
+        801,
+        117
+      ],
+      "limites": [
+        -199.5362336327653,
+        -187.68474262079164,
+        -175.833251608818,
+        -163.98176059684437,
+        -152.13026958487072,
+        -140.27877857289707,
+        -128.42728756092342,
+        -116.57579654894978,
+        -104.72430553697613,
+        -92.87281452500248,
+        -81.02132351302885,
+        -69.1698325010552,
+        -57.31834148908155,
+        -45.4668504771079,
+        -33.615359465134276,
+        -21.763868453160626,
+        -9.912377441186976,
+        1.9391135707866738,
+        13.790604582760324,
+        25.642095594733945,
+        37.493586606707595
+      ]
+    },
+    "residuos_treino_faixas": [
+      {
+        "ajustado_medio": 1984.9983230980442,
+        "residuo_medio": -2.6039504085547884,
+        "n": 730
+      },
+      {
+        "ajustado_medio": 2154.5641905115076,
+        "residuo_medio": 1.5229613252109282,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2340.5411856028254,
+        "residuo_medio": 0.3996111072966185,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2503.703674289785,
+        "residuo_medio": 0.020341397396859674,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2776.0269089246885,
+        "residuo_medio": 0.40399695651860373,
+        "n": 730
+      },
+      {
+        "ajustado_medio": 3053.8132869070637,
+        "residuo_medio": 1.5628832299139597,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 3305.552483258472,
+        "residuo_medio": 0.9792553452119377,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 3603.0789735145736,
+        "residuo_medio": 0.0019578188989588952,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 4065.037620313489,
+        "residuo_medio": -0.12317401685560858,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 4653.588785029519,
+        "residuo_medio": -2.157904897256698,
+        "n": 730
+      }
+    ],
+    "qq_residuos_treino": {
+      "probabilidades": [
+        0.01,
+        0.030416666666666668,
+        0.050833333333333335,
+        0.07125,
+        0.09166666666666666,
+        0.11208333333333333,
+        0.1325,
+        0.15291666666666667,
+        0.17333333333333334,
+        0.19375,
+        0.21416666666666667,
+        0.23458333333333334,
+        0.255,
+        0.27541666666666664,
+        0.29583333333333334,
+        0.31625000000000003,
+        0.33666666666666667,
+        0.3570833333333333,
+        0.3775,
+        0.3979166666666667,
+        0.41833333333333333,
+        0.43875,
+        0.45916666666666667,
+        0.47958333333333336,
+        0.5,
+        0.5204166666666666,
+        0.5408333333333333,
+        0.56125,
+        0.5816666666666667,
+        0.6020833333333333,
+        0.6225,
+        0.6429166666666667,
+        0.6633333333333333,
+        0.68375,
+        0.7041666666666666,
+        0.7245833333333334,
+        0.745,
+        0.7654166666666666,
+        0.7858333333333334,
+        0.80625,
+        0.8266666666666667,
+        0.8470833333333333,
+        0.8674999999999999,
+        0.8879166666666667,
+        0.9083333333333333,
+        0.92875,
+        0.9491666666666667,
+        0.9695833333333334,
+        0.99
+      ],
+      "quantis": [
+        -150.53393866846508,
+        -113.73178461993628,
+        -94.20018506898928,
+        -71.99503200141594,
+        -49.13298469968754,
+        -17.101727646134737,
+        -10.853134745051053,
+        -6.696736981420116,
+        -4.003056363286608,
+        -1.8423584421526693,
+        -0.3936032489590304,
+        0.9632046927762913,
+        2.1139405020001507,
+        3.304568868468211,
+        4.217780413294536,
+        5.134586654920029,
+        5.82645356616351,
+        6.527598149795798,
+        7.254693666707924,
+        7.875898584336227,
+        8.395277905674469,
+        9.050412870014943,
+        9.650079357043696,
+        10.097232088390676,
+        10.603417120535596,
+        11.120470746045376,
+        11.659767138902522,
+        12.172902628291359,
+        12.745954143777887,
+        13.181608958357849,
+        13.619549276132199,
+        14.07073289200971,
+        14.576068360177633,
+        15.073943209105131,
+        15.60165817566173,
+        16.09740227974206,
+        16.59347472414238,
+        17.181357233525034,
+        17.774522067279253,
+        18.426881237658268,
+        19.03836223504041,
+        19.76350769693437,
+        20.636526610983577,
+        21.471991839103758,
+        22.586809181721566,
+        23.615452018103785,
+        25.269816600731033,
+        27.27596185635573,
+        31.043250571106178
+      ]
+    },
+    "limites": [
+      "Associação contemporânea, não previsão de anos futuros.",
+      "Receita/custos são componentes parciais do resultado; associação contábil esperada não é descoberta causal.",
+      "Cenários simulados, repetição e dependência temporal limitam inferência externa.",
+      "Ano 12 é encerramento; análise principal exclui esse regime.",
+      "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
+    ]
+  },
+  "sensibilidade_sem_copias": {
+    "pergunta": "Associação contemporânea de receita, custos e ano com resultado líquido em projeções simuladas.",
+    "unidade": "milhões de R$ (convenção acadêmica)",
+    "seed": 20261105,
+    "modelo": "multipla",
+    "populacao": "trajetórias únicas",
+    "anos": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "linhas": 12177,
+    "trajetorias": 1107,
+    "particoes": {
+      "treino": {
+        "linhas": 7293,
+        "grupos": 663,
+        "sha_grupos": "01de1da5c0b785ea4c383aedd742767f0c8606da3ea046a749f2395ccb668649"
+      },
+      "validacao": {
+        "linhas": 2442,
+        "grupos": 222,
+        "sha_grupos": "89de5d3cc0ab9d1ca4c0d52bbbc99c3966861a0f33ad7b2749134a9026cfe8be"
+      },
+      "teste": {
+        "linhas": 2442,
+        "grupos": 222,
+        "sha_grupos": "0daa5a262c6ce1f3769920776de896d07b52bbf5b9c8da017e6b91cbe1cc1b66"
+      }
+    },
+    "intersecao_grupos": 0,
+    "validacao": {
+      "simples": {
+        "MAE_milhoes": 62.180913989245234,
+        "RMSE_milhoes": 81.96762545058851,
+        "R2": 0.9902441730566207
+      },
+      "multipla": {
+        "MAE_milhoes": 20.030319663757137,
+        "RMSE_milhoes": 33.27128119347016,
+        "R2": 0.9983926204846006
+      }
+    },
+    "teste": {
+      "MAE_milhoes": 20.06272878704097,
+      "RMSE_milhoes": 33.62245475732884,
+      "R2": 0.9983680499983312
+    },
+    "baseline_teste": {
+      "MAE_milhoes": 36.17143706690287,
+      "RMSE_milhoes": 83.59309843569409,
+      "R2": 0.9899123766270969
+    },
+    "R2_treino": 0.9981296496981377,
+    "coeficientes": [
+      {
+        "termo": "const",
+        "coeficiente": -1424.9235047768914,
+        "erro_padrao_cluster": 118.99509594303375,
+        "IC95_inferior": -1658.149607162126,
+        "IC95_superior": -1191.6974023916569
+      },
+      {
+        "termo": "receita_milhoes",
+        "coeficiente": 0.592941409342443,
+        "erro_padrao_cluster": 0.024614512370623228,
+        "IC95_inferior": 0.5446978515990059,
+        "IC95_superior": 0.6411849670858801
+      },
+      {
+        "termo": "custos_milhoes",
+        "coeficiente": 0.08306052451709736,
+        "erro_padrao_cluster": 0.07779046231111657,
+        "IC95_inferior": -0.06940597995341158,
+        "IC95_superior": 0.2355270289876063
+      },
+      {
+        "termo": "ano_2",
+        "coeficiente": -99.58113629697277,
+        "erro_padrao_cluster": 12.92087582902346,
+        "IC95_inferior": -124.90558757057286,
+        "IC95_superior": -74.25668502337268
+      },
+      {
+        "termo": "ano_3",
+        "coeficiente": -61.43096160408714,
+        "erro_padrao_cluster": 8.258323950836024,
+        "IC95_inferior": -77.61697912039027,
+        "IC95_superior": -45.244944087784006
+      },
+      {
+        "termo": "ano_4",
+        "coeficiente": -23.589142258468076,
+        "erro_padrao_cluster": 8.362439032169856,
+        "IC95_inferior": -39.97922158443298,
+        "IC95_superior": -7.199062932503171
+      },
+      {
+        "termo": "ano_5",
+        "coeficiente": 100.70109176948264,
+        "erro_padrao_cluster": 22.496108257117115,
+        "IC95_inferior": 56.609529793218975,
+        "IC95_superior": 144.79265374574632
+      },
+      {
+        "termo": "ano_6",
+        "coeficiente": 174.76585990662434,
+        "erro_padrao_cluster": 30.486895302995084,
+        "IC95_inferior": 115.01264311231064,
+        "IC95_superior": 234.51907670093806
+      },
+      {
+        "termo": "ano_7",
+        "coeficiente": 123.37967758099758,
+        "erro_padrao_cluster": 32.09038680948436,
+        "IC95_inferior": 60.48367518444903,
+        "IC95_superior": 186.27567997754613
+      },
+      {
+        "termo": "ano_8",
+        "coeficiente": 92.96960141550196,
+        "erro_padrao_cluster": 40.11539637906419,
+        "IC95_inferior": 14.34486928698766,
+        "IC95_superior": 171.59433354401625
+      },
+      {
+        "termo": "ano_9",
+        "coeficiente": 95.06970897978393,
+        "erro_padrao_cluster": 48.145148549321966,
+        "IC95_inferior": 0.7069517927820357,
+        "IC95_superior": 189.43246616678582
+      },
+      {
+        "termo": "ano_10",
+        "coeficiente": 232.24881603275927,
+        "erro_padrao_cluster": 68.91065133720646,
+        "IC95_inferior": 97.1864212606377,
+        "IC95_superior": 367.31121080488083
+      },
+      {
+        "termo": "ano_11",
+        "coeficiente": 409.3826232639022,
+        "erro_padrao_cluster": 95.86016711028292,
+        "IC95_inferior": 221.50014817575664,
+        "IC95_superior": 597.2650983520477
+      }
+    ],
+    "diagnostico": {
+      "breusch_pagan_LM": 295.3821344188918,
+      "breusch_pagan_p_exploratorio": 4.375490055078223e-56,
+      "correlacao_residuo_defasado": 0.9505937027477538,
+      "VIF": {
+        "receita_milhoes": 61.72896436406511,
+        "custos_milhoes": 24.776324515544612,
+        "ano_2": 2.8020489673609412,
+        "ano_3": 4.330556311710315,
+        "ano_4": 4.742776367576532,
+        "ano_5": 13.799794353083747,
+        "ano_6": 16.565148180792427,
+        "ano_7": 11.098596718695843,
+        "ano_8": 12.663754860261976,
+        "ano_9": 15.68344349914355,
+        "ano_10": 35.24005347580207,
+        "ano_11": 81.86392833265637
+      },
+      "nota": "BP é exploratório: dependência em painel afeta sua calibração. IC agrupado por trajetória; nenhuma conclusão causal."
+    },
+    "medias_teste_ano": [
+      {
+        "ano_n": 1,
+        "observado": 2425.592951778757,
+        "estimado": 2424.7275157743456,
+        "residuo": 0.865436004411199
+      },
+      {
+        "ano_n": 2,
+        "observado": 1978.731966739157,
+        "estimado": 1977.369794901727,
+        "residuo": 1.3621718374301974
+      },
+      {
+        "ano_n": 3,
+        "observado": 2122.1885914075824,
+        "estimado": 2121.1439256612807,
+        "residuo": 1.0446657463016502
+      },
+      {
+        "ano_n": 4,
+        "observado": 2315.167388822774,
+        "estimado": 2313.418540253161,
+        "residuo": 1.7488485696128895
+      },
+      {
+        "ano_n": 5,
+        "observado": 2645.2000047355136,
+        "estimado": 2643.9908320914687,
+        "residuo": 1.2091726440452526
+      },
+      {
+        "ano_n": 6,
+        "observado": 2958.3455418567664,
+        "estimado": 2957.7068799604544,
+        "residuo": 0.6386618963122536
+      },
+      {
+        "ano_n": 7,
+        "observado": 3150.7727238139687,
+        "estimado": 3150.1393761584873,
+        "residuo": 0.6333476554813826
+      },
+      {
+        "ano_n": 8,
+        "observado": 3409.2302797401853,
+        "estimado": 3408.451119517401,
+        "residuo": 0.7791602227841379
+      },
+      {
+        "ano_n": 9,
+        "observado": 3686.598093792499,
+        "estimado": 3684.8839702092805,
+        "residuo": 1.7141235832187531
+      },
+      {
+        "ano_n": 10,
+        "observado": 4156.511927162808,
+        "estimado": 4154.243317611451,
+        "residuo": 2.268609551357504
+      },
+      {
+        "ano_n": 11,
+        "observado": 4682.132146392207,
+        "estimado": 4679.525606794501,
+        "residuo": 2.606539597705957
+      }
+    ],
+    "histograma_residuos_teste": {
+      "contagens": [
+        2,
+        4,
+        4,
+        9,
+        13,
+        9,
+        18,
+        21,
+        29,
+        24,
+        19,
+        39,
+        8,
+        6,
+        25,
+        76,
+        322,
+        896,
+        801,
+        117
+      ],
+      "limites": [
+        -199.5362336327653,
+        -187.68474262079164,
+        -175.833251608818,
+        -163.98176059684437,
+        -152.13026958487072,
+        -140.27877857289707,
+        -128.42728756092342,
+        -116.57579654894978,
+        -104.72430553697613,
+        -92.87281452500248,
+        -81.02132351302885,
+        -69.1698325010552,
+        -57.31834148908155,
+        -45.4668504771079,
+        -33.615359465134276,
+        -21.763868453160626,
+        -9.912377441186976,
+        1.9391135707866738,
+        13.790604582760324,
+        25.642095594733945,
+        37.493586606707595
+      ]
+    },
+    "residuos_treino_faixas": [
+      {
+        "ajustado_medio": 1984.9983230980442,
+        "residuo_medio": -2.6039504085547884,
+        "n": 730
+      },
+      {
+        "ajustado_medio": 2154.5641905115076,
+        "residuo_medio": 1.5229613252109282,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2340.5411856028254,
+        "residuo_medio": 0.3996111072966185,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2503.703674289785,
+        "residuo_medio": 0.020341397396859674,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 2776.0269089246885,
+        "residuo_medio": 0.40399695651860373,
+        "n": 730
+      },
+      {
+        "ajustado_medio": 3053.8132869070637,
+        "residuo_medio": 1.5628832299139597,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 3305.552483258472,
+        "residuo_medio": 0.9792553452119377,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 3603.0789735145736,
+        "residuo_medio": 0.0019578188989588952,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 4065.037620313489,
+        "residuo_medio": -0.12317401685560858,
+        "n": 729
+      },
+      {
+        "ajustado_medio": 4653.588785029519,
+        "residuo_medio": -2.157904897256698,
+        "n": 730
+      }
+    ],
+    "qq_residuos_treino": {
+      "probabilidades": [
+        0.01,
+        0.030416666666666668,
+        0.050833333333333335,
+        0.07125,
+        0.09166666666666666,
+        0.11208333333333333,
+        0.1325,
+        0.15291666666666667,
+        0.17333333333333334,
+        0.19375,
+        0.21416666666666667,
+        0.23458333333333334,
+        0.255,
+        0.27541666666666664,
+        0.29583333333333334,
+        0.31625000000000003,
+        0.33666666666666667,
+        0.3570833333333333,
+        0.3775,
+        0.3979166666666667,
+        0.41833333333333333,
+        0.43875,
+        0.45916666666666667,
+        0.47958333333333336,
+        0.5,
+        0.5204166666666666,
+        0.5408333333333333,
+        0.56125,
+        0.5816666666666667,
+        0.6020833333333333,
+        0.6225,
+        0.6429166666666667,
+        0.6633333333333333,
+        0.68375,
+        0.7041666666666666,
+        0.7245833333333334,
+        0.745,
+        0.7654166666666666,
+        0.7858333333333334,
+        0.80625,
+        0.8266666666666667,
+        0.8470833333333333,
+        0.8674999999999999,
+        0.8879166666666667,
+        0.9083333333333333,
+        0.92875,
+        0.9491666666666667,
+        0.9695833333333334,
+        0.99
+      ],
+      "quantis": [
+        -150.53393866846508,
+        -113.73178461993628,
+        -94.20018506898928,
+        -71.99503200141594,
+        -49.13298469968754,
+        -17.101727646134737,
+        -10.853134745051053,
+        -6.696736981420116,
+        -4.003056363286608,
+        -1.8423584421526693,
+        -0.3936032489590304,
+        0.9632046927762913,
+        2.1139405020001507,
+        3.304568868468211,
+        4.217780413294536,
+        5.134586654920029,
+        5.82645356616351,
+        6.527598149795798,
+        7.254693666707924,
+        7.875898584336227,
+        8.395277905674469,
+        9.050412870014943,
+        9.650079357043696,
+        10.097232088390676,
+        10.603417120535596,
+        11.120470746045376,
+        11.659767138902522,
+        12.172902628291359,
+        12.745954143777887,
+        13.181608958357849,
+        13.619549276132199,
+        14.07073289200971,
+        14.576068360177633,
+        15.073943209105131,
+        15.60165817566173,
+        16.09740227974206,
+        16.59347472414238,
+        17.181357233525034,
+        17.774522067279253,
+        18.426881237658268,
+        19.03836223504041,
+        19.76350769693437,
+        20.636526610983577,
+        21.471991839103758,
+        22.586809181721566,
+        23.615452018103785,
+        25.269816600731033,
+        27.27596185635573,
+        31.043250571106178
+      ]
+    },
+    "limites": [
+      "Associação contemporânea, não previsão de anos futuros.",
+      "Receita/custos são componentes parciais do resultado; associação contábil esperada não é descoberta causal.",
+      "Cenários simulados, repetição e dependência temporal limitam inferência externa.",
+      "Ano 12 é encerramento; análise principal exclui esse regime.",
+      "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
+    ]
+  },
+  "sensibilidade_com_encerramento": {
+    "pergunta": "Associação contemporânea de receita, custos e ano com resultado líquido em projeções simuladas.",
+    "unidade": "milhões de R$ (convenção acadêmica)",
+    "seed": 20261105,
+    "modelo": "multipla",
+    "populacao": "todos os cenários",
+    "anos": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "linhas": 14400,
+    "trajetorias": 1107,
+    "particoes": {
+      "treino": {
+        "linhas": 7956,
+        "grupos": 663,
+        "sha_grupos": "01de1da5c0b785ea4c383aedd742767f0c8606da3ea046a749f2395ccb668649"
+      },
+      "validacao": {
+        "linhas": 3780,
+        "grupos": 222,
+        "sha_grupos": "89de5d3cc0ab9d1ca4c0d52bbbc99c3966861a0f33ad7b2749134a9026cfe8be"
+      },
+      "teste": {
+        "linhas": 2664,
+        "grupos": 222,
+        "sha_grupos": "0daa5a262c6ce1f3769920776de896d07b52bbf5b9c8da017e6b91cbe1cc1b66"
+      }
+    },
+    "intersecao_grupos": 0,
+    "validacao": {
+      "simples": {
+        "MAE_milhoes": 140.54010223919977,
+        "RMSE_milhoes": 175.89533724187862,
+        "R2": 0.9821846219390393
+      },
+      "multipla": {
+        "MAE_milhoes": 50.313121093610704,
+        "RMSE_milhoes": 75.22259881234405,
+        "R2": 0.9967417601136264
+      }
+    },
+    "teste": {
+      "MAE_milhoes": 21.592330809079478,
+      "RMSE_milhoes": 36.27771073522824,
+      "R2": 0.9992655103254854
+    },
+    "baseline_teste": {
+      "MAE_milhoes": 42.56911506687428,
+      "RMSE_milhoes": 96.78359253453796,
+      "R2": 0.9947723148266918
+    },
+    "R2_treino": 0.9991565527523504,
+    "coeficientes": [
+      {
+        "termo": "const",
+        "coeficiente": -1532.0334628695546,
+        "erro_padrao_cluster": 113.21515711904445,
+        "IC95_inferior": -1753.9310933269253,
+        "IC95_superior": -1310.1358324121838
+      },
+      {
+        "termo": "receita_milhoes",
+        "coeficiente": 0.5961134470427683,
+        "erro_padrao_cluster": 0.024550619728484716,
+        "IC95_inferior": 0.5479951165767997,
+        "IC95_superior": 0.6442317775087368
+      },
+      {
+        "termo": "custos_milhoes",
+        "coeficiente": 0.019694313854913048,
+        "erro_padrao_cluster": 0.08747004406925182,
+        "IC95_inferior": -0.15174382224695188,
+        "IC95_superior": 0.19113244995677797
+      },
+      {
+        "termo": "ano_2",
+        "coeficiente": -95.62962124217228,
+        "erro_padrao_cluster": 12.607914841292065,
+        "IC95_inferior": -120.34068025125276,
+        "IC95_superior": -70.91856223309179
+      },
+      {
+        "termo": "ano_3",
+        "coeficiente": -51.38223569740944,
+        "erro_padrao_cluster": 8.434314479346808,
+        "IC95_inferior": -67.91318831121389,
+        "IC95_superior": -34.851283083605
+      },
+      {
+        "termo": "ano_4",
+        "coeficiente": -14.18407401040281,
+        "erro_padrao_cluster": 9.512578396441654,
+        "IC95_inferior": -32.82838506754223,
+        "IC95_superior": 4.460237046736612
+      },
+      {
+        "termo": "ano_5",
+        "coeficiente": 116.12018946416538,
+        "erro_padrao_cluster": 25.016911840979862,
+        "IC95_inferior": 67.08794325143123,
+        "IC95_superior": 165.15243567689953
+      },
+      {
+        "termo": "ano_6",
+        "coeficiente": 188.4473771479952,
+        "erro_padrao_cluster": 32.969601727084026,
+        "IC95_inferior": 123.82814517828096,
+        "IC95_superior": 253.06660911770945
+      },
+      {
+        "termo": "ano_7",
+        "coeficiente": 128.21194796904365,
+        "erro_padrao_cluster": 33.294293926715554,
+        "IC95_inferior": 62.956330981990504,
+        "IC95_superior": 193.4675649560968
+      },
+      {
+        "termo": "ano_8",
+        "coeficiente": 92.17200643222782,
+        "erro_padrao_cluster": 40.60619012931217,
+        "IC95_inferior": 12.585336229390123,
+        "IC95_superior": 171.7586766350655
+      },
+      {
+        "termo": "ano_9",
+        "coeficiente": 88.90356840188429,
+        "erro_padrao_cluster": 47.98963253552338,
+        "IC95_inferior": -5.1543829990531265,
+        "IC95_superior": 182.9615198028217
+      },
+      {
+        "termo": "ano_10",
+        "coeficiente": 232.74735298251653,
+        "erro_padrao_cluster": 70.01873464576757,
+        "IC95_inferior": 95.5131548337452,
+        "IC95_superior": 369.98155113128786
+      },
+      {
+        "termo": "ano_11",
+        "coeficiente": 421.8774882923999,
+        "erro_padrao_cluster": 99.16837755086888,
+        "IC95_inferior": 227.51103988742648,
+        "IC95_superior": 616.2439366973733
+      },
+      {
+        "termo": "ano_12",
+        "coeficiente": 1336.5657842872142,
+        "erro_padrao_cluster": 150.79433186577566,
+        "IC95_inferior": 1041.0143247575134,
+        "IC95_superior": 1632.117243816915
+      }
+    ],
+    "diagnostico": {
+      "breusch_pagan_LM": 368.93294099211204,
+      "breusch_pagan_p_exploratorio": 8.00992150996287e-71,
+      "correlacao_residuo_defasado": 0.9570436519622929,
+      "VIF": {
+        "receita_milhoes": 97.56142135738307,
+        "custos_milhoes": 26.266619621560157,
+        "ano_2": 2.5380897745779163,
+        "ano_3": 3.9702517302918574,
+        "ano_4": 4.37108672448452,
+        "ano_5": 12.161991837134023,
+        "ano_6": 14.341052033275163,
+        "ano_7": 9.308141622701832,
+        "ano_8": 10.117688215829393,
+        "ano_9": 12.050610834384083,
+        "ano_10": 27.60079934595936,
+        "ano_11": 65.95118638890065,
+        "ano_12": 123.69857732078422
+      },
+      "nota": "BP é exploratório: dependência em painel afeta sua calibração. IC agrupado por trajetória; nenhuma conclusão causal."
+    },
+    "medias_teste_ano": [
+      {
+        "ano_n": 1,
+        "observado": 2425.592951778757,
+        "estimado": 2424.734776178783,
+        "residuo": 0.858175599974533
+      },
+      {
+        "ano_n": 2,
+        "observado": 1978.731966739157,
+        "estimado": 1977.3732822774296,
+        "residuo": 1.3586844617273186
+      },
+      {
+        "ano_n": 3,
+        "observado": 2122.1885914075824,
+        "estimado": 2121.1441343740707,
+        "residuo": 1.0444570335114902
+      },
+      {
+        "ano_n": 4,
+        "observado": 2315.167388822774,
+        "estimado": 2313.4225774687166,
+        "residuo": 1.7448113540571641
+      },
+      {
+        "ano_n": 5,
+        "observado": 2645.2000047355136,
+        "estimado": 2644.0014861348045,
+        "residuo": 1.1985186007091175
+      },
+      {
+        "ano_n": 6,
+        "observado": 2958.3455418567664,
+        "estimado": 2957.7249626997805,
+        "residuo": 0.620579156986159
+      },
+      {
+        "ano_n": 7,
+        "observado": 3150.7727238139687,
+        "estimado": 3150.167685826405,
+        "residuo": 0.6050379875635613
+      },
+      {
+        "ano_n": 8,
+        "observado": 3409.2302797401853,
+        "estimado": 3408.4917301256332,
+        "residuo": 0.7385496145522403
+      },
+      {
+        "ano_n": 9,
+        "observado": 3686.598093792499,
+        "estimado": 3684.937481594201,
+        "residuo": 1.6606121982980446
+      },
+      {
+        "ano_n": 10,
+        "observado": 4156.511927162808,
+        "estimado": 4154.310821976723,
+        "residuo": 2.2011051860861777
+      },
+      {
+        "ano_n": 11,
+        "observado": 4682.132146392207,
+        "estimado": 4679.608840964313,
+        "residuo": 2.523305427894516
+      },
+      {
+        "ano_n": 12,
+        "observado": 6934.790923517739,
+        "estimado": 6931.330795631621,
+        "residuo": 3.460127886118432
+      }
+    ],
+    "histograma_residuos_teste": {
+      "contagens": [
+        2,
+        2,
+        3,
+        6,
+        3,
+        7,
+        15,
+        12,
+        21,
+        26,
+        36,
+        27,
+        38,
+        18,
+        14,
+        55,
+        196,
+        865,
+        1108,
+        210
+      ],
+      "limites": [
+        -247.5515260786915,
+        -233.1625558429294,
+        -218.7735856071673,
+        -204.3846153714052,
+        -189.9956451356431,
+        -175.606674899881,
+        -161.2177046641189,
+        -146.82873442835682,
+        -132.4397641925947,
+        -118.05079395683262,
+        -103.6618237210705,
+        -89.27285348530842,
+        -74.88388324954633,
+        -60.49491301378421,
+        -46.105942778022126,
+        -31.71697254226001,
+        -17.328002306497922,
+        -2.939032070735834,
+        11.449938165026254,
+        25.838908400788398,
+        40.227878636550486
+      ]
+    },
+    "residuos_treino_faixas": [
+      {
+        "ajustado_medio": 1995.8016286758568,
+        "residuo_medio": -1.4763498588719297,
+        "n": 796
+      },
+      {
+        "ajustado_medio": 2183.9741000160975,
+        "residuo_medio": 2.7461935349490685,
+        "n": 796
+      },
+      {
+        "ajustado_medio": 2364.5629448686723,
+        "residuo_medio": 0.19163321818168697,
+        "n": 795
+      },
+      {
+        "ajustado_medio": 2571.8906841068197,
+        "residuo_medio": -1.0764334978547527,
+        "n": 796
+      },
+      {
+        "ajustado_medio": 2897.366093382201,
+        "residuo_medio": 0.17973056683827768,
+        "n": 795
+      },
+      {
+        "ajustado_medio": 3179.4519031120626,
+        "residuo_medio": -2.5485150495241986,
+        "n": 796
+      },
+      {
+        "ajustado_medio": 3488.6768834512395,
+        "residuo_medio": 1.4723177376395908,
+        "n": 795
+      },
+      {
+        "ajustado_medio": 3907.956101641192,
+        "residuo_medio": 1.1755328125205784,
+        "n": 796
+      },
+      {
+        "ajustado_medio": 4503.74608405243,
+        "residuo_medio": 2.3783824169286296,
+        "n": 795
+      },
+      {
+        "ajustado_medio": 6579.663108387781,
+        "residuo_medio": -3.0371877804508625,
+        "n": 796
+      }
+    ],
+    "qq_residuos_treino": {
+      "probabilidades": [
+        0.01,
+        0.030416666666666668,
+        0.050833333333333335,
+        0.07125,
+        0.09166666666666666,
+        0.11208333333333333,
+        0.1325,
+        0.15291666666666667,
+        0.17333333333333334,
+        0.19375,
+        0.21416666666666667,
+        0.23458333333333334,
+        0.255,
+        0.27541666666666664,
+        0.29583333333333334,
+        0.31625000000000003,
+        0.33666666666666667,
+        0.3570833333333333,
+        0.3775,
+        0.3979166666666667,
+        0.41833333333333333,
+        0.43875,
+        0.45916666666666667,
+        0.47958333333333336,
+        0.5,
+        0.5204166666666666,
+        0.5408333333333333,
+        0.56125,
+        0.5816666666666667,
+        0.6020833333333333,
+        0.6225,
+        0.6429166666666667,
+        0.6633333333333333,
+        0.68375,
+        0.7041666666666666,
+        0.7245833333333334,
+        0.745,
+        0.7654166666666666,
+        0.7858333333333334,
+        0.80625,
+        0.8266666666666667,
+        0.8470833333333333,
+        0.8674999999999999,
+        0.8879166666666667,
+        0.9083333333333333,
+        0.92875,
+        0.9491666666666667,
+        0.9695833333333334,
+        0.99
+      ],
+      "quantis": [
+        -161.6700788176757,
+        -121.0513479633419,
+        -97.79638056994852,
+        -75.33889422423222,
+        -47.32629919720135,
+        -19.368205945991292,
+        -12.597493407208566,
+        -7.872442359318204,
+        -4.761374735132146,
+        -2.335319009238404,
+        -0.6040558523385635,
+        1.0700615897708312,
+        2.2923409554776755,
+        3.5248448767768084,
+        4.5235015208880505,
+        5.436209859807786,
+        6.258981725183791,
+        7.051939586412584,
+        7.741745970647584,
+        8.435123793019255,
+        9.052216191497992,
+        9.68922710046789,
+        10.267943366847701,
+        10.801831814610777,
+        11.336077057670991,
+        11.88266023053196,
+        12.430872313860682,
+        12.95409584853187,
+        13.484189975099415,
+        13.964151596774206,
+        14.432823437824965,
+        14.891706642684921,
+        15.390688412324986,
+        15.861592688867002,
+        16.36521613251062,
+        17.03147019170258,
+        17.60570067289824,
+        18.19532044894334,
+        18.848583782192307,
+        19.72023873608802,
+        20.451223736527574,
+        21.323111027199843,
+        22.187156541477506,
+        23.27774668583216,
+        24.35322521356928,
+        25.682249144084857,
+        27.29564751939954,
+        29.7118707663699,
+        33.78245949023293
+      ]
+    },
+    "limites": [
+      "Associação contemporânea, não previsão de anos futuros.",
+      "Receita/custos são componentes parciais do resultado; associação contábil esperada não é descoberta causal.",
+      "Cenários simulados, repetição e dependência temporal limitam inferência externa.",
+      "Ano 12 é encerramento; análise principal exclui esse regime.",
+      "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
+    ]
+  },
+  "commit_implementacao": "a5a006b9b23f62c6c8af58a1b09c3ab02368b7fc",
+  "integracao": {
+    "modo": "CTI local",
+    "inicio_app_s": 5.298891999991611,
+    "troca_ano_s": 0.2914932999992743,
+    "conferencia_receita_anos": [
+      11,
+      1
+    ],
+    "sensibilidade_conferida": true,
+    "metricas_painel_notebook_cli_iguais": true,
+    "nota": "Tempos observados em AppTest local; não representam latência de nuvem."
+  },
+  "testes": {
+    "tests": "17",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "time": "9.357"
+  },
+  "notebook": {
+    "ambiente": "kernel local limpo",
+    "celulas_executadas": 6,
+    "erros": 0,
+    "colab_executado": false
+  }
+}

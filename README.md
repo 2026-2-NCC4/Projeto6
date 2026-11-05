@@ -37,6 +37,22 @@ Conforme o contexto registrado no notebook do grupo, os dados representam proje�
 | Engenharia de Software e Arquitetura de Sistemas | [PDF](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf) | [Documentos](documentos/Entrega%202/ES%20e%20ML) |
 | Projeto Interdisciplinar: Ciência de Dados | [Notebook](src/notebooks/02_preparacao.ipynb) · [Documentos](documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) | [Documentos](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) |
 
+## Entrega 2: painel integrado
+
+A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPIs financeiros, ticket e metas acadêmicas, sensibilidade e regressão por trajetórias. O padrão é uma **demonstração fictícia**, gerada independentemente dos valores CTI. A base CTI é utilizada apenas no ambiente local autorizado.
+
+- [Como executar e preparar a publicação](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/EXECUCAO_E2.md)
+- [Regressão: notebook executado](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Regressao_CTI.ipynb) e [relatório](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Analise_Inferencial_CTI.pdf)
+- [Painel financeiro e regras](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/E2_Painel_Financeiro_CTI.pdf) e [validação](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/VALIDACAO_E2.md)
+- [Design de software e dois UML](documentos/Entrega%202/ES%20e%20ML/E2_Engenharia_Software_CTI.pdf)
+- [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
+
+Instale `requirements-e2-dev.txt` em ambiente Python 3.13 e execute `python -m streamlit run app/app.py`. Para testes, use `python -m pytest -q`. As dependências E2 são separadas do ambiente E1.
+
+Validação local em 05/11/2026: 15 verificações da preparação e cobertura individual aprovadas; 216 KPIs e 24 identidades conferidos com a planilha E1; notebook E2 com 6/6 células sem erro em kernel local; 17 testes automatizados aprovados. A comparação com a planilha utiliza seus valores salvos, sem afirmar novo recálculo do Excel. As métricas de regressão são associativas, com limitações contábeis e temporais documentadas.
+
+**Publicação provisória:** Streamlit Community Cloud, somente dados fictícios; configuração preparada, URL externa ainda não verificada. A aprovação acadêmica da plataforma permanece pendente. A execução local não substitui o requisito de nuvem.
+
 ## Estrutura de pastas
 
 ```text

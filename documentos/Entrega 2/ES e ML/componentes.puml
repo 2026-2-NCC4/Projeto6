@@ -1,0 +1,21 @@
+@startuml
+title CTI E2 - componentes implementados
+skinparam componentStyle uml2
+component "app/app.py" as app
+component "dados / recortes" as dados
+component "indicadores" as kpi
+component "sensibilidade" as sim
+component "regressao" as reg
+component "prepara.py (E1)" as prep
+artifact "Parquet local" as parquet
+app ..> dados : carregar / filtrar
+app ..> kpi : calcular
+app ..> sim : simular
+app ..> reg : executar sob demanda
+dados ..> prep : reutilizar
+dados ..> parquet : leitura
+note bottom of dados
+Gerador fictício independente disponível
+como alternativa à entrada CTI local.
+end note
+@enduml
