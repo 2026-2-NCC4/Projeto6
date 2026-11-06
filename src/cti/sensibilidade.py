@@ -1,6 +1,15 @@
 """Simulação parcial: volume e demais contas permanecem constantes."""
 import math
 
+def meta_percentual(receita, custo, percentual=None):
+    """Meta acadêmica sobre a receita original; padrão igual à margem de referência."""
+    if not all(math.isfinite(float(x)) for x in [receita, custo]) or receita <= 0:
+        raise ValueError("A referência da meta exige receita positiva e valores finitos.")
+    taxa = (receita + custo) / receita if percentual is None else float(percentual)
+    if not math.isfinite(taxa) or not -2 <= taxa <= 1:
+        raise ValueError("Meta percentual fora do intervalo acadêmico de -200% a 100%.")
+    return receita * taxa
+
 def simular(receita, custo, desconto=0., variacao_custo=0., quantidade=10000., meta=0.):
     valores = [receita,custo,desconto,variacao_custo,quantidade,meta]
     if not all(math.isfinite(float(x)) for x in valores):

@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
 from src.cti.dados import carregar, sintetica
 from src.cti.recortes import filtrar, medias_anuais
 from src.cti.indicadores import calcular, tabela
-from src.cti.sensibilidade import simular
+from src.cti.sensibilidade import simular, meta_percentual
 from src.cti.regressao import executar
 from src.cti.distribuicao import CONTAS as CONTAS_DIST, percentis_anuais, proporcao_abaixo
 from src.cti import agregados as ag
@@ -44,12 +44,17 @@ def modelo(base, unicas):
 
 def mostrar_regressao(res):
     st.write(f"Modelo selecionado na validação: **{res['modelo']}**. Teste com grupos independentes do treino.")
-    st.dataframe(pd.DataFrame({"Modelo":res["teste"],"Referência por ano":res["baseline_teste"]}).T,width="stretch")
-    st.dataframe(pd.DataFrame(res["coeficientes"]),hide_index=True,width="stretch")
-    st.line_chart(pd.DataFrame(res["medias_teste_ano"]).set_index("ano_n")[["observado","estimado"]])
+    st.dataframe(pd.DataFrame({"Modelo":res["teste"],"Referência por ano":res["baseline_teste"]}).T.map(lambda x:numero(x,4)),width="stretch")
+    coefs=pd.DataFrame(res["coeficientes"])
+    for col in coefs.columns:
+        if col != "termo": coefs[col]=coefs[col].map(lambda x:numero(x,4))
+    st.dataframe(coefs,hide_index=True,width="stretch")
+    series=pd.DataFrame(res["medias_teste_ano"])[["ano_n","observado","estimado"]].melt("ano_n",var_name="Série",value_name="valor")
+    st.altair_chart(alt.Chart(series).mark_line(point=True).encode(x=alt.X("ano_n:O",title="Ano"),y=alt.Y("valor:Q",title="Resultado (R$ milhões)",axis=alt.Axis(format=",.2f")),color="Série:N",tooltip=["ano_n:O","Série:N",alt.Tooltip("valor:Q",format=",.2f")]).configure(locale=LOCALE),width="stretch")
     st.json(res["diagnostico"],expanded=False)
     st.caption("Coeficientes monetários: variação no resultado em milhões por milhão da explicativa; ano compara com Ano 1, mantendo demais variáveis. IC agrupado por trajetória.")
     st.warning("Associação contemporânea entre projeções simuladas; não é previsão futura nem causalidade. Receita e custos integram parcialmente a identidade contábil.")
+    st.caption("O resultado líquido reúne sete parcelas contábeis. O modelo usa apenas receita, custos e ano: o ajuste alto reflete parte dessa ligação e tendências comuns. O produto de taxas tributárias agregadas (cerca de 0,601 na base) é uma comparação descritiva; não demonstra o significado do coeficiente parcial de receita nem causalidade.")
 
 def dinheiro(v):
     if v is None or pd.isna(v): return "Indisponível"
@@ -58,11 +63,12 @@ def dinheiro(v):
 def resetar():
     for k,v in {"desconto":0.0,"custo_delta":0.0,"volume":10000.0,"meta":0.0}.items():
         st.session_state[k]=v
+    st.session_state.pop("meta_pct",None)
 
 inicio=time.perf_counter()
 caminho=os.environ.get("CTI_BASE_LOCAL","")
 arquivo_agregados=Path(os.environ.get("CTI_AGREGADOS") or ROOT/ag.ARQUIVO)
-modo="local" if caminho else "agregados" if arquivo_agregados.is_file() else "ficticio"
+modo="ficticio" if os.environ.get("CTI_DEMO")=="1" else "local" if caminho else "agregados"
 base=agg=None
 try:
     if modo=="agregados":
@@ -196,14 +202,19 @@ with sensibilidade:
     desconto=cols[0].slider("Desconto na receita (%)",0.0,100.0,0.0,key="desconto")/100
     delta=cols[1].slider("Variação dos custos (%)",-100.0,200.0,0.0,key="custo_delta")/100
     volume=cols[0].number_input("Quantidade hipotética de transações no ano",min_value=1.0,value=10000.0,key="volume")
-    meta=cols[1].number_input("Meta acadêmica de margem após custos (R$)",value=0.0,key="meta")
+    referencia_pct=(r+c)/r*100 if r else 0.0
+    alvo_pct=cols[1].number_input("Meta acadêmica de margem (% da receita original)",min_value=-200.0,max_value=100.0,value=float(referencia_pct),key="meta_pct")
+    meta=meta_percentual(r,c,alvo_pct/100)
+    st.caption(f"Meta em valor: {dinheiro(meta)}. Referência original: {numero(referencia_pct)}%. O percentual é uma hipótese do exercício, aplicada à receita original; mantém a comparação após desconto.")
     try:
         resultado=simular(r,c,desconto,delta,volume,meta)
         a,b,d=st.columns(3)
         a.metric("Margem simulada",dinheiro(resultado["margem"]),dinheiro(resultado["variacao_margem"]))
         b.metric("Ticket simulado por transação",dinheiro(resultado["ticket_simulado"]))
         d.metric("Desvio da meta acadêmica",dinheiro(resultado["desvio_meta"]))
-        st.dataframe(pd.DataFrame({"Medida":["Receita","Custos assinados","Margem após custos"],"Referência":[r,c,r+c],"Simulação":[resultado["receita"],resultado["custo"],resultado["margem"]]}),hide_index=True,width="stretch")
+        comparacao=pd.DataFrame({"Medida":["Receita","Custos assinados","Margem após custos"],"Referência":[r,c,r+c],"Simulação":[resultado["receita"],resultado["custo"],resultado["margem"]]})
+        for col in ["Referência","Simulação"]: comparacao[col]=comparacao[col].map(dinheiro)
+        st.dataframe(comparacao,hide_index=True,width="stretch")
         st.caption("Ticket = receita simulada / quantidade hipotética. Meta e quantidade são entradas acadêmicas, não observações ou metas da CTI.")
     except ValueError as exc: st.warning(str(exc))
 with regressao:
@@ -240,7 +251,7 @@ with metodologia:
         st.write(f"Arquivo de agregados: versão {agg['schema']}, gerado em {data_hora(agg['gerado_em_utc'])} (horário de Brasília). "
                  f"SHA-256 da entrada CTI: {origem.get('entrada_sha256') or 'não informado'}. "
                  f"Corresponde à referência da E1: {'sim' if origem.get('corresponde_referencia_E1') is True else 'não comprovado'}.")
-    st.write("Versão do contrato: e2-v1. Versão da entrega: E2, 05/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
+    st.write("Versão do contrato: e2-v1. Versão da entrega: E2, 06/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
     st.write("A base bruta é preservada. A preparação valida chaves e identidades; a entrada E2 confere os 12 anos por cenário e a marcação de trajetórias repetidas.")
     st.write("Contas são agregadas por média dentro de cada ano. Não somamos saldos patrimoniais ao longo dos anos. Dados ausentes permanecem indisponíveis.")
     st.write("Distribuição: percentis P5, P25, P50, P75 e P95 de cada indicador entre os cenários do recorte, ano a ano, e parcela dos cenários abaixo de um limite. São agregados; nenhum cenário individual é exibido. A distribuição aos acionistas é uma saída de caixa e aparece como valor pago.")

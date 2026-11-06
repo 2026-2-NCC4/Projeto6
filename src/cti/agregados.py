@@ -94,7 +94,7 @@ def salvar(agregados, caminho=ARQUIVO):
     # Junta numa linha só as listas sem texto (as séries); a lista de regras fica como está.
     texto = re.sub(r"\[[^\[\]{}\"]*\]",
                    lambda m: "[" + ", ".join(x.strip() for x in m.group(0)[1:-1].split(",")) + "]", texto)
-    caminho.write_text(texto + "\n", encoding="utf-8")
+    caminho.write_text(texto + "\n", encoding="utf-8", newline="\n")
     return caminho
 
 
@@ -106,26 +106,63 @@ def validar_agregados(agregados):
     """Confere versão, populações, anos, séries completas e percentis em ordem; erro claro se não."""
     if not isinstance(agregados, dict) or agregados.get("schema") != SCHEMA:
         raise ValueError("Arquivo de agregados ausente ou de versão desconhecida.")
+    def campos(obj, permitidos, nome):
+        if not isinstance(obj, dict) or set(obj) != set(permitidos):
+            raise ValueError(f"Campos ausentes ou inesperados: {nome}.")
+    campos(agregados, ["schema", "gerado_em_utc", "origem", "regras", "populacoes"], "arquivo")
+    if not isinstance(agregados["origem"], dict):
+        raise ValueError("Metadados de origem inválidos.")
+    if not isinstance(agregados["regras"], list) or not all(isinstance(x,str) for x in agregados["regras"]):
+        raise ValueError("Regras inválidas.")
+    try:
+        data = datetime.fromisoformat(agregados["gerado_em_utc"])
+        if data.tzinfo is None: raise ValueError("Data sem fuso.")
+    except (TypeError, ValueError):
+        raise ValueError("Data de geração inválida.") from None
+    origem = agregados["origem"]
+    if set(origem) - {"base", "sha256_base", "entrada_sha256", "corresponde_referencia_E1", "schema_base", "descricao"}:
+        raise ValueError("Campo inesperado na origem.")
+    if origem.get("corresponde_referencia_E1") is True:
+        from .dados import HASH_REFERENCIA
+        if origem.get("entrada_sha256") != HASH_REFERENCIA or origem.get("schema_base") != "e2-v1":
+            raise ValueError("Origem declarada incompatível com a referência E1.")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(origem.get("sha256_base", ""))):
+            raise ValueError("Hash da base inválido.")
     populacoes = agregados.get("populacoes")
     if not isinstance(populacoes, dict):
         raise ValueError("Arquivo de agregados sem populações.")
+    campos(populacoes, POPULACOES, "populações")
     for nome in POPULACOES:
         pop = populacoes.get(nome)
         if not isinstance(pop, dict) or pop.get("anos") != ANOS:
             raise ValueError(f"População {nome} ausente ou sem os anos 1 a 12.")
         if not isinstance(pop.get("cenarios"), int) or isinstance(pop["cenarios"], bool) or pop["cenarios"] < 1:
             raise ValueError(f"População {nome} sem número de cenários.")
+        campos(pop, ["cenarios", "anos", "medias", "distribuicao"], nome)
         medias, dist = pop.get("medias") or {}, pop.get("distribuicao") or {}
+        campos(medias, CONTAS_MEDIAS, "médias")
+        campos(dist, CONTAS_DISTRIBUICAO, "distribuição")
+        for conta in CONTAS_DISTRIBUICAO:
+            campos(dist[conta], ["n", "media", *GRADE], conta)
         series = [medias.get(c) for c in CONTAS_MEDIAS]
         series += [(dist.get(c) or {}).get(k) for c in CONTAS_DISTRIBUICAO for k in ["n", "media", *GRADE]]
         if any(not isinstance(s, list) or len(s) != len(ANOS) or not all(map(_numero_ou_nulo, s)) for s in series):
             raise ValueError(f"População {nome} com série anual ausente, incompleta ou não numérica.")
         for conta in CONTAS_DISTRIBUICAO:
+            d = dist[conta]
+            for i,n in enumerate(d["n"]):
+                if not isinstance(n,int) or isinstance(n,bool) or not 0 <= n <= pop["cenarios"]:
+                    raise ValueError("Contagem de cenários inválida.")
+                valores = [d[k][i] for k in ["media", *GRADE]]
+                if (n == 0 and any(v is not None for v in valores)) or (n > 0 and any(v is None for v in valores)):
+                    raise ValueError("Ausências e contagens inconsistentes.")
             grade = np.array([_serie(dist[conta][q]) for q in GRADE])  # 99 percentis x 12 anos
             passos = np.diff(grade, axis=0)
             folga = 1e-9 * np.maximum(1.0, np.abs(grade[:-1]))
             if (passos < -folga).any():
                 raise ValueError(f"Percentis fora de ordem em {conta} ({nome}).")
+    if populacoes["sem_copias"]["cenarios"] > populacoes["todos"]["cenarios"]:
+        raise ValueError("População sem cópias maior que a população original.")
     return agregados
 
 

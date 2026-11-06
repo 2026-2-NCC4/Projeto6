@@ -124,6 +124,7 @@ def test_distribuicao_ordenada(base):
     assert (p.P5<=p.P25).all() and (p.P25<=p.P50).all() and (p.P50<=p.P75).all() and (p.P75<=p.P95).all()
 
 def test_interface(monkeypatch,tmp_path):
+    monkeypatch.setenv("CTI_DEMO","1")
     from streamlit.testing.v1 import AppTest
     monkeypatch.delenv("CTI_BASE_LOCAL",raising=False)
     monkeypatch.setenv("CTI_AGREGADOS",str(tmp_path/"ausente.json"))  # sem agregados: demonstração fictícia

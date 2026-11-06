@@ -44,6 +44,21 @@ def metricas(y,p):
             "RMSE_milhoes":float(np.sqrt(mean_squared_error(y,p))),
             "R2":float(r2_score(y,p))}
 
+def identidade_contabil(base):
+    """Auditoria descritiva, sem interpretar razões agregadas como coeficiente estrutural."""
+    contas=["DRE - Receita","DRE - Tributos","DRE - Custos","DRE - Depreciação e Amortização",
+            "DRE - Resultado Financeiro","DRE - Outros Resultados Operacionais",
+            "DRE - Imposto de Renda e Contribuição Social"]
+    res=(base[contas].sum(axis=1,min_count=len(contas))-base["DRE - Resultado Líquido"]).abs()
+    receita=base["DRE - Receita"].sum()
+    antes=base["DRE - Resultado Antes do Imposto de Renda"].sum()
+    t=-base[contas[1]].sum()/receita if receita else None
+    ir=-base[contas[-1]].sum()/antes if antes else None
+    return {"parcelas":contas,"residuo_max_reais":float(res.max()),
+            "linhas_comparaveis":int(res.notna().sum()),"tributos_razao_somas":t,"IR_razao_somas":ir,
+            "produto_taxas_agregadas":(1-t)*(1-ir) if t is not None and ir is not None else None,
+            "interpretacao":"A identidade completa contém sete parcelas. O modelo parcial não usa todas elas. O produto de taxas agregadas é comparação descritiva, não prova de mecanismo causal ou do coeficiente OLS; omissão de parcelas e controle de ano influenciam os coeficientes."}
+
 def executar(base, unicas=False, incluir_encerramento=False):
     validar(base)
     b = base.loc[(~base.copia_excedente if unicas else pd.Series(True,index=base.index)) &
@@ -100,6 +115,7 @@ def executar(base, unicas=False, incluir_encerramento=False):
         "particoes":{k:{"linhas":len(v),"grupos":int(g.iloc[v].nunique()),
                        "sha_grupos":hashlib.sha256("\n".join(sorted(set(g.iloc[v]))).encode()).hexdigest()} for k,v in idx.items()},
         "intersecao_grupos":0, "validacao":candidatos,
+        "identidade_contabil":identidade_contabil(b),
         "teste":metricas(te.resultado_milhoes,p),"baseline_teste":metricas(te.resultado_milhoes,baseline),
         "R2_treino":float(mod.rsquared),"coeficientes":coefs.to_dict(orient="records"),
         "diagnostico":{"breusch_pagan_LM":float(bp[0]),"breusch_pagan_p_exploratorio":float(bp[1]),
