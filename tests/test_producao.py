@@ -32,3 +32,26 @@ def test_producao_nao_cai_em_ficticio(monkeypatch,tmp_path):
     app=AppTest.from_file(str(Path("app/app.py").resolve()),default_timeout=90).run()
     assert not app.exception
     assert app.error and not app.metric
+
+def test_meta_acompanha_recorte_e_restaurar_sem_aviso(monkeypatch):
+    """A meta parte da margem do ano e da população escolhidos; Restaurar não gera aviso de valor duplicado."""
+    from streamlit.testing.v1 import AppTest
+    from streamlit.elements.lib import policies
+    avisos=[]
+    monkeypatch.setattr(policies,"_shown_default_value_warning",False)  # o Streamlit só avisa uma vez por processo
+    monkeypatch.setattr(policies._LOGGER,"warning",lambda *a,**k: avisos.append(a))
+    for v in ["CTI_DEMO","CTI_BASE_LOCAL","CTI_AGREGADOS"]: monkeypatch.delenv(v,raising=False)
+    app=AppTest.from_file(str(Path("app/app.py").resolve()),default_timeout=90).run()
+    desvio=lambda: next(m.value for m in app.metric if m.label=="Desvio da meta acadêmica")
+    assert desvio()=="R$ 0,00"
+    app.selectbox(key="ano").set_value(5).run()
+    assert desvio()=="R$ 0,00"  # novo ano: meta volta à margem de referência
+    app.checkbox(key="unicas").set_value(True).run()
+    assert desvio()=="R$ 0,00"  # nova população: idem
+    app.number_input(key="meta_pct").set_value(50.0).run()
+    assert desvio()!="R$ 0,00"  # meta editada pelo usuário é mantida no mesmo recorte
+    app.slider(key="desconto").set_value(10.0).run()
+    next(b for b in app.button if b.label=="Restaurar hipóteses").click().run()
+    assert app.slider(key="desconto").value==0 and desvio()=="R$ 0,00"
+    assert not app.exception
+    assert not avisos

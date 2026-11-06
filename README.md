@@ -53,6 +53,9 @@ Validação local atualizada em 06/11/2026: 15 verificações da preparação e 
 
 **Produção:** Streamlit Community Cloud, agregados reais CTI autorizados pelo grupo; configuração preparada, URL externa ainda não verificada. A aprovação acadêmica da plataforma permanece pendente. A execução local não substitui o requisito de nuvem.
 
+### Revisão E2 em 06/11/2026
+37 testes aprovados; contrato de agregados reforçado, modo CTI real por padrão e demo explícita. Pipeline real reexecutado, 216 KPIs e 24 identidades conferidos. Interpretação contábil da regressão incorporada ao notebook e às evidências. O estado da publicação externa está no documento de execução; preparação local não equivale a URL publicada.
+
 ## Estrutura de pastas
 
 ```text
@@ -173,6 +176,3 @@ A [planilha de validação financeira](documentos/Entrega%201/Contabilidade%20e%
 is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" width="20" height="20" valign="middle"></p>
 
 Os dados fornecidos pela CTI não estão incluídos nesta licença. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
-
-### Revisão E2 em 06/11/2026
-37 testes aprovados; contrato de agregados reforçado, modo CTI real por padrão e demo explícita. Pipeline real reexecutado, 216 KPIs e 24 identidades conferidos. Interpretação contábil da regressão incorporada ao notebook e às evidências. O estado da publicação externa está no documento de execução; preparação local não equivale a URL publicada.

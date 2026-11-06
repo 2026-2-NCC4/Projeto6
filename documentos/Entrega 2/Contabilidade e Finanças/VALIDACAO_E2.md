@@ -3,7 +3,7 @@
 Referência independente: dicionário e planilha avaliados na E1, preservados.
 Implementação única: `src/cti/indicadores.py`. Agregação: média de cada conta por ano e depois razão dos componentes. Nunca somar cenários alternativos.
 
-Execução CTI em 05/11:
+Execução CTI em 05/11, repetida em 06/11 com o mesmo resultado:
 - 216 KPIs: 161 numéricos e 55 estados indisponíveis/pendentes, sem divergências.
 - 24 identidades de balanço aprovadas.
 - 168 células de entrada: 165 números e três ausências conferidos.
@@ -15,10 +15,10 @@ Verificação privada exige a mesma fonte E1; sem a base, os testes fictícios c
 
 Novas regras:
 - Ticket = receita simulada / quantidade hipotética positiva, no mesmo ano.
-- Meta é um percentual acadêmico editável da receita original, convertido em R$. O padrão é a margem original; desvio = margem simulada menos meta. Não representa orçamento da CTI.
-- Receita simulada = R × (1 − desconto); custo assinado = C × (1 + variação).
+- Meta é um percentual acadêmico editável da receita original, convertido em reais. O padrão é a margem original do ano e da população selecionados: a meta volta a esse padrão quando o recorte muda e em Restaurar hipóteses. Desvio = margem simulada menos meta. Não representa orçamento da CTI.
+- Receita simulada = R × (1 - desconto); custo assinado = C × (1 + variação).
 - Margem = receita + custo; não substituir resultado líquido, tributos ou EBITDA por essa margem parcial.
-- Exemplo fictício independente: R=100, C=−60, desconto=10%, custo=+20%, volume=10, meta=20 → margem18, ticket9, desvio−2.
+- Exemplo fictício independente: R=100, C=-60, desconto=10%, custo=+20%, volume=10 e meta=20 resultam em margem 18, ticket 9 e desvio de -2.
 - Zeros, ausências, limites e sinais inválidos têm teste de falha; não são convertidos silenciosamente para zero.
 
-CAC R$4.000, LTV R$45.000 e taxa10% mantêm as hipóteses E1. MVA segue indisponível sem valor de mercado. Ver PDF para unidades, fórmulas e interpretação.
+CAC de 4.000 reais, LTV de 45.000 reais e taxa de 10% mantêm as hipóteses E1. MVA segue indisponível sem valor de mercado. Ver PDF para unidades, fórmulas e interpretação.

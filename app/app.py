@@ -58,12 +58,15 @@ def mostrar_regressao(res):
 
 def dinheiro(v):
     if v is None or pd.isna(v): return "Indisponível"
+    v=round(float(v),2)+0.0  # evita "R$ -0,00" por resíduo de arredondamento
     return ("R$ {:,.2f}".format(v)).replace(",","X").replace(".",",").replace("X",".")
 
+HIPOTESES={"desconto":0.0,"custo_delta":0.0,"volume":10000.0}
+
 def resetar():
-    for k,v in {"desconto":0.0,"custo_delta":0.0,"volume":10000.0,"meta":0.0}.items():
-        st.session_state[k]=v
-    st.session_state.pop("meta_pct",None)
+    """Volta às hipóteses padrão; a meta volta à margem de referência do ano e da população atuais."""
+    st.session_state.update(HIPOTESES)
+    st.session_state.pop("meta_contexto",None)
 
 inicio=time.perf_counter()
 caminho=os.environ.get("CTI_BASE_LOCAL","")
@@ -200,15 +203,22 @@ with sensibilidade:
     st.subheader("Desconto, custo e meta")
     st.caption(f"Referência: Ano {ano}, mesma população dos cartões. Volume e demais contas constantes. Não recalcula tributos, EBITDA ou lucro líquido.")
     st.button("Restaurar hipóteses",on_click=resetar)
+    # Padrões entram pelo Session State, e os controles não recebem value=: assim o Restaurar não gera o
+    # aviso de valor duplicado do Streamlit.
+    for k,v in HIPOTESES.items(): st.session_state.setdefault(k,v)
+    referencia_pct=(r+c)/r*100 if r>0 else 0.0
+    if st.session_state.get("meta_contexto")!=(ano,populacao):
+        # Novo ano ou nova população: a meta volta à margem de referência desse recorte.
+        st.session_state["meta_pct"]=min(100.0,max(-200.0,float(referencia_pct)))
+        st.session_state["meta_contexto"]=(ano,populacao)
     cols=st.columns(2)
-    desconto=cols[0].slider("Desconto na receita (%)",0.0,100.0,0.0,key="desconto")/100
-    delta=cols[1].slider("Variação dos custos (%)",-100.0,200.0,0.0,key="custo_delta")/100
-    volume=cols[0].number_input("Quantidade hipotética de transações no ano",min_value=1.0,value=10000.0,key="volume")
-    referencia_pct=(r+c)/r*100 if r else 0.0
-    alvo_pct=cols[1].number_input("Meta acadêmica de margem (% da receita original)",min_value=-200.0,max_value=100.0,value=float(referencia_pct),key="meta_pct")
-    meta=meta_percentual(r,c,alvo_pct/100)
-    st.caption(f"Meta em valor: {dinheiro(meta)}. Referência original: {numero(referencia_pct)}%. O percentual é uma hipótese do exercício, aplicada à receita original; mantém a comparação após desconto.")
+    desconto=cols[0].slider("Desconto na receita (%)",0.0,100.0,key="desconto")/100
+    delta=cols[1].slider("Variação dos custos (%)",-100.0,200.0,key="custo_delta")/100
+    volume=cols[0].number_input("Quantidade hipotética de transações no ano",min_value=1.0,key="volume")
+    alvo_pct=cols[1].number_input("Meta acadêmica de margem (% da receita original)",min_value=-200.0,max_value=100.0,key="meta_pct")
     try:
+        meta=meta_percentual(r,c,alvo_pct/100)
+        st.caption(f"Meta em valor: {dinheiro(meta)}. Referência original: {numero(referencia_pct)}%. O percentual é uma hipótese do exercício, aplicada à receita original; mantém a comparação após desconto. Ao trocar o ano ou a população, a meta volta à margem de referência.")
         resultado=simular(r,c,desconto,delta,volume,meta)
         a,b,d=st.columns(3)
         a.metric("Margem simulada",dinheiro(resultado["margem"]),dinheiro(resultado["variacao_margem"]))
