@@ -204,3 +204,6 @@ CLAUDE.md
 # Segredos de publicação Streamlit (a configuração visual é versionada)
 .streamlit/secrets.toml
 .streamlit/secrets.*.toml
+
+# Cache dos testes automatizados (pytest)
+.pytest_cache/

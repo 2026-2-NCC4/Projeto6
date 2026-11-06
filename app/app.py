@@ -4,6 +4,7 @@ import sys
 import os
 import time
 import json
+import altair as alt
 import pandas as pd
 import streamlit as st
 
@@ -14,6 +15,11 @@ from src.cti.recortes import filtrar, medias_anuais
 from src.cti.indicadores import calcular, tabela
 from src.cti.sensibilidade import simular
 from src.cti.regressao import executar
+from src.cti.distribuicao import CONTAS as CONTAS_DIST, percentis_anuais, proporcao_abaixo
+from src.cti.formatacao import numero, reais_mi, valor_kpi
+
+# Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
+LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
 
 st.set_page_config(page_title="CTI | Planejamento financeiro",page_icon="📊",layout="wide")
 st.markdown("<style>.block-container{max-width:1350px;padding-top:2rem} div[data-testid='stMetric']{border:1px solid #94a3b8;border-radius:10px;padding:12px} div[data-testid='stMetricValue']{font-size:1.3rem}</style>",unsafe_allow_html=True)
@@ -59,10 +65,10 @@ if medias.empty:
     st.warning("Não há dados para esse recorte."); st.stop()
 ano=st.sidebar.selectbox("Ano dos cartões e da simulação",list(medias.index),index=len(medias)-1,key="ano")
 contas=medias.loc[ano]
-st.sidebar.caption(f"{recorte.cenario.nunique():,} cenários · {len(recorte):,} linhas. Cartões: Ano {ano}.")
+st.sidebar.caption(f"{numero(recorte.cenario.nunique(),0)} cenários · {numero(len(recorte),0)} linhas. Cartões: Ano {ano}.")
 if ano == 12: st.warning("Ano 12: encerramento. Contas ausentes e indicadores patrimoniais indisponíveis são preservados.")
 st.caption("Média de cada conta entre cenários por ano; razões calculadas depois das médias. Cenários alternativos não são somados.")
-overview,financeiro,sensibilidade,regressao,metodologia=st.tabs(["Visão geral","Financeiro","Sensibilidade","Regressão","Metodologia"])
+overview,distribuicao,financeiro,sensibilidade,regressao,metodologia=st.tabs(["Visão geral","Distribuição","Financeiro","Sensibilidade","Regressão","Metodologia"])
 
 with overview:
     r=float(contas["DRE - Receita"]); c=float(contas["DRE - Custos"])
@@ -72,16 +78,69 @@ with overview:
     for inicio_linha in (0,3):
         linha=indicadores[inicio_linha:inicio_linha+3]
         for col,(nome,v) in zip(st.columns(len(linha)),linha):
-            col.metric(nome,dinheiro(v/1e6)+" mi")
+            col.metric(nome,reais_mi(v))
     st.caption("Cartões em milhões de reais. Custos têm o sinal invertido para apresentação; margem = receita + custo assinado. Valores completos na tabela abaixo.")
     st.subheader("Evolução anual da população selecionada")
-    st.line_chart(medias[["DRE - Receita","DRE - Resultado Líquido","FLU - Geração de Caixa"]].rename(columns=lambda x:x.split(" - ",1)[1]),x_label="Ano",y_label="R$ (convenção acadêmica)")
+    series={"DRE - Receita":"Receita","DRE - Resultado Líquido":"Resultado líquido","FLU - Geração de Caixa":"Geração de caixa"}
+    evolucao=(medias[list(series)].rename(columns=series).div(1e6).rename_axis("ano").reset_index()
+              .melt("ano",var_name="Indicador",value_name="valor"))
+    grafico=alt.Chart(evolucao).mark_line(point=True).encode(
+        x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("valor:Q",title="R$ milhões (média entre cenários)",axis=alt.Axis(format=",.0f")),
+        color=alt.Color("Indicador:N",title=None,legend=alt.Legend(orient="bottom")),
+        tooltip=[alt.Tooltip("ano:O",title="Ano"),"Indicador:N",alt.Tooltip("valor:Q",title="R$ milhões",format=",.2f")])
+    st.altair_chart(grafico.configure(locale=LOCALE),width="stretch")
     st.caption("Margem após custos exclui tributos e demais despesas; não equivale a lucro líquido.")
-    st.dataframe(medias[["DRE - Receita","DRE - Custos","DRE - Resultado Líquido","FLU - Geração de Caixa"]],width="stretch")
+    st.dataframe(pd.DataFrame({"Ano":[int(a) for a in medias.index],
+                               **{nome:[reais_mi(v) for v in medias[conta]] for conta,nome in
+                                  {"DRE - Receita":"Receita","DRE - Custos":"Custos (assinado)",
+                                   "DRE - Resultado Líquido":"Resultado líquido","FLU - Geração de Caixa":"Geração de caixa"}.items()}}),
+                 width="stretch",hide_index=True)
+with distribuicao:
+    st.subheader("Distribuição entre os cenários")
+    st.caption("Os cenários são futuros alternativos simulados para a mesma concessão. A faixa mostra como eles se espalham em cada ano; não é intervalo de confiança nem probabilidade real.")
+    rotulos={v[0]:k for k,v in CONTAS_DIST.items()}
+    nome_dist=st.selectbox("Indicador",list(rotulos),index=list(rotulos).index("Geração de caixa"),key="conta_dist")
+    pct=percentis_anuais(recorte,rotulos[nome_dist])
+    if pct.empty:
+        st.warning("Não há valores desse indicador no recorte.")
+    else:
+        faixa=pct.copy()
+        colunas_mi=["P5","P25","P50","P75","P95","media"]
+        faixa[colunas_mi]=faixa[colunas_mi]/1e6
+        faixa=faixa.rename_axis("ano").reset_index()
+        base_graf=alt.Chart(faixa).encode(x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)))
+        eixo_y=alt.Axis(format=",.0f")
+        grafico=alt.layer(
+            base_graf.mark_area(opacity=.18,color="#176b87").encode(y=alt.Y("P5:Q",title="R$ milhões",axis=eixo_y),y2="P95:Q"),
+            base_graf.mark_area(opacity=.38,color="#176b87").encode(y="P25:Q",y2="P75:Q"),
+            base_graf.mark_line(point=True,color="#0b3c49").encode(y="P50:Q",
+                tooltip=[alt.Tooltip("ano:O",title="Ano"),
+                         *[alt.Tooltip(f"{q}:Q",title=f"{q} (R$ mi)",format=",.2f") for q in ["P5","P25","P50","P75","P95"]],
+                         alt.Tooltip("media:Q",title="Média (R$ mi)",format=",.2f"),alt.Tooltip("n:Q",title="Cenários")]),
+            base_graf.mark_line(strokeDash=[5,4],color="#b45309").encode(y="media:Q"))
+        st.altair_chart(grafico.configure(locale=LOCALE),width="stretch")
+        st.caption("Faixa clara: 90% centrais dos cenários (P5 a P95). Faixa escura: 50% centrais (P25 a P75). Linha contínua: mediana. Linha tracejada: média, a mesma usada nos cartões.")
+        if ano in pct.index:
+            linha_ano=pct.loc[ano]
+            st.dataframe(pd.DataFrame({"Medida":["P5","P25","Mediana (P50)","P75","P95","Média","Cenários"],
+                                       f"Ano {ano}":[*[reais_mi(linha_ano[q]) for q in ["P5","P25","P50","P75","P95","media"]],numero(linha_ano["n"],0)]}),
+                         hide_index=True,width="stretch")
+        st.markdown("**Risco: cenários abaixo de um limite**")
+        limite=st.number_input("Limite (R$ milhões)",value=0.0,step=100.0,key="limite_dist")
+        prop=proporcao_abaixo(recorte,rotulos[nome_dist],limite*1e6)
+        if ano in prop.index:
+            st.metric(f"Cenários com {nome_dist.lower()} abaixo de R$ {numero(limite)} mi · Ano {ano}",f"{numero(prop.loc[ano]*100,1)}%")
+        barras=alt.Chart(prop.rename_axis("ano").reset_index()).mark_bar(color="#176b87").encode(
+            x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)),y=alt.Y("proporcao:Q",title="Parcela dos cenários",axis=alt.Axis(format=".0%"),scale=alt.Scale(domain=[0,1])),
+            tooltip=[alt.Tooltip("ano:O",title="Ano"),alt.Tooltip("proporcao:Q",title="Parcela",format=".1%")])
+        st.altair_chart(barras.configure(locale=LOCALE),width="stretch")
+        st.caption("Parcela dos cenários simulados de cada ano com valor abaixo do limite. Mede a frequência na simulação, não uma probabilidade observada.")
 with financeiro:
     st.subheader(f"Indicadores · Ano {ano}")
     st.caption("Mesmas regras da planilha E1. Premissas: CAC R$ 4.000, LTV R$ 45.000, custo do capital próprio 10% a.a.")
-    tab=pd.DataFrame([k.__dict__ for k in calcular(contas)])
+    tab=pd.DataFrame([{"Indicador":k.nome,"Valor":valor_kpi(k.valor,k.unidade,k.estado),"Unidade":k.unidade,
+                       "Fórmula":k.formula,"Situação":k.estado} for k in calcular(contas)])
     st.dataframe(tab,width="stretch",hide_index=True)
     st.info("PC com sinal não negativo permanece pendente. Estoques, PL e ELP ausentes não são tratados como zero. EBITDA fornecido não foi reconciliado.")
     st.caption("Ticket e metas acadêmicas estão na aba Sensibilidade. MVA indisponível sem valor de mercado; custos variáveis são hipótese simplificada.")
@@ -129,6 +188,7 @@ with metodologia:
     st.write("Versão do contrato: e2-v1. Versão da entrega: E2, 05/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
     st.write("A base bruta é preservada. A preparação valida chaves e identidades; a entrada E2 confere os 12 anos por cenário e a marcação de trajetórias repetidas.")
     st.write("Contas são agregadas por média dentro de cada ano. Não somamos saldos patrimoniais ao longo dos anos. Dados ausentes permanecem indisponíveis.")
+    st.write("Distribuição: percentis P5, P25, P50, P75 e P95 de cada indicador entre os cenários do recorte, ano a ano, e parcela dos cenários abaixo de um limite. São agregados; nenhum cenário individual é exibido. A distribuição aos acionistas é uma saída de caixa e aparece como valor pago.")
     st.write("Sensibilidade: R' = R × (1 − desconto); C' = C × (1 + variação); margem = R' + C'. Controles limitam desconto a 0–100% e custo a −100–200% para evitar custos com sinal invertido.")
     st.write("Fonte institucional: enunciado FINAL FECAP. Biblioteca financeira compartilhada com testes independentes contra a planilha E1.")
     st.link_button("Código e documentação","https://github.com/2026-2-NCC4/Projeto6")

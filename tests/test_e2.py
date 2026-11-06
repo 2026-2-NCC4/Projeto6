@@ -9,6 +9,8 @@ from src.cti.recortes import filtrar, medias_anuais
 from src.cti.indicadores import calcular
 from src.cti.sensibilidade import simular
 from src.cti.regressao import executar, separar, grupos
+from src.cti.distribuicao import percentis_anuais, proporcao_abaixo
+from src.cti.formatacao import numero, reais_mi, percentual, valor_kpi
 from src import prepara
 
 @pytest.fixture(scope="module")
@@ -89,6 +91,36 @@ def test_modelo(base):
     assert res["teste"]["RMSE_milhoes"]<res["baseline_teste"]["RMSE_milhoes"]
     assert len(res["medias_teste_ano"])==11
 
+def test_formatacao_padrao_brasileiro():
+    assert numero(1234567.891)=="1.234.567,89"
+    assert numero(-1234.5)=="-1.234,50"
+    assert numero(1200,0)=="1.200"
+    assert numero(None)=="Indisponível" and numero(float("nan"))=="Indisponível"
+    assert reais_mi(9_722_980_000)=="R$ 9.722,98 mi"
+    assert percentual(.4362)=="43,62%"
+    assert valor_kpi(4000,"R$ por cliente")=="R$ 4.000"
+    assert valor_kpi(1.583,"índice")=="1,58"
+    assert valor_kpi(None,"%","pendente: PC com sinal positivo")=="Pendente: PC com sinal positivo"
+
+def test_distribuicao_valores_conhecidos():
+    b=pd.DataFrame({"ano_n":[1,1,1,1,2,2,2,2],
+                    "DRE - Receita":[1.,2.,3.,4.,10.,20.,30.,np.nan],
+                    "FLU - Distribuição para Acionista":[-1.,-2.,-3.,-4.,-5.,-6.,-7.,-8.]})
+    p=percentis_anuais(b,"DRE - Receita")
+    assert p.loc[1,"P50"]==pytest.approx(2.5) and p.loc[1,"media"]==pytest.approx(2.5)
+    assert p.loc[1,"P5"]==pytest.approx(1.15) and p.loc[1,"P95"]==pytest.approx(3.85)
+    assert p.loc[2,"n"]==3 and p.loc[2,"media"]==pytest.approx(20)  # ausência não vira zero
+    d=percentis_anuais(b,"FLU - Distribuição para Acionista")
+    assert d.loc[1,"P50"]==pytest.approx(2.5)  # saída de caixa exibida como valor pago
+    prop=proporcao_abaixo(b,"DRE - Receita",3)
+    assert prop.loc[1]==pytest.approx(.5) and prop.loc[2]==pytest.approx(0)
+    with pytest.raises(ValueError): percentis_anuais(b,"DRE - Custos")
+
+def test_distribuicao_ordenada(base):
+    p=percentis_anuais(base,"DRE - Resultado Líquido")
+    assert len(p)==12 and (p.n==30).all()
+    assert (p.P5<=p.P25).all() and (p.P25<=p.P50).all() and (p.P50<=p.P75).all() and (p.P75<=p.P95).all()
+
 def test_interface(monkeypatch):
     from streamlit.testing.v1 import AppTest
     monkeypatch.delenv("CTI_BASE_LOCAL",raising=False)
@@ -96,6 +128,9 @@ def test_interface(monkeypatch):
     assert not app.exception
     assert len(app.metric)>=8
     app.slider(key="desconto").set_value(10.).run()
+    assert not app.exception
+    app.selectbox(key="conta_dist").set_value("Resultado líquido").run()
+    app.number_input(key="limite_dist").set_value(100.).run()
     assert not app.exception
     app.checkbox(key="unicas").set_value(True).run()
     assert not app.exception
