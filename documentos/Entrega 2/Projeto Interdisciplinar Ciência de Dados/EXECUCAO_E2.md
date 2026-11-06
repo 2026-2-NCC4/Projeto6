@@ -29,7 +29,7 @@ $env:CTI_BASE_LOCAL = (Resolve-Path "src/data/processed/e2/base_analitica.parque
 python -m streamlit run app/app.py
 ```
 
-Para voltar à demonstração, feche o painel e remova somente essa variável:
+Para voltar à produção agregada, feche o painel e remova somente essa variável:
 ```powershell
 Remove-Item Env:CTI_BASE_LOCAL -ErrorAction SilentlyContinue
 ```
@@ -69,16 +69,28 @@ A geração lê evidencias_e2.json e as fórmulas compartilhadas; requer reportl
 ## Publicação provisória
 
 Destino: Streamlit Community Cloud, com agregados reais CTI autorizados por Lúcio em 06/11. Aprovação acadêmica da plataforma ainda não informada.
-- Repositório `2026-2-NCC4/Projeto6`; branch `main`.
+- Repositório de hospedagem `lucio734/Projeto6`; branch `main`, sincronizada com a main oficial `2026-2-NCC4/Projeto6` antes de cada publicação.
 - Arquivo de entrada `app/app.py`; Python 3.13.
 - Dependências em `app/requirements.txt`, sem pywinpty.
 - Nenhum segredo ou arquivo privado necessário.
 - Conferir início limpo, filtros, cinco KPIs, simulação, regressão e CSV agregado real por sessão independente.
 - Registrar a URL e o commit efetivamente publicado após o teste externo.
 
-**Estado: publicação ainda não verificada.** Instruções de deploy não substituem URL funcional.
+**URL pública verificada:** https://projeto6cti.streamlit.app/ — acesso sem login, seis abas e CSV conferidos em 06/11/2026. Logs internos de instalação não foram auditados; não confundir o teste funcional externo com inspeção de logs.
 
 ## Atualização de 06/11/2026
 Produção real agregada como padrão; demonstração somente com CTI_DEMO=1. Contrato valida origem, contagens e ausências. Meta acadêmica é percentual da receita original; padrão igual à margem original. Ticket usa quantidade hipotética. A versão local usa dados reais; publicação externa exige URL acessível e commit conferido.
 
-Cópia pessoal de publicação: https://github.com/lucio734/Projeto6, para hospedar a mesma versão oficial sem alterar permissões do grupo. URL externa ainda não verificada: a ferramenta de navegador ficou indisponível durante a configuração. Linux não testado nesta etapa.
+Cópia pessoal de publicação: https://github.com/lucio734/Projeto6, sincronizada com a versão oficial. O usuário concluiu a autenticação e publicou em https://projeto6cti.streamlit.app/. O GPT verificou o acesso por sessão independente.
+
+## Evidências técnicas desta revisão
+40 testes aprovados, sem falhas ou omissões, no código fcb6f7d03d4b. Pipeline CTI reexecutado sem divergências em 216 KPIs e 24 identidades; notebook reexecutado em kernel local limpo, 6/6 células sem erro. Agregados versionados conferidos contra a base reprocessada. Download CSV pelo navegador: 198 linhas (18 indicadores × 11 anos), idênticas ao cálculo do mesmo recorte. Capturas das seis abas em imagens/e2; são evidências locais.
+
+A aba Metodologia consulta o HEAD do checkout Git. Se o servidor não disponibilizar Git, informa a indisponibilidade sem inventar versão. O commit de referência dos testes/artefatos não precisa coincidir com o commit documental que os incorpora; alterações posteriores no código exigem nova verificação.
+
+Para atualizar UML, renderizar componentes.puml e sequencia.puml com PlantUML e substituir os PNG de mesmo nome antes de gerar os PDFs. Os PDFs incorporam esses PNG; não há desenho manual paralelo.
+
+## Verificação externa de 06/11/2026
+URL aberta sem login do proprietário. Seis abas acessíveis; agregados CTI reais e cinco cartões coerentes com o local. CSV público de 198 linhas igual à exportação local (Ano 1-11). Commit observado inicialmente 707af174ffc9, contendo a implementação fcb6f7d03d4b e a configuração de desenvolvimento adicionada pelo Streamlit. A configuração foi preservada e alinhada para Python 3.13 e dependências E2; execução do devcontainer não foi realizada.
+
+Imagens em imagens/e2 são capturas da URL pública; a descrição de cada PDF identifica o contexto. O commit dos documentos incorpora evidências anteriores e não exige auto-referência circular em seus próprios arquivos. A versão atual pode ser consultada na aba Metodologia. A aprovação docente da plataforma segue sem confirmação.

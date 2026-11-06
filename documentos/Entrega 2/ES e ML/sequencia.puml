@@ -1,5 +1,7 @@
 @startuml
 title CTI E2 - selecao de fonte e consulta
+skinparam defaultFontSize 16
+skinparam backgroundColor white
 actor Usuario
 participant App
 participant "dados / agregados" as Fonte
@@ -16,12 +18,13 @@ end
 alt fonte invalida
 Fonte --> App : erro de contrato
 App --> Usuario : mensagem e interrupcao
+note right of App : st.stop(): nao prossegue
 else fonte valida
 Fonte --> App : medias / percentis
 App --> Usuario : KPIs e distribuicao
-end
 Usuario -> App : alterar hipoteses
 App -> Sensibilidade : simular(R,C,desconto,custo,volume,meta)
 Sensibilidade --> App : resultado / erro
 App --> Usuario : comparacao / mensagem
+end
 @enduml

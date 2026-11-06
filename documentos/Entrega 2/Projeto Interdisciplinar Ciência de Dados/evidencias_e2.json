@@ -1,5 +1,5 @@
 {
-  "data_utc": "2026-11-06T12:57:59.938120+00:00",
+  "data_utc": "2026-11-06T21:56:09.456377+00:00",
   "modo": "CTI",
   "qualidade": {
     "contagens": {
@@ -1592,16 +1592,17 @@
       "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
     ]
   },
-  "commit_implementacao": "f2bb83637e6f66eb9494fe75516c9ddcfbf897fd",
+  "commit_implementacao": "fcb6f7d03d4b742b27daeccc31d390d163fcbd25",
   "testes": {
-    "tests": 37,
+    "tests": 40,
     "errors": 0,
     "failures": 0,
     "skipped": 0,
-    "ambiente": "Windows Python 3.13; execução real em 06/11/2026"
+    "ambiente": "Windows Python 3.13.14; execução real em 06/11/2026",
+    "duracao_segundos": 19.24
   },
   "notebook": {
-    "ambiente": "kernel local limpo",
+    "ambiente": "kernel local limpo; reexecutado em 06/11/2026",
     "celulas_executadas": 6,
     "erros": 0,
     "colab_executado": false
@@ -1610,6 +1611,27 @@
     "producao_real": true,
     "simulacao_desconto": true,
     "restauracao": true,
-    "populacao_e_encerramento": true
+    "populacao_e_encerramento": true,
+    "agregados_vs_base_reprocessada": true,
+    "metricas_vs_evidencias_anteriores": true,
+    "csv_navegador_linhas": 198,
+    "csv_vs_calculo_igual": true,
+    "abas_visuais_locais": 6,
+    "viewport_celular": [
+      390,
+      844
+    ]
+  },
+  "publicacao": {
+    "estado": "acesso_publico_validado",
+    "url": "https://projeto6cti.streamlit.app/",
+    "commit_observado": "707af174ffc9f2848aa1dabdc8bf4ff19a5465f0",
+    "commit_codigo_equivalente": "fcb6f7d03d4b742b27daeccc31d390d163fcbd25",
+    "acesso_externo_testado": true,
+    "abas": 6,
+    "csv_linhas": 198,
+    "csv_vs_local_igual": true,
+    "logs_instalacao_auditados": false,
+    "descricao": "Acesso sem login e seis abas conferidos em navegador independente em 06/11/2026. CSV público com 198 linhas idêntico ao local. Commit observado 707af174ffc9; código da aplicação equivalente ao fcb6f7d03d4b. Aprovação acadêmica da plataforma ainda não informada."
   }
 }

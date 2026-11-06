@@ -49,12 +49,14 @@ A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPI
 
 Instale `requirements-e2-dev.txt` em ambiente Python 3.13 e execute `python -m streamlit run app/app.py`. Para testes, use `python -m pytest -q`. As dependências E2 são separadas do ambiente E1.
 
-Validação local atualizada em 06/11/2026: 15 verificações da preparação e cobertura individual aprovadas; 216 KPIs e 24 identidades conferidos com a planilha E1; notebook E2 com 6/6 células sem erro em kernel local; 37 testes automatizados aprovados. A comparação com a planilha utiliza seus valores salvos, sem afirmar novo recálculo do Excel. As métricas de regressão são associativas, com limitações contábeis e temporais documentadas.
+Validação local atualizada em 06/11/2026: 15 verificações da preparação e cobertura individual aprovadas; 216 KPIs e 24 identidades conferidos com a planilha E1; notebook E2 com 6/6 células sem erro em kernel local; 40 testes automatizados aprovados. A comparação com a planilha utiliza seus valores salvos, sem afirmar novo recálculo do Excel. As métricas de regressão são associativas, com limitações contábeis e temporais documentadas.
 
-**Produção:** Streamlit Community Cloud, agregados reais CTI autorizados pelo grupo; configuração preparada, URL externa ainda não verificada. A aprovação acadêmica da plataforma permanece pendente. A execução local não substitui o requisito de nuvem.
+**Dashboard publicado:** [Abrir painel CTI](https://projeto6cti.streamlit.app/). Acesso público sem login, seis abas e exportação conferidos em 06/11/2026. Usa agregados reais autorizados da CTI; a base completa permanece local. A aprovação acadêmica da plataforma ainda não foi informada.
+
+A aba Metodologia identifica o commit do checkout em execução, quando disponível, para conferir a correspondência entre código e hospedagem.
 
 ### Revisão E2 em 06/11/2026
-37 testes aprovados; contrato de agregados reforçado, modo CTI real por padrão e demo explícita. Pipeline real reexecutado, 216 KPIs e 24 identidades conferidos. Interpretação contábil da regressão incorporada ao notebook e às evidências. O estado da publicação externa está no documento de execução; preparação local não equivale a URL publicada.
+40 testes aprovados; contrato de agregados reforçado, modo CTI real por padrão e demo explícita. Pipeline real reexecutado, 216 KPIs e 24 identidades conferidos. Interpretação contábil da regressão incorporada ao notebook e às evidências. A URL pública, as evidências e as instruções estão no documento de execução.
 
 ## Estrutura de pastas
 

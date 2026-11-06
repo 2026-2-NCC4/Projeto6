@@ -2,7 +2,8 @@
 from pathlib import Path
 import json
 from xml.sax.saxutils import escape
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image, Flowable
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image
+from reportlab.lib.utils import ImageReader
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -38,7 +39,7 @@ def capa(disciplina,professor,subtitulo):
             table([["Identificação","Entrega 2"],["Grupo","6 - DevLeaders"],
                    ["Integrantes","Gustavo Pires; Lúcio Vecchio; Luiz Henrique Zaim da Cruz; Eric Aloise"],
                    ["Orientação",professor],["Data de referência","06/11/2026"],
-                   ["Código validado",R["commit_implementacao"][:12]],
+                   ["Código testado (referência)",R["commit_implementacao"][:12]],
                    ["Repositório","github.com/2026-2-NCC4/Projeto6"]],[105,385]),Spacer(1,18)]
 def rodape(canvas,doc):
     canvas.setStrokeColor(colors.HexColor("#b8ccd8")); canvas.line(42,42,553,42)
@@ -52,62 +53,22 @@ def salvar(pasta,nome,story):
 def br(): return PageBreak()
 def num(x): return f"{x:,.4f}".replace(",","X").replace(".",",").replace("X",".")
 
-class UML(Flowable):
-    def __init__(self,tipo):
-        super().__init__(); self.tipo=tipo; self.width=490;self.height=390
-    def draw(self):
-        c=self.canv;c.setStrokeColor(colors.HexColor("#284b63"));c.setFillColor(colors.HexColor("#284b63"))
-        def text(x,y,s,size=9):
-            c.setFont("Helvetica",size);c.drawCentredString(x,y,s)
-        def caixa(x,y,w,label,stereo="component"):
-            c.setFillColor(colors.HexColor("#edf4f8"));c.rect(x,y,w,46,fill=1)
-            c.setFillColor(colors.HexColor("#284b63"))
-            text(x+w/2,y+29,"<<"+stereo+">>",8);text(x+w/2,y+13,label,9)
-        def seta(x1,y1,x2,y2,label="",dash=False):
-            import math
-            c.setDash(4,3) if dash else c.setDash()
-            c.line(x1,y1,x2,y2);c.setDash()
-            a=math.atan2(y2-y1,x2-x1)
-            for da in [-.5,.5]: c.line(x2,y2,x2-7*math.cos(a+da),y2-7*math.sin(a+da))
-            if label: text((x1+x2)/2,(y1+y2)/2+8,label,8)
-        if self.tipo=="componentes":
-            caixa(165,330,160,"app/app.py")
-            caixa(5,235,150,"dados / recortes")
-            caixa(170,235,150,"indicadores / sensibilidade")
-            caixa(335,235,150,"distribuicao / formatacao")
-            caixa(5,130,150,"agregados")
-            caixa(170,130,150,"regressao")
-            caixa(335,130,150,"executar_e2")
-            caixa(5,20,150,"agregados_cti.json","artifact")
-            caixa(170,20,150,"evidencias_e2.json","artifact")
-            caixa(335,20,150,"Parquet / prepara E1","artifact")
-            for x in [80,245,410]: seta(245,330,x,281,"",True)
-            seta(80,235,80,176,"fonte publica",True)
-            seta(245,235,245,176,"modelo local",True)
-            seta(410,130,410,66,"pipeline",True)
-            seta(80,130,80,66,"medias / percentis",True)
-            seta(245,130,245,66,"resultados",True)
-        else:
-            xs=[38,155,278,435];labels=["Usuário","app","dados / agregados","sensibilidade"]
-            for x,label in zip(xs,labels):
-                c.setFillColor(colors.HexColor("#edf4f8")); c.rect(x-35,342,70,30,fill=1)
-                c.setFillColor(colors.HexColor("#284b63"));text(x,354,label,8)
-                c.setDash(3,3);c.line(x,20,x,342);c.setDash()
-            seta(38,319,155,319,"seleciona recorte")
-            c.rect(151,150,8,169,fill=0)
-            seta(155,290,278,290,"selecionar fonte / validar")
-            c.rect(274,150,8,140,fill=0)
-            c.rect(3,140,480,121,fill=0); c.setFont("Helvetica-Bold",9);c.drawString(9,248,"alt")
-            c.setFont("Helvetica",8);c.drawString(35,248,"[entrada inválida]")
-            seta(278,228,155,228,"erro",True)
-            seta(155,207,38,207,"mensagem",True)
-            c.setDash(4,3);c.line(3,190,483,190);c.setDash();c.drawString(35,178,"[entrada válida]")
-            seta(278,156,155,156,"medias / percentis",True)
-            seta(38,119,155,119,"altera hipóteses")
-            seta(155,94,435,94,"simular(R, C, d, c)")
-            c.rect(431,57,8,37,fill=0)
-            seta(435,57,155,57,"resultado / erro",True)
-            seta(155,31,38,31,"comparação / mensagem",True)
+def UML(tipo):
+    """A figura é renderizada da fonte .puml versionada, sem desenho manual paralelo."""
+    arquivo=BASE/"ES e ML"/(tipo+".png")
+    w,h=ImageReader(str(arquivo)).getSize()
+    escala=min(490/w,475/h)
+    return Image(str(arquivo),width=w*escala,height=h*escala)
+
+def tela(nome):
+    arquivo=ROOT/"imagens/e2"/(nome+".png")
+    w,h=ImageReader(str(arquivo)).getSize()
+    return Image(str(arquivo),width=490,height=490*h/w)
+
+PUBLICACAO=R.get("publicacao",{})
+URL=PUBLICACAO.get("url")
+STATUS_NUVEM=("URL: "+URL+". "+PUBLICACAO.get("descricao","")) if URL else "Publicação externa pendente de autenticação GitHub/Streamlit. Nenhuma URL validada. A execução local não atende sozinha a RF14."
+N_TESTES=R["testes"]["tests"]
 
 # Inferencial
 s=capa("Análise Inferencial de Dados","Rodnil da Silva Moreira Lisboa","Regressão associativa, validação por trajetórias e diagnóstico")
@@ -166,7 +127,7 @@ s += [table([["Indicador","Fórmula / interpretação","Validação"],
       Spacer(1,15),p("Denominador zero ou conta ausente deixa o indicador indisponível. PC não negativo mantém os indicadores dependentes pendentes. Ano 12 preserva ausência de estoques, PL e ELP. EBITDA é fornecido, sem memória de cálculo reconciliada. EVA simplificado é hipótese sobre capital próprio, não cálculo completo de EVA econômico."),
       h("4. Sensibilidade implementada"),
       p("Com receita R e custo assinado C: R_sim = R × (1 - desconto); C_sim = C × (1 + variação); margem = R_sim + C_sim. Mantém volume e demais contas constantes. Não recalcula tributos, EBITDA ou resultado líquido."),
-      p("Desconto permitido: 0-100%; variação de custo: -100% a +200%. São limites do exercício, não elasticidades estimadas. Parâmetros nulos reproduzem a referência. O botão Restaurar hipóteses reinicia controles. Receita simulada zero torna a margem percentual indisponível."),
+      p("Desconto permitido: 0-100%; variação de custo: -100% a +200%. São limites do exercício, não elasticidades estimadas. Parâmetros nulos reproduzem a referência. Restaurar hipóteses e trocar ano/população devolvem a meta à margem do recorte. Receita simulada zero torna a margem percentual indisponível."),
       p("Exemplo de teste fictício: R=100, C=-60, desconto=10%, custo=+20%, quantidade=10, meta=20. Receita=90, custo=-72, margem=18, ticket=9, desvio da meta=-2. Valores servem à validação da regra, sem relação com CTI."),br(),
       h("5. Validação e uso")]
 s += [table([["Verificação atual","Resultado"],["KPIs numéricos vs. planilha E1","161 conferidos"],["Indisponibilidades / pendências","55 estados coerentes"],["Total de KPIs","216/216, sem divergência"],["Identidades por ano","24/24"],["Entradas da planilha","165 valores numéricos + 3 ausências conferidos"],["Teste negativo","Receita alterada em 10% detectada; validação reprovou como esperado"]],[230,260]),
@@ -182,11 +143,11 @@ s += [h("1. Arquitetura implementada"),p("Arquitetura modular em Python: a inter
       p("Entradas: CSV CTI autorizado ou Parquet preparado; gerador fictício independente para demonstração; filtros de ano e repetição; hipóteses de desconto, custo, volume e meta. Processamento: validação, recorte, médias anuais, KPIs, simulação e ajuste por trajetórias. Saídas: tabelas, gráficos, indicadores com estado, PDF, evidências e CSV de indicadores agregados reais."),
       p("Decisões: reaproveitar prepara.py evita divergência com E1; funções puras separam regra e apresentação; Parquet reduz custo de leitura; cache evita repetir carga e ajuste sem alteração de dados. O modo público não inclui upload ou exportação de dados privados."),
       p("Alternativa de banco/API aumentaria manutenção sem requisito atual de concorrência de escrita. A arquitetura admite substituição futura do carregador sem duplicar fórmulas."),br(),
-      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app utiliza dados/recortes, agregados, indicadores, sensibilidade, distribuição, formatação e regressão. executar_e2 prepara e avalia; a versão pública lê agregados_cti.json e evidencias_e2.json. A base completa é local; demonstração é uma opção explícita."),
-      p("Fontes editáveis: componentes.puml e sequencia.puml. O desenho representa módulos existentes, não um fluxo genérico."),br(),
+      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app utiliza dados/recortes, agregados, indicadores, sensibilidade, distribuição, formatação, regressão e versão. executar_e2 prepara e avalia; a versão pública lê agregados_cti.json e evidencias_e2.json. A base completa é local; demonstração é uma opção explícita."),
+      p("Fontes editáveis: componentes.puml e sequencia.puml; figuras PNG renderizadas dessas fontes. O gerador PDF incorpora as mesmas figuras, eliminando um desenho manual independente. Dependências representam consumo de módulos e artefatos; não são ordem de execução."),br(),
       h("3. UML de sequência"),UML("sequencia"),
       p("Participantes: usuário, app, dados/agregados e sensibilidade. Linhas de vida tracejadas, mensagens e retornos; fragmento alt distingue entrada inválida e válida. Resultado com falha é apresentado como mensagem, nunca substituído silenciosamente por zero."),
-      p("O processamento da simulação recebe cópia dos valores de referência. Restaurar hipóteses muda apenas os controles; não escreve na base. No modo agregado, a regressão lê evidências já calculadas; no modo local, é iniciada por comando explícito. Seu recorte 1-11 é informado separadamente."),br(),
+      p("O processamento da simulação recebe cópia dos valores de referência. Restaurar hipóteses e a troca de ano/população reinicializam a meta na margem do recorte; não escrevem na base. No modo agregado, a regressão lê evidências já calculadas; no modo local, é iniciada por comando explícito. Seu recorte 1-11 é informado separadamente."),br(),
       h("4. Rastreabilidade e qualidade")]
 s += [table([["Requisitos FECAP","Implementação / evidência"],
              ["RF01-RF05: fontes e preparação","prepara.py E1 + dados.py; hash preservado, 15 verificações e cobertura por cenário"],
@@ -194,18 +155,18 @@ s += [table([["Requisitos FECAP","Implementação / evidência"],
              ["RF08 / RF11: KPIs e cenários","indicadores.py e sensibilidade.py; 216 KPIs + 24 identidades conferidos"],
              ["RF09-RF10 / RF13: relatório e painel","Quatro PDFs; cinco cartões, evolução, tabelas, filtros e notas"],
              ["RF12: exportação autorizada","CSV agregado real disponível; base completa e linhas individuais não exportadas"],
-             ["RF14: execução e publicação","Execução local testada; nuvem ainda não verificada"],
-             ["Confiabilidade / manutenção","37 testes aprovados, incluindo entradas inválidas, recortes, fórmulas, modelo, interface e teste negativo real"],
+             ["RF14: execução e publicação",STATUS_NUVEM],
+             ["Confiabilidade / manutenção",f"{N_TESTES} testes aprovados, incluindo entradas inválidas, recortes, fórmulas, modelo, interface, versão e teste negativo real"],
              ["Reprodução / segurança","Dependências específicas E2; base completa ignorada pelo Git; produção CTI agregada como padrão"]],[155,335]),
       Spacer(1,15),p("A suíte utiliza casos independentes com valores conhecidos e comparação com planilha E1; não verifica apenas que o código executa. Dados essenciais ausentes, chave duplicada, cobertura incompleta e simulação inválida bloqueiam os respectivos resultados."),
       p("O acompanhamento operacional e as trocas entre ferramentas são privados, por orientação do grupo. Este PDF registra requisitos implementados e evidências do produto, sem publicar o planejamento interno."),br(),
       h("5. Resultados e reflexão")]
 s += [p("Esperado: integrar as disciplinas em um único painel, preservar a base original, manter consistência de números e preparar publicação. Obtido: aplicação local com cinco KPIs, filtros, financeiro, sensibilidade e regressão; preparação real e comparação financeira sem divergências; notebook executado; documentos gerados."),
       p("Divergência relevante: a regressão apresenta colinearidade alta e forte dependência temporal. A solução adotou divisão por trajetória, erros-padrão agrupados e interpretação associativa. Não escondemos essa limitação para obter um indicador de ajuste mais atraente."),
-      p("Na inspeção visual inicial, cartões com fundo claro sobre tema escuro ficaram ilegíveis. O estilo foi corrigido e os cartões distribuídos em duas linhas, com unidade explícita em milhões. Isso ilustra a diferença entre teste funcional e revisão visual."),
+      p("Revisão cruzada: a meta ficou presa ao primeiro ano e o botão Restaurar gerou aviso de estado; ambos foram corrigidos e retestados. Os desenhos UML manuais do PDF divergiam das fontes: as figuras agora são renderizadas diretamente dos .puml versionados. A identificação do commit passou a ser consultada no checkout em execução."),
       p("As datas e o método de E1 foram mantidos como história, sem inventar reuniões, validação empresarial ou aceites. A nova preparação não sobrescreve relatórios E1. Código específico de plataforma foi separado do ambiente antigo de Windows."),
       p("Melhorias futuras: esclarecer convenções CTI, testar estabilidade do modelo em outras partições, avaliar modelos de dependência temporal e acrescentar autenticação somente se houver publicação autorizada de dados restritos. O protótipo não sustenta decisão econômica real sem validação do domínio."),
-      p("Pendência de implantação: escolha/aprovação da plataforma e teste externo da URL. O funcionamento local não equivale à conclusão de RF14. Banner e documento de extensão permanecem etapa posterior, conforme prioridade do grupo."),
+      p(STATUS_NUVEM),p("Aprovação acadêmica da plataforma não informada. Banner e documento de extensão permanecem pendentes, em etapa posterior conforme prioridade do grupo."),
       p("Referências: enunciado FINAL FECAP, seções 4-6 e 11; artefatos E1; módulos e testes E2 do repositório. Diagramas e descrições foram confrontados com os arquivos existentes.") ]
 salvar("ES e ML","E2_Engenharia_Software_CTI.pdf",s)
 
@@ -231,12 +192,20 @@ s += [p("Python 3.13. Criar ambiente virtual; instalar app/requirements.txt para
       p("Produção CTI agregada: python -m streamlit run app/app.py. O arquivo real app/dados/agregados_cti.json acompanha o código. A base completa não precisa ser enviada para o servidor."),
       p('Preparação e análise CTI: python -m src.cti.executar_e2 --csv "src/data/raw/Demonstrativo Fecap v3.csv". O processo grava somente a saída ignorada src/data/processed/e2. Depois configure CTI_BASE_LOCAL para o Parquet dessa pasta ao iniciar o painel local.'),
       p("Testes: python -m pytest -q. A conferência privada é omitida automaticamente em ambiente sem o Parquet CTI; os testes fictícios continuam executáveis. Notebook inferencial tem instruções e modo fictício padrão."),
-      p("Nuvem: entrada app/app.py; instalar app/requirements.txt; Python 3.13; não definir CTI_BASE_LOCAL nem enviar dados privados. Usar os agregados reais versionados. Streamlit Community Cloud foi escolhido; acesso externo e dependências Linux só serão considerados aprovados após teste real."),
-      p("Estado desta versão: funcionamento local verificado. Não há URL de nuvem validada registrada neste documento. A publicação é requisito pendente, não substituído por estas instruções."),br(),
+      p("Nuvem: Streamlit Community Cloud, entrada app/app.py, dependências app/requirements.txt e Python 3.13. Acesso público e seis abas verificados por navegador independente. Não são necessários arquivos privados ou segredos. Logs internos de instalação não foram auditados; aprovação docente da plataforma ainda não informada."),
+      p(STATUS_NUVEM),br(),
       h("4. Evidências, limites e fontes")]
 s += [p("Reexecução E2: pipeline aprovado com origem inalterada; 216 KPIs e 24 identidades conferidos; notebook 6/6 células sem erro em kernel local; testes sintéticos e teste negativo com dados reais. Evidências numéricas agregadas ficam junto aos artefatos disciplinares."),
       p("As 94 trajetórias repetidas incluem 93 cópias excedentes. A opção de removê-las é explícita, não altera a fonte. Saldos patrimoniais não são acumulados entre anos. Ausências no Ano 12 são mantidas. PC e EBITDA conservam as ressalvas da E1."),
       p("O sistema não conhece volume real de clientes, metas CTI ou divisão real entre custos fixos e variáveis. Ticket, CAC/LTV e metas usam hipóteses identificadas. A sensibilidade é parcial, não reproduz todo o simulador empresarial."),
       p("Fontes: arquivo CTI v3 e src/prepara.py; dicionário de dados e planilha E1; enunciado FINAL FECAP. Bibliotecas: pandas, NumPy, PyArrow, Streamlit, scikit-learn e statsmodels, com versões fixadas no ambiente E2."),
       p("Publicação, revisão independente e feedback dos professores devem ser conferidos antes de declarar entrega final. Nenhuma validação da empresa ou aprovação de plataforma foi presumida.") ]
+s += [br(),h("5. Evidências visuais do produto"),
+      p("Capturas reais da URL pública em 06/11/2026: "+URL+". Agregados reais CTI; Ano 11, população completa e intervalo 1-11. Referência funcional de código "+R["commit_implementacao"][:12]+". A versão atual do checkout aparece na aba Metodologia."),
+      tela("visao_geral"),p("Visão geral: cinco cartões e evolução anual. Valores monetários em milhões de reais.", "SmallPT"),
+      br(),h("6. Simulação e validação da interface"),tela("sensibilidade"),
+      p("Sensibilidade com hipóteses iniciais: margem igual à referência e desvio da meta zero. A meta acompanha ano/população; quantidade e percentual são hipóteses acadêmicas.", "SmallPT"),
+      p(f"Suíte local: {N_TESTES} testes aprovados, sem falhas ou omissões. Notebook: 6/6 células sem erro em kernel local limpo. As seis abas e o CSV foram conferidos na URL pública, além da inspeção em largura de celular."),
+      p("Código em execução é identificado na aba Metodologia quando o checkout Git está disponível. O SHA da análise numérica identifica a execução do pipeline; não deve ser confundido com a versão do deploy."),
+      p(STATUS_NUVEM)]
 salvar("Projeto Interdisciplinar Ciência de Dados","E2_PI_Ciencia_de_Dados_CTI.pdf",s)

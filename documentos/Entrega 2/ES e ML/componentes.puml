@@ -1,29 +1,37 @@
 @startuml
 title CTI E2 - componentes de producao
+left to right direction
+skinparam componentStyle uml2
+skinparam defaultFontSize 16
+skinparam backgroundColor white
 component "app/app.py" as App
 component "dados / recortes" as Dados
-component "indicadores / sensibilidade" as KPI
-component "distribuicao / formatacao" as Dist
+component "indicadores /\nsensibilidade" as KPI
+component "distribuicao /\nformatacao" as Dist
 component agregados as Ag
 component regressao as Reg
 component executar_e2 as Exec
+component versao as Versao
 artifact agregados_cti.json as Json
 artifact evidencias_e2.json as Ev
 artifact "Parquet / prepara E1" as Local
+artifact "Git HEAD local" as Git
 App ..> Dados
 App ..> KPI
 App ..> Dist
 App ..> Ag
 App ..> Reg
+App ..> Versao
+Versao ..> Git : identifica checkout
 Dados ..> Local
 Ag ..> Json : medias / percentis
 Ag ..> Ev : regressao publicada
 Exec ..> Local : preparacao
 Exec ..> Reg : avaliacao
 note bottom of App
-Producao CTI agregada por padrao.
-CTI_BASE_LOCAL seleciona base completa local.
-CTI_DEMO=1 seleciona demonstracao.
-Fonte invalida bloqueia a carga.
+Producao: CTI agregada.
+Demo: CTI_DEMO=1.
+Local: CTI_BASE_LOCAL.
+Fonte invalida: bloqueio.
 end note
 @enduml
