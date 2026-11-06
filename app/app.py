@@ -25,7 +25,7 @@ from src.cti.versao import commit_em_execucao
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
 
-st.set_page_config(page_title="CTI | Planejamento financeiro",page_icon="📊",layout="wide")
+st.set_page_config(page_title="FinSight | Dados financeiros em perspectiva",page_icon="📊",layout="wide")
 st.markdown("<style>.block-container{max-width:1350px;padding-top:2rem} div[data-testid='stMetric']{border:1px solid #94a3b8;border-radius:10px;padding:12px} div[data-testid='stMetricValue']{font-size:1.3rem}</style>",unsafe_allow_html=True)
 
 @st.cache_data
@@ -85,7 +85,9 @@ except (OSError,ValueError,TypeError,KeyError) as exc:
     st.error("Não foi possível carregar uma base válida. Confira o arquivo e o contrato de dados.")
     st.caption(type(exc).__name__)
     st.stop()
-st.title("Planejamento financeiro")
+st.image(str(ROOT/"imagens/logo_finsight.png"),width=280)
+st.title("FinSight")
+st.caption("Dados financeiros em perspectiva")
 st.caption("DevLeaders · PI CTI · Entrega 2")
 if modo=="local":
     st.info("BASE CTI LOCAL · projeções simuladas da concessão. Acesso restrito a este ambiente; não publicar o arquivo.")

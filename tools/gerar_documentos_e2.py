@@ -34,7 +34,7 @@ def table(rows,widths=None):
     return t
 def capa(disciplina,professor,subtitulo):
     return [p("FECAP | Ciência da Computação | 2026/2","SmallPT"),Spacer(1,26),
-            p("CTI: Plataforma Analítica de Planejamento Financeiro","Title"),
+            p("FinSight","Title"),p("Dados financeiros em perspectiva"),
             Spacer(1,12),h(disciplina),p(subtitulo),
             table([["Identificação","Entrega 2"],["Grupo","6 - DevLeaders"],
                    ["Integrantes","Gustavo Pires; Lúcio Vecchio; Luiz Henrique Zaim da Cruz; Eric Aloise"],
@@ -44,7 +44,7 @@ def capa(disciplina,professor,subtitulo):
 def rodape(canvas,doc):
     canvas.setStrokeColor(colors.HexColor("#b8ccd8")); canvas.line(42,42,553,42)
     canvas.setFont("Helvetica",8);canvas.setFillColor(colors.HexColor("#456071"))
-    canvas.drawString(42,29,"DevLeaders | PI CTI | Entrega 2");canvas.drawRightString(553,29,str(doc.page))
+    canvas.drawString(42,29,"FinSight | DevLeaders | PI CTI | Entrega 2");canvas.drawRightString(553,29,str(doc.page))
 def salvar(pasta,nome,story):
     path=BASE/pasta/nome
     SimpleDocTemplate(str(path),pagesize=A4,rightMargin=42,leftMargin=42,topMargin=42,bottomMargin=56,
@@ -201,7 +201,7 @@ s += [p("Reexecução E2: pipeline aprovado com origem inalterada; 216 KPIs e 24
       p("Fontes: arquivo CTI v3 e src/prepara.py; dicionário de dados e planilha E1; enunciado FINAL FECAP. Bibliotecas: pandas, NumPy, PyArrow, Streamlit, scikit-learn e statsmodels, com versões fixadas no ambiente E2."),
       p("Publicação, revisão independente e feedback dos professores devem ser conferidos antes de declarar entrega final. Nenhuma validação da empresa ou aprovação de plataforma foi presumida.") ]
 s += [br(),h("5. Evidências visuais do produto"),
-      p("Capturas reais da URL pública em 06/11/2026: "+URL+". Agregados reais CTI; Ano 11, população completa e intervalo 1-11. Referência funcional de código "+R["commit_implementacao"][:12]+". A versão atual do checkout aparece na aba Metodologia."),
+      p("Capturas da versão local com identidade FinSight. Agregados reais CTI; Ano 11, população completa e intervalo 1-11. A execução anterior do painel público foi validada conforme os registros de publicação abaixo."),
       tela("visao_geral"),p("Visão geral: cinco cartões e evolução anual. Valores monetários em milhões de reais.", "SmallPT"),
       br(),h("6. Simulação e validação da interface"),tela("sensibilidade"),
       p("Sensibilidade com hipóteses iniciais: margem igual à referência e desvio da meta zero. A meta acompanha ano/população; quantidade e percentual são hipóteses acadêmicas.", "SmallPT"),

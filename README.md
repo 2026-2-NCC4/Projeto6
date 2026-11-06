@@ -1,10 +1,12 @@
 # FECAP - Fundação de Comércio Álvares Penteado
 
 <p align="center">
-<a href="https://github.com/2026-2-NCC4/Projeto6"><img src="imagens/logo_devleaders.png" alt="Logo DevLeaders" width="50%" border="0"></a>
+<a href="https://github.com/2026-2-NCC4/Projeto6"><img src="imagens/logo_finsight.png" alt="FinSight" width="50%" border="0"></a>
 </p>
 
-# CTI — Plataforma Analítica de Planejamento Financeiro
+# FinSight
+
+**Dados financeiros em perspectiva**
 
 ## Grupo: DevLeaders
 
@@ -172,7 +174,7 @@ A [planilha de validação financeira](documentos/Entrega%201/Contabilidade%20e%
 
 ## Licença
 
-<a href="https://github.com/2026-2-NCC4/Projeto6">CTI — Plataforma Analítica de Planejamento Financeiro (DevLeaders)</a> © 2026 by
+<a href="https://github.com/2026-2-NCC4/Projeto6">FinSight (DevLeaders)</a> © 2026 by
 
 <a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>, <a href="https://www.fecap.br/">FECAP</a>
 is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" width="20" height="20" valign="middle"></p>

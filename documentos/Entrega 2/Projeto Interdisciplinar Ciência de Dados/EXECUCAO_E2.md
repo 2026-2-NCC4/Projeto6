@@ -1,4 +1,6 @@
-# Execução do painel E2
+# FinSight — execução do painel E2
+
+Dados financeiros em perspectiva.
 
 Python 3.13. A partir da raiz do projeto:
 
