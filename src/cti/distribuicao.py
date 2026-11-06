@@ -26,14 +26,17 @@ def _valores(base, conta):
     return base[["ano_n"]].assign(valor=base[conta] * CONTAS[conta][1]).dropna()
 
 
-def percentis_anuais(base, conta):
-    """Por ano: P5, P25, P50, P75, P95, média e número de cenários com valor."""
+def percentis_anuais(base, conta, quantis=QUANTIS):
+    """Por ano: percentis pedidos (padrão P5, P25, P50, P75, P95), média e número de cenários com valor.
+
+    `quantis` mapeia nome -> fração; o arquivo de agregados usa a mesma função com a grade P1 a P99.
+    """
     v = _valores(base, conta)
     if v.empty:
-        return pd.DataFrame(columns=[*QUANTIS, "media", "n"], index=pd.Index([], name="ano_n"))
+        return pd.DataFrame(columns=[*quantis, "media", "n"], index=pd.Index([], name="ano_n"))
     por_ano = v.groupby("ano_n").valor
-    tabela = por_ano.quantile(list(QUANTIS.values())).unstack()
-    tabela.columns = list(QUANTIS)
+    tabela = por_ano.quantile(list(quantis.values())).unstack()
+    tabela = tabela.rename(columns={q: nome for nome, q in quantis.items()})[list(quantis)]
     tabela["media"] = por_ano.mean()
     tabela["n"] = por_ano.size()
     return tabela

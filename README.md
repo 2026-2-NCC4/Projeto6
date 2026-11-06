@@ -39,7 +39,7 @@ Conforme o contexto registrado no notebook do grupo, os dados representam proje�
 
 ## Entrega 2: painel integrado
 
-A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPIs financeiros, ticket e metas acadêmicas, sensibilidade e regressão por trajetórias. O padrão é uma **demonstração fictícia**, gerada independentemente dos valores CTI. A base CTI é utilizada apenas no ambiente local autorizado.
+A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPIs financeiros, ticket e metas acadêmicas, distribuição entre cenários, sensibilidade e regressão por trajetórias. Sem a base CTI, o painel usa os **agregados publicáveis** de `app/dados/agregados_cti.json` (médias e percentis por ano, sem cenário individual) ou, na falta desse arquivo, uma **demonstração fictícia** gerada independentemente dos valores CTI. A base CTI completa é utilizada apenas no ambiente local autorizado.
 
 - [Como executar e preparar a publicação](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/EXECUCAO_E2.md)
 - [Regressão: notebook executado](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Regressao_CTI.ipynb) e [relatório](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Analise_Inferencial_CTI.pdf)

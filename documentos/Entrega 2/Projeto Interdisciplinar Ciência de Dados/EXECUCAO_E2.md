@@ -10,8 +10,8 @@ python -m venv .venv
 # Linux/macOS: substituir .venv\Scripts\python.exe por .venv/bin/python
 ```
 
-O padrão é uma **demonstração fictícia** gerada do zero. Não requer a base CTI.
-Cinco KPIs, filtros, financeiro, metas/ticket simulados, sensibilidade, regressão sob demanda e metodologia estão no mesmo painel.
+O painel escolhe a fonte dos dados nesta ordem: base CTI local (variável `CTI_BASE_LOCAL`), arquivo de agregados publicáveis `app/dados/agregados_cti.json` (ou o caminho em `CTI_AGREGADOS`) e, sem nenhum dos dois, uma **demonstração fictícia** gerada do zero. O aviso no topo identifica o modo. Os modos agregado e fictício não requerem a base CTI.
+Cinco KPIs, filtros, financeiro, metas/ticket simulados, sensibilidade, regressão e metodologia estão no mesmo painel.
 
 ## Base CTI local
 
@@ -34,7 +34,19 @@ Para voltar à demonstração, feche o painel e remova somente essa variável:
 Remove-Item Env:CTI_BASE_LOCAL -ErrorAction SilentlyContinue
 ```
 
-Não configurar essa variável em nuvem pública. Não enviar CSV/Parquet CTI ou publicar saídas individuais. Tabelas e gráficos locais apresentam apenas agregados; o download dedicado de KPIs fica disponível no modo fictício.
+Não configurar essa variável em nuvem pública. Não enviar CSV/Parquet CTI ou publicar saídas individuais. Tabelas e gráficos locais apresentam apenas agregados; a exportação de KPIs fica disponível nos modos agregado e fictício.
+
+## Agregados publicáveis
+
+Depois de preparar a base local, gere o arquivo que o painel público usa:
+
+```bash
+python -m src.cti.agregados --base src/data/processed/e2/base_analitica.parquet
+```
+
+A rotina grava somente `app/dados/agregados_cti.json`, com estatísticas por ano para as populações "todos" e "sem cópias": médias das 15 contas usadas pelo painel (as 14 entradas da planilha E1 e a geração de caixa) e percentis P1 a P99, média e contagem dos seis indicadores da aba Distribuição. Não contém linha, identificador, mínimo nem máximo de cenário. O arquivo registra a data de geração e o SHA-256 da entrada CTI. Nesse modo, a parcela de cenários abaixo de um limite é aproximada por interpolação entre os percentis (erro em torno de 1 ponto percentual), e a aba Regressão mostra os resultados já publicados em `evidencias_e2.json`, sem recalcular o modelo.
+
+Os testes conferem que as médias e os percentis do arquivo são iguais aos calculados da base, que nenhuma lista guarda valores por cenário e que o arquivo inválido é recusado. Para ver a demonstração fictícia com o arquivo presente, aponte `CTI_AGREGADOS` para um caminho inexistente.
 
 ## Verificações
 

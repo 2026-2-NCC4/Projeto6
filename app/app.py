@@ -1,4 +1,5 @@
-"""Painel E2: modo público fictício por padrão; base CTI somente por configuração local."""
+"""Painel E2. Fonte dos dados, nesta ordem: base CTI local (CTI_BASE_LOCAL), arquivo de agregados publicáveis
+(app/dados/agregados_cti.json ou CTI_AGREGADOS) e, sem nenhum dos dois, demonstração fictícia."""
 from pathlib import Path
 import sys
 import os
@@ -16,7 +17,8 @@ from src.cti.indicadores import calcular, tabela
 from src.cti.sensibilidade import simular
 from src.cti.regressao import executar
 from src.cti.distribuicao import CONTAS as CONTAS_DIST, percentis_anuais, proporcao_abaixo
-from src.cti.formatacao import numero, reais_mi, valor_kpi
+from src.cti import agregados as ag
+from src.cti.formatacao import numero, reais_mi, valor_kpi, parcela, data_hora
 
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
@@ -29,8 +31,25 @@ def dados(caminho, assinatura):
     return carregar(caminho) if caminho else sintetica()
 
 @st.cache_data
+def ler_agregados(caminho, assinatura):
+    return ag.ler(caminho)
+
+@st.cache_data
+def ler_regressao_publicada(caminho, assinatura):
+    return ag.regressao_publicada(caminho)
+
+@st.cache_data
 def modelo(base, unicas):
     return executar(base, unicas=unicas)
+
+def mostrar_regressao(res):
+    st.write(f"Modelo selecionado na validação: **{res['modelo']}**. Teste com grupos independentes do treino.")
+    st.dataframe(pd.DataFrame({"Modelo":res["teste"],"Referência por ano":res["baseline_teste"]}).T,width="stretch")
+    st.dataframe(pd.DataFrame(res["coeficientes"]),hide_index=True,width="stretch")
+    st.line_chart(pd.DataFrame(res["medias_teste_ano"]).set_index("ano_n")[["observado","estimado"]])
+    st.json(res["diagnostico"],expanded=False)
+    st.caption("Coeficientes monetários: variação no resultado em milhões por milhão da explicativa; ano compara com Ano 1, mantendo demais variáveis. IC agrupado por trajetória.")
+    st.warning("Associação contemporânea entre projeções simuladas; não é previsão futura nem causalidade. Receita e custos integram parcialmente a identidade contábil.")
 
 def dinheiro(v):
     if v is None or pd.isna(v): return "Indisponível"
@@ -42,30 +61,49 @@ def resetar():
 
 inicio=time.perf_counter()
 caminho=os.environ.get("CTI_BASE_LOCAL","")
-privado=bool(caminho)
+arquivo_agregados=Path(os.environ.get("CTI_AGREGADOS") or ROOT/ag.ARQUIVO)
+modo="local" if caminho else "agregados" if arquivo_agregados.is_file() else "ficticio"
+base=agg=None
 try:
-    assinatura=Path(caminho).stat().st_mtime_ns if caminho else 0
-    base=dados(caminho,assinatura)
-except (OSError,ValueError,TypeError) as exc:
+    if modo=="agregados":
+        agg=ler_agregados(str(arquivo_agregados),arquivo_agregados.stat().st_mtime_ns)
+    else:
+        assinatura=Path(caminho).stat().st_mtime_ns if caminho else 0
+        base=dados(caminho,assinatura)
+except (OSError,ValueError,TypeError,KeyError) as exc:
     st.error("Não foi possível carregar uma base válida. Confira o arquivo e o contrato de dados.")
     st.caption(type(exc).__name__)
     st.stop()
 st.title("Planejamento financeiro")
 st.caption("DevLeaders · PI CTI · Entrega 2")
-if privado:
+if modo=="local":
     st.info("BASE CTI LOCAL · projeções simuladas da concessão. Acesso restrito a este ambiente; não publicar o arquivo.")
+elif modo=="agregados" and agg["origem"].get("corresponde_referencia_E1") is True:
+    st.info(f"BASE CTI AGREGADA · médias e percentis por ano das projeções simuladas da concessão, gerados pelo pipeline da E1 em {data_hora(agg['gerado_em_utc'])}. Nenhum cenário individual é publicado.")
+elif modo=="agregados":
+    st.warning("AGREGADOS SEM CONFERÊNCIA COM A BASE DA E1 · o arquivo não comprova a origem dos dados. Não representam resultados da CTI.")
 else:
     st.warning("DEMONSTRAÇÃO FICTÍCIA · dados gerados do zero para demonstrar a aplicação. Não representam resultados da CTI.")
 st.sidebar.header("Recorte da análise")
 anos=st.sidebar.slider("Intervalo de anos",1,12,(1,11),key="anos")
 unicas=st.sidebar.checkbox("Remover cópias de trajetórias",False,key="unicas")
-recorte=filtrar(base,anos,unicas)
-medias=medias_anuais(recorte)
+populacao="sem_copias" if unicas else "todos"
+if agg:
+    recorte=None
+    medias=ag.medias(agg,populacao,anos)
+    n_cenarios=agg["populacoes"][populacao]["cenarios"]
+else:
+    recorte=filtrar(base,anos,unicas)
+    medias=medias_anuais(recorte)
+    n_cenarios=recorte.cenario.nunique()
 if medias.empty:
     st.warning("Não há dados para esse recorte."); st.stop()
 ano=st.sidebar.selectbox("Ano dos cartões e da simulação",list(medias.index),index=len(medias)-1,key="ano")
 contas=medias.loc[ano]
-st.sidebar.caption(f"{numero(recorte.cenario.nunique(),0)} cenários · {numero(len(recorte),0)} linhas. Cartões: Ano {ano}.")
+if agg:
+    st.sidebar.caption(f"{numero(n_cenarios,0)} cenários resumidos em médias e percentis por ano. Cartões: Ano {ano}.")
+else:
+    st.sidebar.caption(f"{numero(n_cenarios,0)} cenários · {numero(len(recorte),0)} linhas. Cartões: Ano {ano}.")
 if ano == 12: st.warning("Ano 12: encerramento. Contas ausentes e indicadores patrimoniais indisponíveis são preservados.")
 st.caption("Média de cada conta entre cenários por ano; razões calculadas depois das médias. Cenários alternativos não são somados.")
 overview,distribuicao,financeiro,sensibilidade,regressao,metodologia=st.tabs(["Visão geral","Distribuição","Financeiro","Sensibilidade","Regressão","Metodologia"])
@@ -101,7 +139,7 @@ with distribuicao:
     st.caption("Os cenários são futuros alternativos simulados para a mesma concessão. A faixa mostra como eles se espalham em cada ano; não é intervalo de confiança nem probabilidade real.")
     rotulos={v[0]:k for k,v in CONTAS_DIST.items()}
     nome_dist=st.selectbox("Indicador",list(rotulos),index=list(rotulos).index("Geração de caixa"),key="conta_dist")
-    pct=percentis_anuais(recorte,rotulos[nome_dist])
+    pct=ag.percentis(agg,rotulos[nome_dist],populacao,anos) if agg else percentis_anuais(recorte,rotulos[nome_dist])
     if pct.empty:
         st.warning("Não há valores desse indicador no recorte.")
     else:
@@ -128,14 +166,20 @@ with distribuicao:
                          hide_index=True,width="stretch")
         st.markdown("**Risco: cenários abaixo de um limite**")
         limite=st.number_input("Limite (R$ milhões)",value=0.0,step=100.0,key="limite_dist")
-        prop=proporcao_abaixo(recorte,rotulos[nome_dist],limite*1e6)
+        if agg:
+            prop=ag.proporcao_abaixo(agg,rotulos[nome_dist],populacao,limite*1e6,anos)
+        else:
+            prop=proporcao_abaixo(recorte,rotulos[nome_dist],limite*1e6).to_frame().assign(faixa="exata")
+        prop["texto"]=[parcela(p,f) for p,f in zip(prop.proporcao,prop.faixa)]
         if ano in prop.index:
-            st.metric(f"Cenários com {nome_dist.lower()} abaixo de R$ {numero(limite)} mi · Ano {ano}",f"{numero(prop.loc[ano]*100,1)}%")
+            st.metric(f"Cenários com {nome_dist.lower()} abaixo de R$ {numero(limite)} mi · Ano {ano}"+(" (aproximado)" if agg else ""),prop.loc[ano,"texto"])
         barras=alt.Chart(prop.rename_axis("ano").reset_index()).mark_bar(color="#176b87").encode(
             x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)),y=alt.Y("proporcao:Q",title="Parcela dos cenários",axis=alt.Axis(format=".0%"),scale=alt.Scale(domain=[0,1])),
-            tooltip=[alt.Tooltip("ano:O",title="Ano"),alt.Tooltip("proporcao:Q",title="Parcela",format=".1%")])
+            tooltip=[alt.Tooltip("ano:O",title="Ano"),alt.Tooltip("texto:N",title="Parcela")])
         st.altair_chart(barras.configure(locale=LOCALE),width="stretch")
         st.caption("Parcela dos cenários simulados de cada ano com valor abaixo do limite. Mede a frequência na simulação, não uma probabilidade observada.")
+        if agg:
+            st.caption("Modo agregado: a parcela é aproximada por interpolação entre os percentis P1 a P99 (erro em torno de 1 ponto percentual). Abaixo de P1 aparece como 1% ou menos; acima de P99, como 99% ou mais.")
 with financeiro:
     st.subheader(f"Indicadores · Ano {ano}")
     st.caption("Mesmas regras da planilha E1. Premissas: CAC R$ 4.000, LTV R$ 45.000, custo do capital próprio 10% a.a.")
@@ -165,26 +209,37 @@ with sensibilidade:
 with regressao:
     st.subheader("Associação entre receita, custos e resultado")
     st.caption("Ajuste fixo nos Anos 1–11; o filtro anual da visão financeira não altera o desenho estatístico. A opção de trajetórias altera a população do modelo.")
-    if st.button("Calcular análise de regressão",key="rodar_modelo"):
-        with st.spinner("Ajustando e avaliando por trajetórias..."):
-            try:
-                res=modelo(base,unicas)
-                st.session_state["modelo_resultado"]=(privado,unicas,res)
-            except (ValueError,RuntimeError) as exc: st.warning(str(exc))
-    salvo=st.session_state.get("modelo_resultado")
-    if salvo and salvo[:2]==(privado,unicas):
-        res=salvo[2]
-        st.write(f"Modelo selecionado na validação: **{res['modelo']}**. Teste com grupos independentes do treino.")
-        st.dataframe(pd.DataFrame({"Modelo":res["teste"],"Referência por ano":res["baseline_teste"]}).T,width="stretch")
-        st.dataframe(pd.DataFrame(res["coeficientes"]),hide_index=True,width="stretch")
-        st.line_chart(pd.DataFrame(res["medias_teste_ano"]).set_index("ano_n")[["observado","estimado"]])
-        st.json(res["diagnostico"],expanded=False)
-        st.caption("Coeficientes monetários: variação no resultado em milhões por milhão da explicativa; ano compara com Ano 1, mantendo demais variáveis. IC agrupado por trajetória.")
-        st.warning("Associação contemporânea entre projeções simuladas; não é previsão futura nem causalidade. Receita e custos integram parcialmente a identidade contábil.")
-    else: st.info("Calcule a análise para esta população. Métricas são geradas com os dados deste modo, nunca copiadas da base CTI para a demonstração.")
+    if agg:
+        evidencias=ROOT/ag.EVIDENCIAS
+        try:
+            publicada=ler_regressao_publicada(str(evidencias),evidencias.stat().st_mtime_ns)
+        except (OSError,ValueError) as exc:
+            publicada=None
+            st.info(f"Resultados publicados da regressão indisponíveis neste ambiente ({type(exc).__name__}).")
+        if publicada:
+            mostrar_regressao(publicada[populacao])
+            st.caption(f"Resultados publicados em evidencias_e2.json: calculados com a base CTI local pelo pipeline executar_e2 em {data_hora(publicada['meta']['data_utc'])}. O modo agregado não recalcula o modelo, porque não tem as linhas da base.")
+    else:
+        if st.button("Calcular análise de regressão",key="rodar_modelo"):
+            with st.spinner("Ajustando e avaliando por trajetórias..."):
+                try:
+                    res=modelo(base,unicas)
+                    st.session_state["modelo_resultado"]=(modo,unicas,res)
+                except (ValueError,RuntimeError) as exc: st.warning(str(exc))
+        salvo=st.session_state.get("modelo_resultado")
+        if salvo and salvo[:2]==(modo,unicas):
+            mostrar_regressao(salvo[2])
+        else: st.info("Calcule a análise para esta população. Métricas são geradas com os dados deste modo, nunca copiadas da base CTI para a demonstração.")
 with metodologia:
     st.subheader("Fonte, fórmulas e limites")
-    st.write("Modo: " + ("CTI local, preparada pelo pipeline E1." if privado else "Gerador fictício independente, semente 2026."))
+    st.write("Modo: " + {"local":"CTI local, preparada pelo pipeline E1.",
+                         "agregados":"agregados publicáveis da base CTI preparada pelo pipeline E1 (médias e percentis P1 a P99 por ano).",
+                         "ficticio":"Gerador fictício independente, semente 2026."}[modo])
+    if agg:
+        origem=agg["origem"]
+        st.write(f"Arquivo de agregados: versão {agg['schema']}, gerado em {data_hora(agg['gerado_em_utc'])} (horário de Brasília). "
+                 f"SHA-256 da entrada CTI: {origem.get('entrada_sha256') or 'não informado'}. "
+                 f"Corresponde à referência da E1: {'sim' if origem.get('corresponde_referencia_E1') is True else 'não comprovado'}.")
     st.write("Versão do contrato: e2-v1. Versão da entrega: E2, 05/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
     st.write("A base bruta é preservada. A preparação valida chaves e identidades; a entrada E2 confere os 12 anos por cenário e a marcação de trajetórias repetidas.")
     st.write("Contas são agregadas por média dentro de cada ano. Não somamos saldos patrimoniais ao longo dos anos. Dados ausentes permanecem indisponíveis.")
@@ -192,8 +247,11 @@ with metodologia:
     st.write("Sensibilidade: R' = R × (1 − desconto); C' = C × (1 + variação); margem = R' + C'. Controles limitam desconto a 0–100% e custo a −100–200% para evitar custos com sinal invertido.")
     st.write("Fonte institucional: enunciado FINAL FECAP. Biblioteca financeira compartilhada com testes independentes contra a planilha E1.")
     st.link_button("Código e documentação","https://github.com/2026-2-NCC4/Projeto6")
-    if privado:
+    if modo=="local":
         st.caption("Não exportamos a base CTI nem linhas individuais. As tabelas e os gráficos exibem apenas agregados da população selecionada.")
+    elif agg:
+        st.caption("O arquivo publicado tem só médias e percentis por ano das contas usadas no painel: nenhuma linha, identificador, mínimo ou máximo de cenário. A exportação abaixo traz os KPIs calculados dessas médias.")
+        st.download_button("Exportar KPIs agregados (CSV)",tabela(medias).to_csv(index=False).encode("utf-8-sig"),"kpis_agregados_cti.csv","text/csv")
     else:
         st.download_button("Exportar KPIs fictícios (CSV)",tabela(medias).to_csv(index=False).encode("utf-8-sig"),"kpis_ficticios.csv","text/csv")
 st.caption(f"Processamento desta interação: {time.perf_counter()-inicio:.2f} s · Valores são projeções/simulações, não resultados realizados.")

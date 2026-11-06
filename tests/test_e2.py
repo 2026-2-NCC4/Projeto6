@@ -10,7 +10,7 @@ from src.cti.indicadores import calcular
 from src.cti.sensibilidade import simular
 from src.cti.regressao import executar, separar, grupos
 from src.cti.distribuicao import percentis_anuais, proporcao_abaixo
-from src.cti.formatacao import numero, reais_mi, percentual, valor_kpi
+from src.cti.formatacao import numero, reais_mi, percentual, valor_kpi, parcela, data_hora
 from src import prepara
 
 @pytest.fixture(scope="module")
@@ -101,6 +101,8 @@ def test_formatacao_padrao_brasileiro():
     assert valor_kpi(4000,"R$ por cliente")=="R$ 4.000"
     assert valor_kpi(1.583,"índice")=="1,58"
     assert valor_kpi(None,"%","pendente: PC com sinal positivo")=="Pendente: PC com sinal positivo"
+    assert parcela(.3724)=="37,2%" and parcela(0,"ate_1")=="1% ou menos" and parcela(1,"acima_99")=="99% ou mais"
+    assert data_hora("2026-11-06T15:30:00+00:00")=="06/11/2026 12:30" and data_hora(None)=="Indisponível"
 
 def test_distribuicao_valores_conhecidos():
     b=pd.DataFrame({"ano_n":[1,1,1,1,2,2,2,2],
@@ -121,11 +123,13 @@ def test_distribuicao_ordenada(base):
     assert len(p)==12 and (p.n==30).all()
     assert (p.P5<=p.P25).all() and (p.P25<=p.P50).all() and (p.P50<=p.P75).all() and (p.P75<=p.P95).all()
 
-def test_interface(monkeypatch):
+def test_interface(monkeypatch,tmp_path):
     from streamlit.testing.v1 import AppTest
     monkeypatch.delenv("CTI_BASE_LOCAL",raising=False)
+    monkeypatch.setenv("CTI_AGREGADOS",str(tmp_path/"ausente.json"))  # sem agregados: demonstração fictícia
     app=AppTest.from_file(str(Path("app/app.py").resolve()),default_timeout=90).run()
     assert not app.exception
+    assert "DEMONSTRAÇÃO FICTÍCIA" in " ".join(w.value for w in app.warning)
     assert len(app.metric)>=8
     app.slider(key="desconto").set_value(10.).run()
     assert not app.exception

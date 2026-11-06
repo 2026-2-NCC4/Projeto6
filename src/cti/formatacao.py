@@ -1,7 +1,9 @@
 """Formatação de números no padrão brasileiro, usada pelo painel e pelos testes."""
 import math
+from datetime import datetime, timedelta, timezone
 
 INDISPONIVEL = "Indisponível"
+BRASILIA = timezone(timedelta(hours=-3))  # sem horário de verão desde 2019
 
 
 def _valido(v):
@@ -40,3 +42,23 @@ def valor_kpi(valor, unidade, estado=""):
     if unidade == "R$ por cliente":
         return f"R$ {numero(valor, 0)}"
     return numero(valor)  # índice e vezes
+
+
+def parcela(p, faixa="exata"):
+    """Parcela de cenários: 0.372 -> '37,2%'. No modo agregado, fora de P1 a P99 vira um limite."""
+    if faixa == "ate_1":
+        return "1% ou menos"
+    if faixa == "acima_99":
+        return "99% ou mais"
+    return INDISPONIVEL if not _valido(p) else f"{numero(float(p) * 100, 1)}%"
+
+
+def data_hora(iso):
+    """'2026-11-06T15:30:00+00:00' -> '06/11/2026 12:30' (horário de Brasília)."""
+    try:
+        d = datetime.fromisoformat(iso)
+    except (TypeError, ValueError):
+        return INDISPONIVEL
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=timezone.utc)
+    return d.astimezone(BRASILIA).strftime("%d/%m/%Y %H:%M")
