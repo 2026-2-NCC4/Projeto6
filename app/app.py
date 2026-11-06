@@ -1,5 +1,6 @@
-"""Painel E2. Fonte dos dados, nesta ordem: base CTI local (CTI_BASE_LOCAL), arquivo de agregados publicáveis
-(app/dados/agregados_cti.json ou CTI_AGREGADOS) e, sem nenhum dos dois, demonstração fictícia."""
+"""Painel E2: CTI agregada por padrão; base completa local ou demo somente por configuração explícita.
+Fonte de produção ausente ou inválida interrompe a aplicação, sem fallback fictício.
+"""
 from pathlib import Path
 import sys
 import os
@@ -19,6 +20,7 @@ from src.cti.regressao import executar
 from src.cti.distribuicao import CONTAS as CONTAS_DIST, percentis_anuais, proporcao_abaixo
 from src.cti import agregados as ag
 from src.cti.formatacao import numero, reais_mi, valor_kpi, parcela, data_hora
+from src.cti.versao import commit_em_execucao
 
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
@@ -41,6 +43,10 @@ def ler_regressao_publicada(caminho, assinatura):
 @st.cache_data
 def modelo(base, unicas):
     return executar(base, unicas=unicas)
+
+@st.cache_data
+def versao_codigo():
+    return commit_em_execucao(ROOT)
 
 def mostrar_regressao(res):
     st.write(f"Modelo selecionado na validação: **{res['modelo']}**. Teste com grupos independentes do treino.")
@@ -255,6 +261,12 @@ with regressao:
         else: st.info("Calcule a análise para esta população. Métricas são geradas com os dados deste modo, nunca copiadas da base CTI para a demonstração.")
 with metodologia:
     st.subheader("Fonte, fórmulas e limites")
+    commit=versao_codigo()
+    if commit:
+        st.caption(f"Commit do código em execução: {commit}")
+        st.link_button("Consultar esta versão do código",f"https://github.com/2026-2-NCC4/Projeto6/tree/{commit}")
+    else:
+        st.caption("Commit do código em execução: indisponível neste ambiente. Não confundir com a versão da geração dos dados.")
     st.write("Modo: " + {"local":"CTI local, preparada pelo pipeline E1.",
                          "agregados":"agregados publicáveis da base CTI preparada pelo pipeline E1 (médias e percentis P1 a P99 por ano).",
                          "ficticio":"Gerador fictício independente, semente 2026."}[modo])
