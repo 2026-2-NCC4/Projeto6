@@ -15,7 +15,7 @@ Verificação privada exige a mesma fonte E1; sem a base, os testes fictícios c
 
 Novas regras:
 - Ticket = receita simulada / quantidade hipotética positiva, no mesmo ano.
-- Meta é acadêmica, editável; desvio = margem simulada menos meta.
+- Meta é um percentual acadêmico editável da receita original, convertido em R$. O padrão é a margem original; desvio = margem simulada menos meta. Não representa orçamento da CTI.
 - Receita simulada = R × (1 − desconto); custo assinado = C × (1 + variação).
 - Margem = receita + custo; não substituir resultado líquido, tributos ou EBITDA por essa margem parcial.
 - Exemplo fictício independente: R=100, C=−60, desconto=10%, custo=+20%, volume=10, meta=20 → margem18, ticket9, desvio−2.

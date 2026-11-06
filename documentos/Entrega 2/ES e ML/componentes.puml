@@ -1,21 +1,29 @@
 @startuml
-title CTI E2 - componentes implementados
-skinparam componentStyle uml2
-component "app/app.py" as app
-component "dados / recortes" as dados
-component "indicadores" as kpi
-component "sensibilidade" as sim
-component "regressao" as reg
-component "prepara.py (E1)" as prep
-artifact "Parquet local" as parquet
-app ..> dados : carregar / filtrar
-app ..> kpi : calcular
-app ..> sim : simular
-app ..> reg : executar sob demanda
-dados ..> prep : reutilizar
-dados ..> parquet : leitura
-note bottom of dados
-Gerador fictício independente disponível
-como alternativa à entrada CTI local.
+title CTI E2 - componentes de producao
+component "app/app.py" as App
+component "dados / recortes" as Dados
+component "indicadores / sensibilidade" as KPI
+component "distribuicao / formatacao" as Dist
+component agregados as Ag
+component regressao as Reg
+component executar_e2 as Exec
+artifact agregados_cti.json as Json
+artifact evidencias_e2.json as Ev
+artifact "Parquet / prepara E1" as Local
+App ..> Dados
+App ..> KPI
+App ..> Dist
+App ..> Ag
+App ..> Reg
+Dados ..> Local
+Ag ..> Json : medias / percentis
+Ag ..> Ev : regressao publicada
+Exec ..> Local : preparacao
+Exec ..> Reg : avaliacao
+note bottom of App
+Producao CTI agregada por padrao.
+CTI_BASE_LOCAL seleciona base completa local.
+CTI_DEMO=1 seleciona demonstracao.
+Fonte invalida bloqueia a carga.
 end note
 @enduml

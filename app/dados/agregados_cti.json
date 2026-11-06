@@ -1,6 +1,6 @@
 {
  "schema": "agregados-e2-v1",
- "gerado_em_utc": "2026-11-06T03:43:39+00:00",
+ "gerado_em_utc": "2026-11-06T13:00:56+00:00",
  "origem": {
   "base": "base_analitica.parquet",
   "sha256_base": "19b7f9925157be3d0321b5e499dc40919469fddfdf4d74b10956be6bd616d179",

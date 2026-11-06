@@ -37,7 +37,7 @@ def capa(disciplina,professor,subtitulo):
             Spacer(1,12),h(disciplina),p(subtitulo),
             table([["Identificação","Entrega 2"],["Grupo","6 - DevLeaders"],
                    ["Integrantes","Gustavo Pires; Lúcio Vecchio; Luiz Henrique Zaim da Cruz; Eric Aloise"],
-                   ["Orientação",professor],["Data de referência","05/11/2026"],
+                   ["Orientação",professor],["Data de referência","06/11/2026"],
                    ["Código validado",R["commit_implementacao"][:12]],
                    ["Repositório","github.com/2026-2-NCC4/Projeto6"]],[105,385]),Spacer(1,18)]
 def rodape(canvas,doc):
@@ -72,37 +72,37 @@ class UML(Flowable):
             if label: text((x1+x2)/2,(y1+y2)/2+8,label,8)
         if self.tipo=="componentes":
             caixa(165,330,160,"app/app.py")
-            caixa(10,215,135,"dados / recortes")
-            caixa(175,215,140,"indicadores")
-            caixa(335,215,145,"sensibilidade")
-            caixa(10,75,135,"prepara.py (E1)")
-            caixa(175,75,140,"regressao")
-            caixa(335,75,145,"Parquet local","artifact")
-            seta(185,330,78,261,"carrega / filtra",True)
-            seta(245,330,245,261,"calcula",True)
-            seta(305,330,405,261,"simula",True)
-            seta(78,215,78,121,"reutiliza",True)
-            c.setDash(4,3); c.line(325,350,325,150); c.line(325,150,245,150); c.setDash()
-            seta(245,150,245,121,"",True)
-            text(380,172,"regressão sob demanda",8)
-            seta(140,218,405,121,"leitura",True)
-            text(245,32,"Dependência tracejada: consumidor aponta para o provedor.",9)
+            caixa(5,235,150,"dados / recortes")
+            caixa(170,235,150,"indicadores / sensibilidade")
+            caixa(335,235,150,"distribuicao / formatacao")
+            caixa(5,130,150,"agregados")
+            caixa(170,130,150,"regressao")
+            caixa(335,130,150,"executar_e2")
+            caixa(5,20,150,"agregados_cti.json","artifact")
+            caixa(170,20,150,"evidencias_e2.json","artifact")
+            caixa(335,20,150,"Parquet / prepara E1","artifact")
+            for x in [80,245,410]: seta(245,330,x,281,"",True)
+            seta(80,235,80,176,"fonte publica",True)
+            seta(245,235,245,176,"modelo local",True)
+            seta(410,130,410,66,"pipeline",True)
+            seta(80,130,80,66,"medias / percentis",True)
+            seta(245,130,245,66,"resultados",True)
         else:
-            xs=[38,155,278,435];labels=["Usuário","app","dados / recortes","sensibilidade"]
+            xs=[38,155,278,435];labels=["Usuário","app","dados / agregados","sensibilidade"]
             for x,label in zip(xs,labels):
                 c.setFillColor(colors.HexColor("#edf4f8")); c.rect(x-35,342,70,30,fill=1)
                 c.setFillColor(colors.HexColor("#284b63"));text(x,354,label,8)
                 c.setDash(3,3);c.line(x,20,x,342);c.setDash()
             seta(38,319,155,319,"seleciona recorte")
             c.rect(151,150,8,169,fill=0)
-            seta(155,290,278,290,"validar / filtrar")
+            seta(155,290,278,290,"selecionar fonte / validar")
             c.rect(274,150,8,140,fill=0)
             c.rect(3,140,480,121,fill=0); c.setFont("Helvetica-Bold",9);c.drawString(9,248,"alt")
             c.setFont("Helvetica",8);c.drawString(35,248,"[entrada inválida]")
             seta(278,228,155,228,"erro",True)
             seta(155,207,38,207,"mensagem",True)
             c.setDash(4,3);c.line(3,190,483,190);c.setDash();c.drawString(35,178,"[entrada válida]")
-            seta(278,156,155,156,"médias anuais",True)
+            seta(278,156,155,156,"medias / percentis",True)
             seta(38,119,155,119,"altera hipóteses")
             seta(155,94,435,94,"simular(R, C, d, c)")
             c.rect(431,57,8,37,fill=0)
@@ -130,6 +130,8 @@ s += [table(rows,[170,160,160]),Spacer(1,14),
 s += [table([["Termo","Coeficiente","IC 95% inferior","IC 95% superior"]]+[[c["termo"],num(c["coeficiente"]),num(c["IC95_inferior"]),num(c["IC95_superior"])] for c in REG["coeficientes"]],[148,110,116,116]),Spacer(1,12),
       p("Receita: mantendo ano e custo constantes, mais R$ 1 milhão associa-se a cerca de R$ 0,593 milhão de resultado. O custo é assinado: aumentar a despesa em módulo reduz seu regressor. Seu IC inclui zero; isso não significa ausência de importância econômica, pois há forte colinearidade e condicionamento."),
       p("Os coeficientes de ano são diferenças em relação ao Ano 1. O intercepto não tem interpretação econômica isolada fora do domínio observado. Os intervalos agrupados não resolvem possível dependência entre cenários de um mesmo simulador."),br(),
+      p("Auditoria contábil: resultado líquido = receita + tributos + custos + depreciação/amortização + resultado financeiro + outros resultados operacionais + IR/CSLL. Resíduo máximo na base: cerca de R$0,0000505, arredondado a zero. O modelo usa só parte dessas parcelas."),
+      p("Taxas agregadas de tributos e IR/CSLL: aproximadamente 8,45% e 34,37%. O produto (1-t)(1-ir) = 0,6008 é comparação descritiva, não demonstra que o coeficiente parcial 0,5929 seja repasse tributário. Taxas variáveis, variáveis omitidas e controles de ano impedem essa conclusão. O intervalo do custo inclui zero; omissão de parcelas é hipótese a investigar, não explicação comprovada."),
       h("5. Diagnósticos e limitações"),
       Image(str(FIGURA),width=490,height=312),
       p(f"Breusch-Pagan exploratório: LM {num(REG['diagnostico']['breusch_pagan_LM'])}; p = {REG['diagnostico']['breusch_pagan_p_exploratorio']:.3g}. A dependência em painel limita a calibração desse p-valor. Correlação defasada dos resíduos dentro de cenário: {num(REG['diagnostico']['correlacao_residuo_defasado'])}."),
@@ -149,7 +151,7 @@ salvar("Análise Inferencial de Dados","E2_Analise_Inferencial_CTI.pdf",s)
 s=capa("Contabilidade e Finanças","Orientadores do PI: Eduardo Savino, Luis Pires, Mauricio Lopes e Rodnil da Silva","Painel operacional, regras de cálculo e sensibilidade")
 s += [h("1. Decisões apoiadas"),p("O painel integra receita, custos, margem após custos, resultado líquido e geração de caixa. As abas Financeiro e Sensibilidade oferecem os indicadores E1, ticket hipotético, meta acadêmica, evolução anual e comparação entre referência e simulação."),
       p("Os cenários são alternativas da mesma concessão. Para cada ano, calculamos a média de cada conta e depois o indicador. Não somamos faturamento entre cenários nem saldos patrimoniais entre anos. O padrão mantém todos os 1.200 cenários; a opção sem cópias retém 1.107 trajetórias."),
-      p("O painel público proposto utiliza somente dados fictícios gerados independentemente. A base preparada CTI é carregada apenas por configuração local; o modo é identificado em todas as sessões. A publicação em nuvem ainda depende de definição de destino e acesso."),br(),
+      p("A versão de produção utiliza médias e percentis reais da CTI, conferidos com a base preparada E1. O arquivo completo permanece local. O painel identifica a fonte e oferece a comparação de 1.200 cenários com 1.107 trajetórias únicas."),br(),
       h("2. Dicionário operacional")]
 from src.cti.indicadores import calcular
 s += [table([["KPI","Unidade","Regra"]]+[[k.nome,k.unidade,k.formula] for k in calcular({})],[160,65,265]),
@@ -157,7 +159,7 @@ s += [table([["KPI","Unidade","Regra"]]+[[k.nome,k.unidade,k.formula] for k in c
       h("3. Novos indicadores e controles")]
 s += [table([["Indicador","Fórmula / interpretação","Validação"],
              ["Ticket simulado","Receita simulada / quantidade hipotética anual; R$/transação","Quantidade finita e positiva; não inventar transações observadas."],
-             ["Meta acadêmica","Objetivo editável da margem após custos, em R$","Desvio = margem simulada - meta; não é orçamento CTI."],
+             ["Meta acadêmica","Percentual acadêmico da receita original, convertido em R$; padrão igual à margem original","Desvio = margem simulada - percentual × receita original; não é orçamento CTI."],
              ["Resultado líquido","DRE - Resultado Líquido","Conta da base, sem substituir por margem parcial."],
              ["Geração de caixa","FLU - Geração de Caixa","Conta anual; não equivale a EBITDA."],
              ["MVA","Indisponível","Falta valor de mercado; não atribuir zero."]],[115,220,155]),
@@ -170,31 +172,31 @@ s += [table([["Indicador","Fórmula / interpretação","Validação"],
 s += [table([["Verificação atual","Resultado"],["KPIs numéricos vs. planilha E1","161 conferidos"],["Indisponibilidades / pendências","55 estados coerentes"],["Total de KPIs","216/216, sem divergência"],["Identidades por ano","24/24"],["Entradas da planilha","165 valores numéricos + 3 ausências conferidos"],["Teste negativo","Receita alterada em 10% detectada; validação reprovou como esperado"]],[230,260]),
       Spacer(1,15),p("A referência independente é a planilha avaliada da E1, preservada. Comparação dos valores salvos após recálculo histórico, com tolerância de KPI relativa 1e-6 e absoluta R$0,01. As identidades devem ter resíduo inferior a R$1. Esta etapa não afirma um novo recálculo do Excel."),
       p("Testes sintéticos também cobrem fórmulas com valores esperados calculados manualmente, receita zero, sinal de PC, conta ausente, quantidade zero, limites dos controles e restauração da referência. Fórmulas são compartilhadas pelo painel e pela rotina de validação; os relatórios documentam as mesmas regras."),
-      p("Uso: escolher anos e política de repetição; escolher o ano dos cartões; consultar evolução; ajustar somente as hipóteses acadêmicas em Sensibilidade; ler estados na tabela Financeiro. Download dedicado de KPIs disponível no modo fictício; tabelas e gráficos CTI contêm apenas agregados."),
+      p("Uso: escolher anos e política de repetição; escolher o ano dos cartões; consultar evolução; ajustar somente as hipóteses acadêmicas em Sensibilidade; ler estados na tabela Financeiro. Download de KPIs agregados reais disponível na produção; demo fictícia exige CTI_DEMO=1."),
       p("Referências: dicionário e planilha de Contabilidade e Finanças E1; enunciado FINAL FECAP, seções 5.4, 10 e 11. Implementação: src/cti/indicadores.py, recortes.py e sensibilidade.py; teste independente: src/cti/executar_e2.py.") ]
 salvar("Contabilidade e Finanças","E2_Painel_Financeiro_CTI.pdf",s)
 
 # Engenharia
 s=capa("Engenharia de Software e Arquitetura de Sistemas","Luis Pires","Design de software e UML aplicados ao produto")
 s += [h("1. Arquitetura implementada"),p("Arquitetura modular em Python: a interface Streamlit coordena serviços de domínio; preparação e validação isolam os dados; cálculos financeiros e regressão são reutilizáveis por CLI, notebook e painel. O sistema não exige banco nem API próprios para o volume atual."),
-      p("Entradas: CSV CTI autorizado ou Parquet preparado; gerador fictício independente para demonstração; filtros de ano e repetição; hipóteses de desconto, custo, volume e meta. Processamento: validação, recorte, médias anuais, KPIs, simulação e ajuste por trajetórias. Saídas: tabelas, gráficos, indicadores com estado, PDF, evidências agregadas e CSV fictício."),
+      p("Entradas: CSV CTI autorizado ou Parquet preparado; gerador fictício independente para demonstração; filtros de ano e repetição; hipóteses de desconto, custo, volume e meta. Processamento: validação, recorte, médias anuais, KPIs, simulação e ajuste por trajetórias. Saídas: tabelas, gráficos, indicadores com estado, PDF, evidências e CSV de indicadores agregados reais."),
       p("Decisões: reaproveitar prepara.py evita divergência com E1; funções puras separam regra e apresentação; Parquet reduz custo de leitura; cache evita repetir carga e ajuste sem alteração de dados. O modo público não inclui upload ou exportação de dados privados."),
       p("Alternativa de banco/API aumentaria manutenção sem requisito atual de concorrência de escrita. A arquitetura admite substituição futura do carregador sem duplicar fórmulas."),br(),
-      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app chama dados/recortes, indicadores, sensibilidade e regressao. dados reutiliza prepara.py e lê Parquet local; regressao recebe a base validada. O gerador fictício é alternativa de entrada dentro de dados."),
+      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app utiliza dados/recortes, agregados, indicadores, sensibilidade, distribuição, formatação e regressão. executar_e2 prepara e avalia; a versão pública lê agregados_cti.json e evidencias_e2.json. A base completa é local; demonstração é uma opção explícita."),
       p("Fontes editáveis: componentes.puml e sequencia.puml. O desenho representa módulos existentes, não um fluxo genérico."),br(),
       h("3. UML de sequência"),UML("sequencia"),
-      p("Participantes: usuário, app, serviço de dados/recortes e serviço de sensibilidade. Linhas de vida tracejadas, mensagens e retornos; fragmento alt distingue entrada inválida e válida. Resultado com falha é apresentado como mensagem, nunca substituído silenciosamente por zero."),
-      p("O processamento da simulação recebe cópia dos valores de referência. Restaurar hipóteses muda apenas os controles; não escreve na base. Regressão é iniciada por comando explícito e seu recorte 1-11 é informado separadamente."),br(),
+      p("Participantes: usuário, app, dados/agregados e sensibilidade. Linhas de vida tracejadas, mensagens e retornos; fragmento alt distingue entrada inválida e válida. Resultado com falha é apresentado como mensagem, nunca substituído silenciosamente por zero."),
+      p("O processamento da simulação recebe cópia dos valores de referência. Restaurar hipóteses muda apenas os controles; não escreve na base. No modo agregado, a regressão lê evidências já calculadas; no modo local, é iniciada por comando explícito. Seu recorte 1-11 é informado separadamente."),br(),
       h("4. Rastreabilidade e qualidade")]
 s += [table([["Requisitos FECAP","Implementação / evidência"],
              ["RF01-RF05: fontes e preparação","prepara.py E1 + dados.py; hash preservado, 15 verificações e cobertura por cenário"],
              ["RF06-RF07: análise e regressão","E1 descritiva preservada; regressao.py + notebook E2 com 6/6 células"],
              ["RF08 / RF11: KPIs e cenários","indicadores.py e sensibilidade.py; 216 KPIs + 24 identidades conferidos"],
              ["RF09-RF10 / RF13: relatório e painel","Quatro PDFs; cinco cartões, evolução, tabelas, filtros e notas"],
-             ["RF12: exportação autorizada","CSV fictício disponível; base CTI e linhas individuais não exportadas"],
+             ["RF12: exportação autorizada","CSV agregado real disponível; base completa e linhas individuais não exportadas"],
              ["RF14: execução e publicação","Execução local testada; nuvem ainda não verificada"],
-             ["Confiabilidade / manutenção","17 testes iniciais, incluindo entradas inválidas, recortes, fórmulas, modelo, interface e teste negativo real"],
-             ["Reprodução / segurança","Dependências específicas E2; dados ignorados pelo Git; modo fictício como padrão"]],[155,335]),
+             ["Confiabilidade / manutenção","37 testes aprovados, incluindo entradas inválidas, recortes, fórmulas, modelo, interface e teste negativo real"],
+             ["Reprodução / segurança","Dependências específicas E2; base completa ignorada pelo Git; produção CTI agregada como padrão"]],[155,335]),
       Spacer(1,15),p("A suíte utiliza casos independentes com valores conhecidos e comparação com planilha E1; não verifica apenas que o código executa. Dados essenciais ausentes, chave duplicada, cobertura incompleta e simulação inválida bloqueiam os respectivos resultados."),
       p("O acompanhamento operacional e as trocas entre ferramentas são privados, por orientação do grupo. Este PDF registra requisitos implementados e evidências do produto, sem publicar o planejamento interno."),br(),
       h("5. Resultados e reflexão")]
@@ -212,22 +214,24 @@ s=capa("Projeto Interdisciplinar: Ciência de Dados","Eduardo Savino Gomes","Int
 s += [h("1. Percurso dos dados"),p("A entrada privada CTI é lida como CSV Latin-1, delimitador ponto e vírgula, sem cabeçalho e com convenção numérica brasileira. A base bruta é apenas lida. Nomes de contas são uniformizados nos derivados; linhas sem conta são preservadas pela preparação E1 e não participam de KPIs."),
       p("Nova execução E2: 1.002.000 linhas, 958.800 nomeadas, 43.200 sem conta; 1.200 cenários, 12 anos e 69 contas. Base analítica: 14.400 x 81. As 15 verificações E1 passaram novamente; chave, cobertura individual e marcas de repetição foram verificadas pela camada E2."),
       p("SHA-256 antes/depois da origem: "+R["qualidade"]["entrada_sha256"]),
-      p("Modos separados: CTI local autorizado e demonstração fictícia independente. Nenhum dos valores privados é usado para calibrar o gerador fictício. As duas populações jamais são misturadas nas métricas apresentadas."),br(),
-      h("2. Painel e funcionalidades")]
+      p("Produção: arquivo de agregados reais CTI. Alternativas: Parquet local completo ou demonstração fictícia explicitamente configurada. Ausência ou falha na fonte de produção bloqueia o painel; não há troca silenciosa para dados fictícios."),br(),
+      h("2. Painel e funcionalidades"),
+      p("Decisões apoiadas: avaliar frequência simulada de baixa geração de caixa; comparar faixas de distribuição aos acionistas; examinar saldo final no encerramento; avaliar impacto de desconto/custo na margem; comparar resultados com e sem cópias de trajetórias."),
+      p("Distribuição: médias, mediana, faixas P5-P95 e P25-P75, mais risco aproximado por interpolação P1-P99. No teste de 3.093 limites da base real, erro máximo observado de 1,0082 ponto percentual. Não é garantia universal nem probabilidade empírica de acontecimentos reais.")]
 s += [table([["Área","Comportamento"],["Visão geral","Cinco indicadores: receita, custos, margem após custos, resultado líquido e geração de caixa; evolução anual e tabela de apoio"],
              ["Filtros","Intervalo Ano 1-12, população com/sem cópias e ano de referência dos cartões"],
              ["Financeiro","18 indicadores e estados da E1, regras, premissas e limitações"],
              ["Sensibilidade","Desconto, custo, volume hipotético, ticket e meta; comparação referência/simulação e restauração"],
-             ["Regressão","Ajuste sob demanda, escolha por validação e avaliação separada; coeficientes e diagnóstico"],
-             ["Metodologia","Origem, esquema, unidade, atualização, regras, privacidade e CSV fictício"]],[125,365]),
+             ["Regressão","Evidências publicadas no modo agregado; ajuste sob demanda no modo local, com validação por trajetória"],
+             ["Metodologia","Origem, esquema, unidade, atualização, regras e CSV agregado real"]],[125,365]),
       Spacer(1,15),p("Todos os indicadores financeiros usam o mesmo recorte e as mesmas médias. O modelo usa Anos 1-11 para manter desenho fixo e informa isso explicitamente, sem aparentar responder ao filtro anual do financeiro. A política de cópias afeta sua população."),
       p("Metadados: versão e2-v1, data da entrega, modo da base, unidade por indicador, fórmula e estado. Calendário 2026 + ano e R$ são convenções acadêmicas. As telas alertam sobre ausência, encerramento e indisponibilidades."),br(),
       h("3. Execução e implantação")]
 s += [p("Python 3.13. Criar ambiente virtual; instalar app/requirements.txt para o painel ou requirements-e2-dev.txt para análise, testes e geração de documentos. O requirements.txt E1 permanece preservado."),
-      p("Painel fictício: python -m streamlit run app/app.py. Acesse a URL local exibida no terminal. Nenhuma cópia CTI é necessária nesse modo."),
+      p("Produção CTI agregada: python -m streamlit run app/app.py. O arquivo real app/dados/agregados_cti.json acompanha o código. A base completa não precisa ser enviada para o servidor."),
       p('Preparação e análise CTI: python -m src.cti.executar_e2 --csv "src/data/raw/Demonstrativo Fecap v3.csv". O processo grava somente a saída ignorada src/data/processed/e2. Depois configure CTI_BASE_LOCAL para o Parquet dessa pasta ao iniciar o painel local.'),
       p("Testes: python -m pytest -q. A conferência privada é omitida automaticamente em ambiente sem o Parquet CTI; os testes fictícios continuam executáveis. Notebook inferencial tem instruções e modo fictício padrão."),
-      p("Nuvem: entrada app/app.py; instalar app/requirements.txt; Python 3.13; não definir CTI_BASE_LOCAL nem enviar dados privados. Usar somente o gerador fictício para a demonstração proposta. O destino ainda precisa ser definido/aprovado e a URL externa testada."),
+      p("Nuvem: entrada app/app.py; instalar app/requirements.txt; Python 3.13; não definir CTI_BASE_LOCAL nem enviar dados privados. Usar os agregados reais versionados. Streamlit Community Cloud foi escolhido; acesso externo e dependências Linux só serão considerados aprovados após teste real."),
       p("Estado desta versão: funcionamento local verificado. Não há URL de nuvem validada registrada neste documento. A publicação é requisito pendente, não substituído por estas instruções."),br(),
       h("4. Evidências, limites e fontes")]
 s += [p("Reexecução E2: pipeline aprovado com origem inalterada; 216 KPIs e 24 identidades conferidos; notebook 6/6 células sem erro em kernel local; testes sintéticos e teste negativo com dados reais. Evidências numéricas agregadas ficam junto aos artefatos disciplinares."),

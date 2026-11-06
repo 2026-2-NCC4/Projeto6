@@ -1,5 +1,5 @@
 {
-  "data_utc": "2026-11-05T21:35:26.575415+00:00",
+  "data_utc": "2026-11-06T12:57:59.938120+00:00",
   "modo": "CTI",
   "qualidade": {
     "contagens": {
@@ -214,6 +214,23 @@
         "RMSE_milhoes": 69.71475698770898,
         "R2": 0.9927669771519643
       }
+    },
+    "identidade_contabil": {
+      "parcelas": [
+        "DRE - Receita",
+        "DRE - Tributos",
+        "DRE - Custos",
+        "DRE - Depreciação e Amortização",
+        "DRE - Resultado Financeiro",
+        "DRE - Outros Resultados Operacionais",
+        "DRE - Imposto de Renda e Contribuição Social"
+      ],
+      "residuo_max_reais": 5.054473876953125e-05,
+      "linhas_comparaveis": 13200,
+      "tributos_razao_somas": 0.08454333365569625,
+      "IR_razao_somas": 0.3437327485235328,
+      "produto_taxas_agregadas": 0.6007842302675854,
+      "interpretacao": "A identidade completa contém sete parcelas. O modelo parcial não usa todas elas. O produto de taxas agregadas é comparação descritiva, não prova de mecanismo causal ou do coeficiente OLS; omissão de parcelas e controle de ano influenciam os coeficientes."
     },
     "teste": {
       "MAE_milhoes": 20.06272878704097,
@@ -668,6 +685,23 @@
         "RMSE_milhoes": 33.27128119347016,
         "R2": 0.9983926204846006
       }
+    },
+    "identidade_contabil": {
+      "parcelas": [
+        "DRE - Receita",
+        "DRE - Tributos",
+        "DRE - Custos",
+        "DRE - Depreciação e Amortização",
+        "DRE - Resultado Financeiro",
+        "DRE - Outros Resultados Operacionais",
+        "DRE - Imposto de Renda e Contribuição Social"
+      ],
+      "residuo_max_reais": 5.054473876953125e-05,
+      "linhas_comparaveis": 12177,
+      "tributos_razao_somas": 0.08454399550419792,
+      "IR_razao_somas": 0.34372505440959494,
+      "produto_taxas_agregadas": 0.6007908395408922,
+      "interpretacao": "A identidade completa contém sete parcelas. O modelo parcial não usa todas elas. O produto de taxas agregadas é comparação descritiva, não prova de mecanismo causal ou do coeficiente OLS; omissão de parcelas e controle de ano influenciam os coeficientes."
     },
     "teste": {
       "MAE_milhoes": 20.06272878704097,
@@ -1124,6 +1158,23 @@
         "R2": 0.9967417601136264
       }
     },
+    "identidade_contabil": {
+      "parcelas": [
+        "DRE - Receita",
+        "DRE - Tributos",
+        "DRE - Custos",
+        "DRE - Depreciação e Amortização",
+        "DRE - Resultado Financeiro",
+        "DRE - Outros Resultados Operacionais",
+        "DRE - Imposto de Renda e Contribuição Social"
+      ],
+      "residuo_max_reais": 6.67572021484375e-05,
+      "linhas_comparaveis": 14400,
+      "tributos_razao_somas": 0.08478472860851456,
+      "IR_razao_somas": 0.3434315702853614,
+      "produto_taxas_agregadas": 0.6009014535883643,
+      "interpretacao": "A identidade completa contém sete parcelas. O modelo parcial não usa todas elas. O produto de taxas agregadas é comparação descritiva, não prova de mecanismo causal ou do coeficiente OLS; omissão de parcelas e controle de ano influenciam os coeficientes."
+    },
     "teste": {
       "MAE_milhoes": 21.592330809079478,
       "RMSE_milhoes": 36.27771073522824,
@@ -1541,30 +1592,24 @@
       "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
     ]
   },
-  "commit_implementacao": "a5a006b9b23f62c6c8af58a1b09c3ab02368b7fc",
-  "integracao": {
-    "modo": "CTI local",
-    "inicio_app_s": 5.298891999991611,
-    "troca_ano_s": 0.2914932999992743,
-    "conferencia_receita_anos": [
-      11,
-      1
-    ],
-    "sensibilidade_conferida": true,
-    "metricas_painel_notebook_cli_iguais": true,
-    "nota": "Tempos observados em AppTest local; não representam latência de nuvem."
-  },
+  "commit_implementacao": "f2bb83637e6f66eb9494fe75516c9ddcfbf897fd",
   "testes": {
-    "tests": "17",
-    "errors": "0",
-    "failures": "0",
-    "skipped": "0",
-    "time": "9.357"
+    "tests": 37,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "ambiente": "Windows Python 3.13; execução real em 06/11/2026"
   },
   "notebook": {
     "ambiente": "kernel local limpo",
     "celulas_executadas": 6,
     "erros": 0,
     "colab_executado": false
+  },
+  "integracao_06_11": {
+    "producao_real": true,
+    "simulacao_desconto": true,
+    "restauracao": true,
+    "populacao_e_encerramento": true
   }
 }

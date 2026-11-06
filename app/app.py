@@ -177,15 +177,17 @@ with distribuicao:
         else:
             prop=proporcao_abaixo(recorte,rotulos[nome_dist],limite*1e6).to_frame().assign(faixa="exata")
         prop["texto"]=[parcela(p,f) for p,f in zip(prop.proporcao,prop.faixa)]
+        prop["valor_grafico"]=prop.proporcao.where(prop.faixa.ne("ate_1"),.01).where(prop.faixa.ne("acima_99"),.99)
         if ano in prop.index:
             st.metric(f"Cenários com {nome_dist.lower()} abaixo de R$ {numero(limite)} mi · Ano {ano}"+(" (aproximado)" if agg else ""),prop.loc[ano,"texto"])
         barras=alt.Chart(prop.rename_axis("ano").reset_index()).mark_bar(color="#176b87").encode(
-            x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)),y=alt.Y("proporcao:Q",title="Parcela dos cenários",axis=alt.Axis(format=".0%"),scale=alt.Scale(domain=[0,1])),
+            x=alt.X("ano:O",title="Ano",axis=alt.Axis(labelAngle=0)),y=alt.Y("valor_grafico:Q",title="Parcela dos cenários (limites nas caudas)",axis=alt.Axis(format=".0%"),scale=alt.Scale(domain=[0,1])),
             tooltip=[alt.Tooltip("ano:O",title="Ano"),alt.Tooltip("texto:N",title="Parcela")])
         st.altair_chart(barras.configure(locale=LOCALE),width="stretch")
         st.caption("Parcela dos cenários simulados de cada ano com valor abaixo do limite. Mede a frequência na simulação, não uma probabilidade observada.")
         if agg:
             st.caption("Modo agregado: a parcela é aproximada por interpolação entre os percentis P1 a P99 (erro em torno de 1 ponto percentual). Abaixo de P1 aparece como 1% ou menos; acima de P99, como 99% ou mais.")
+            st.caption("Nas caudas, a barra representa o limite de 1% ou 99%, não uma estimativa de 0% ou 100%. Consulte o texto do indicador e do tooltip.")
 with financeiro:
     st.subheader(f"Indicadores · Ano {ano}")
     st.caption("Mesmas regras da planilha E1. Premissas: CAC R$ 4.000, LTV R$ 45.000, custo do capital próprio 10% a.a.")

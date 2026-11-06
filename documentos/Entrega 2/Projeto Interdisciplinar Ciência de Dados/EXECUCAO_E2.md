@@ -10,7 +10,7 @@ python -m venv .venv
 # Linux/macOS: substituir .venv\Scripts\python.exe por .venv/bin/python
 ```
 
-O painel escolhe a fonte dos dados nesta ordem: base CTI local (variável `CTI_BASE_LOCAL`), arquivo de agregados publicáveis `app/dados/agregados_cti.json` (ou o caminho em `CTI_AGREGADOS`) e, sem nenhum dos dois, uma **demonstração fictícia** gerada do zero. O aviso no topo identifica o modo. Os modos agregado e fictício não requerem a base CTI.
+Produção: agregados reais CTI em app/dados/agregados_cti.json ou CTI_AGREGADOS. CTI_BASE_LOCAL seleciona a base completa local; CTI_DEMO=1 seleciona explicitamente a demonstração. Fonte ausente ou inválida bloqueia o painel.
 Cinco KPIs, filtros, financeiro, metas/ticket simulados, sensibilidade, regressão e metodologia estão no mesmo painel.
 
 ## Base CTI local
@@ -46,7 +46,7 @@ python -m src.cti.agregados --base src/data/processed/e2/base_analitica.parquet
 
 A rotina grava somente `app/dados/agregados_cti.json`, com estatísticas por ano para as populações "todos" e "sem cópias": médias das 15 contas usadas pelo painel (as 14 entradas da planilha E1 e a geração de caixa) e percentis P1 a P99, média e contagem dos seis indicadores da aba Distribuição. Não contém linha, identificador, mínimo nem máximo de cenário. O arquivo registra a data de geração e o SHA-256 da entrada CTI. Nesse modo, a parcela de cenários abaixo de um limite é aproximada por interpolação entre os percentis (erro em torno de 1 ponto percentual), e a aba Regressão mostra os resultados já publicados em `evidencias_e2.json`, sem recalcular o modelo.
 
-Os testes conferem que as médias e os percentis do arquivo são iguais aos calculados da base, que nenhuma lista guarda valores por cenário e que o arquivo inválido é recusado. Para ver a demonstração fictícia com o arquivo presente, aponte `CTI_AGREGADOS` para um caminho inexistente.
+O arquivo publicado é conferido contra a base local. Para demonstração, definir CTI_DEMO=1; remover essa variável para voltar à produção.
 
 ## Verificações
 
@@ -68,12 +68,17 @@ A geração lê evidencias_e2.json e as fórmulas compartilhadas; requer reportl
 
 ## Publicação provisória
 
-Destino proposto e autorizado pelo grupo em 05/11: Streamlit Community Cloud, modo fictício. Aprovação dos professores ainda não informada.
+Destino: Streamlit Community Cloud, com agregados reais CTI autorizados por Lúcio em 06/11. Aprovação acadêmica da plataforma ainda não informada.
 - Repositório `2026-2-NCC4/Projeto6`; branch `main`.
 - Arquivo de entrada `app/app.py`; Python 3.13.
 - Dependências em `app/requirements.txt`, sem pywinpty.
 - Nenhum segredo ou arquivo privado necessário.
-- Conferir início limpo, filtros, cinco KPIs, simulação, regressão e CSV fictício por sessão independente.
+- Conferir início limpo, filtros, cinco KPIs, simulação, regressão e CSV agregado real por sessão independente.
 - Registrar a URL e o commit efetivamente publicado após o teste externo.
 
 **Estado: publicação ainda não verificada.** Instruções de deploy não substituem URL funcional.
+
+## Atualização de 06/11/2026
+Produção real agregada como padrão; demonstração somente com CTI_DEMO=1. Contrato valida origem, contagens e ausências. Meta acadêmica é percentual da receita original; padrão igual à margem original. Ticket usa quantidade hipotética. A versão local usa dados reais; publicação externa exige URL acessível e commit conferido.
+
+Cópia pessoal de publicação: https://github.com/lucio734/Projeto6, para hospedar a mesma versão oficial sem alterar permissões do grupo. URL externa ainda não verificada: a ferramenta de navegador ficou indisponível durante a configuração. Linux não testado nesta etapa.

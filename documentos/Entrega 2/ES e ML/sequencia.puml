@@ -1,25 +1,27 @@
 @startuml
-title CTI E2 - consulta e sensibilidade
+title CTI E2 - selecao de fonte e consulta
 actor Usuario
-participant "app" as App
-participant "dados / recortes" as Dados
-participant "sensibilidade" as Sim
-Usuario -> App : seleciona recorte
-activate App
-App -> Dados : validar / filtrar
-activate Dados
-alt entrada inválida
-Dados --> App : erro
-App --> Usuario : mensagem
-else entrada válida
-Dados --> App : médias anuais
+participant App
+participant "dados / agregados" as Fonte
+participant Sensibilidade
+Usuario -> App : abrir e escolher recorte
+App -> Fonte : selecionar fonte / validar
+alt CTI_DEMO=1
+Fonte -> Fonte : gerar ficticios identificados
+else CTI_BASE_LOCAL definido
+Fonte -> Fonte : carregar Parquet e validar
+else producao
+Fonte -> Fonte : ler agregados reais / evidencias
 end
-deactivate Dados
-deactivate App
-Usuario -> App : altera hipóteses
-App -> Sim : simular(R, C, d, c)
-activate Sim
-Sim --> App : resultado / erro
-deactivate Sim
-App --> Usuario : comparação / mensagem
+alt fonte invalida
+Fonte --> App : erro de contrato
+App --> Usuario : mensagem e interrupcao
+else fonte valida
+Fonte --> App : medias / percentis
+App --> Usuario : KPIs e distribuicao
+end
+Usuario -> App : alterar hipoteses
+App -> Sensibilidade : simular(R,C,desconto,custo,volume,meta)
+Sensibilidade --> App : resultado / erro
+App --> Usuario : comparacao / mensagem
 @enduml
