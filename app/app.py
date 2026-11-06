@@ -44,10 +44,6 @@ def ler_regressao_publicada(caminho, assinatura):
 def modelo(base, unicas):
     return executar(base, unicas=unicas)
 
-@st.cache_data
-def versao_codigo():
-    return commit_em_execucao(ROOT)
-
 def mostrar_regressao(res):
     st.write(f"Modelo selecionado na validação: **{res['modelo']}**. Teste com grupos independentes do treino.")
     st.dataframe(pd.DataFrame({"Modelo":res["teste"],"Referência por ano":res["baseline_teste"]}).T.map(lambda x:numero(x,4)),width="stretch")
@@ -261,7 +257,8 @@ with regressao:
         else: st.info("Calcule a análise para esta população. Métricas são geradas com os dados deste modo, nunca copiadas da base CTI para a demonstração.")
 with metodologia:
     st.subheader("Fonte, fórmulas e limites")
-    commit=versao_codigo()
+    # Consulta o checkout atual em cada interação: cache poderia manter SHA antigo após sync do servidor.
+    commit=commit_em_execucao(ROOT)
     if commit:
         st.caption(f"Commit do código em execução: {commit}")
         st.link_button("Consultar esta versão do código",f"https://github.com/2026-2-NCC4/Projeto6/tree/{commit}")
