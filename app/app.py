@@ -22,6 +22,7 @@ from src.cti import agregados as ag
 from src.cti.formatacao import numero, reais_mi, valor_kpi, parcela, data_hora
 from src.cti.versao import commit_em_execucao
 from src.cti.leitura import resumo, encerramento
+from src.cti.mapa import preparar_mapa, mostrar_mapa
 
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
@@ -126,6 +127,9 @@ st.caption("Média de cada conta entre cenários por ano; razões calculadas dep
 overview,distribuicao,financeiro,sensibilidade,regressao,metodologia=st.tabs(["Visão geral","Distribuição","Financeiro","Sensibilidade","Regressão","Metodologia"])
 
 with overview:
+    mostrar_mapa(preparar_mapa(medias,ano,populacao,n_cenarios,
+                 "sem_origem" if agg and agg["origem"].get("corresponde_referencia_E1") is not True else modo,
+                 st.session_state.get("desconto",0.),st.session_state.get("custo_delta",0.)))
     r=float(contas["DRE - Receita"]); c=float(contas["DRE - Custos"])
     indicadores=[("Receita",r),("Custos",-c),("Margem",r+c),
                  ("Resultado líquido",contas["DRE - Resultado Líquido"]),

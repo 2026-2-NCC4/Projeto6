@@ -7,6 +7,7 @@ participant App
 participant "dados / agregados" as Fonte
 participant Sensibilidade
 participant "Relatorio PDF" as PDF
+participant "Mapa financeiro" as Mapa
 Usuario -> App : abrir e escolher recorte
 App -> Fonte : selecionar fonte / validar
 alt CTI_DEMO=1
@@ -23,6 +24,14 @@ note right of App : st.stop(): nao prossegue
 else fonte valida
 Fonte --> App : medias / percentis
 App --> Usuario : KPIs e distribuicao
+App -> Mapa : medias anuais autorizadas
+Usuario -> Mapa : explorar / simular previa
+Mapa --> Usuario : receita / custos / margem
+opt aplicar previa valida
+Usuario -> Mapa : aplicar a Sensibilidade
+Mapa -> App : hipoteses e contexto do recorte
+App -> App : validar / atualizar hipoteses
+end
 Usuario -> App : alterar hipoteses
 App -> Sensibilidade : simular(R,C,desconto,custo,volume,meta)
 Sensibilidade --> App : resultado / erro

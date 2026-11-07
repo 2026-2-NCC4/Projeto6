@@ -1,0 +1,48 @@
+<section class="fs-map" aria-label="Mapa financeiro interativo">
+  <header class="map-header">
+    <div><p class="eyebrow"><span class="brand-mark" aria-hidden="true">↗</span> MAPA FINANCEIRO</p><h2>Do cenário à decisão.</h2><p class="intro">Conecte os números. Explore o efeito das suas escolhas.</p></div>
+    <button class="presentation" type="button" title="Ampliar para apresentação" aria-label="Ampliar mapa para apresentação"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg><span>Apresentar</span></button>
+  </header>
+  <div class="context-line"><span class="context"></span><span class="source-label"></span></div>
+  <div class="workspace">
+    <div class="network-area">
+      <div class="map-canvas">
+        <svg class="connections" viewBox="0 0 900 500" preserveAspectRatio="none" aria-hidden="true">
+          <defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#d4e3eb"/></pattern></defs>
+          <rect width="900" height="500" fill="url(#dots)"/>
+          <path class="edge formula-edge" d="M250 155 C302 155 280 250 340 250 M250 355 C302 355 280 250 340 250"/>
+          <path class="edge analysis-edge" d="M572 250 C632 250 600 155 650 155 M572 250 C632 250 600 355 650 355"/>
+          <circle class="joint" cx="309" cy="250" r="5"/>
+          <text x="294" y="103" class="edge-label">COMPOSIÇÃO</text><text x="614" y="103" class="edge-label">EXPLORAR</text>
+        </svg>
+        <button class="node receita" data-node="receita" type="button" aria-pressed="false"><span class="node-top"><span class="icon"></span><span class="node-tag">01</span></span><span class="node-name">Receita</span><strong class="node-value"></strong><span class="node-kind">Referência</span></button>
+        <button class="node custos" data-node="custos" type="button" aria-pressed="false"><span class="node-top"><span class="icon"></span><span class="node-tag">02</span></span><span class="node-name">Custos</span><strong class="node-value"></strong><span class="node-kind">Referência · em módulo</span></button>
+        <button class="node margem selected" data-node="margem" type="button" aria-pressed="true"><span class="node-top"><span class="icon"></span><span class="node-tag">EM FOCO</span></span><span class="node-name">Margem após custos</span><strong class="node-value"></strong><span class="node-kind">Receita − custos</span></button>
+        <button class="node resultado" data-node="resultado" type="button" aria-pressed="false"><span class="node-top"><span class="icon"></span><span class="node-tag">03</span></span><span class="node-name">Resultado líquido</span><strong class="node-value"></strong><span class="node-kind">Explorar análise</span></button>
+        <button class="node caixa" data-node="caixa" type="button" aria-pressed="false"><span class="node-top"><span class="icon"></span><span class="node-tag">04</span></span><span class="node-name">Geração de caixa</span><strong class="node-value"></strong><span class="node-kind">Explorar análise</span></button>
+      </div>
+      <p class="network-caption"><span class="line-key solid"></span> Fórmula da margem <span class="line-key dashed"></span> Navegação entre análises</p>
+    </div>
+    <aside class="detail" aria-label="Detalhes do indicador selecionado">
+      <div class="detail-top"><span class="eyebrow">EM PERSPECTIVA</span><span class="detail-number">01 / 05</span></div>
+      <h3 class="detail-title">Margem após custos</h3>
+      <span class="detail-unit">Milhões de reais</span><div class="detail-value"></div>
+      <div class="change-row"><span class="change-value"></span><span class="change-label"></span></div>
+      <p class="detail-description"></p>
+      <div class="chart-heading"><span>Evolução da referência</span><span>R$ milhões</span></div>
+      <svg class="trend" viewBox="0 0 300 96" role="img" aria-label="Evolução anual do indicador de referência"></svg>
+      <div class="chart-years"><span class="first-year"></span><span class="last-year"></span></div>
+      <p class="formula-note"></p>
+    </aside>
+  </div>
+  <section class="lab" aria-label="Simulação interativa de margem">
+    <div class="lab-head"><div><span class="eyebrow">EXPERIMENTE UMA DECISÃO</span><h3>Quanto da margem sobra?</h3></div><span class="preview-status">Referência</span></div>
+    <div class="lab-controls">
+      <label class="control"><span>Desconto na receita <output class="discount-output">0%</output></span><input class="discount" type="range" min="0" max="100" step="0.5" value="0" aria-label="Desconto no mapa (%)"/><span class="range-labels"><span>0%</span><span>100%</span></span></label>
+      <label class="control"><span>Variação dos custos <output class="cost-output">0%</output></span><input class="cost" type="range" min="-100" max="200" step="0.5" value="0" aria-label="Variação dos custos no mapa (%)"/><span class="range-labels"><span>−100%</span><span>+200%</span></span></label>
+    </div>
+    <div class="lab-foot"><p class="live-note" aria-live="polite"></p><div class="actions"><button class="reset" type="button">Zerar prévia</button><button class="apply" type="button">Aplicar à Sensibilidade <span aria-hidden="true">↗</span></button></div></div>
+  </section>
+  <footer class="map-foot"><span>Prévia até aplicar. Demais contas constantes; tributos, resultado e caixa não são recalculados.</span><span class="terminal-note"></span></footer>
+  <div class="screen-reader" aria-live="polite" aria-atomic="true"></div>
+</section>

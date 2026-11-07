@@ -23,7 +23,15 @@ Em Metodologia, use **Preparar relatório PDF** e **Baixar relatório PDF**. A s
 
 As fórmulas financeiras seguem a planilha E1. Uma comparação numérica local confirmou diferença entre EBITDA fornecido e a alternativa Resultado Operacional menos Depreciação/Amortização assinada; sem confirmação contábil, a conta fornecida não foi substituída. PC com sinal não negativo mantém estados pendentes. Mediana dos KPIs, média das razões e razão das médias são estimadores diferentes: o painel continua usando a última regra, documentada e conferida contra E1.
 
-## Base CTI local
+## Mapa financeiro interativo
+
+O mapa abre na Visão geral e recebe apenas as médias anuais de receita, custos, resultado líquido e geração de caixa; a margem é derivada de receita + custos assinados. Toque nos cinco indicadores para explorar a referência e sua evolução. Linhas sólidas representam a fórmula da margem; as pontilhadas permitem relacionar áreas de análise e não representam derivação ou causalidade.
+
+Os controles do mapa produzem uma prévia local, imediata, de receita/custos/margem. Resultado líquido e caixa não são recalculados. **Aplicar à Sensibilidade** valida o ano, a população e os limites e atualiza os mesmos controles usados pelo cálculo Python e pelo PDF. **Zerar prévia** zera somente os dois controles do mapa até aplicar; o botão Restaurar da aba Sensibilidade continua restaurando as hipóteses completas.
+
+**Apresentar** amplia o mapa; o botão Sair retorna à página. A animação respeita a preferência de movimento reduzido. O componente usa HTML, CSS e JavaScript próprios, sem serviços externos, além da API de componentes v2 do Streamlit 1.67 já instalado. Arquivos em `app/componentes/` e contrato Python em `src/cti/mapa.py`. Não há upload ou exposição de cenários individuais.
+
+## Preparação da base CTI local
 
 Use somente uma cópia autorizada:
 

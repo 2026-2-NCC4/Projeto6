@@ -14,6 +14,8 @@ component executar_e2 as Exec
 component versao as Versao
 component "leitura gerencial" as Leitura
 component "relatorio PDF" as Relatorio
+component "mapa financeiro" as Mapa
+artifact "HTML / CSS / JS\ncomponente Streamlit v2" as Visual
 artifact agregados_cti.json as Json
 artifact evidencias_e2.json as Ev
 artifact "Parquet / prepara E1" as Local
@@ -26,6 +28,12 @@ App ..> Reg
 App ..> Versao
 App ..> Leitura
 App ..> Relatorio : sob demanda
+App ..> Mapa : somente medias
+Mapa ..> Visual : apresentacao interativa
+note bottom of Mapa
+Callback valida contexto e limites.
+Aplica hipoteses no estado da Sensibilidade.
+end note
 Relatorio ..> KPI
 Relatorio ..> Leitura
 Relatorio ..> Dist : formatacao
