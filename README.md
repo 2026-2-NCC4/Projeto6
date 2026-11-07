@@ -18,7 +18,7 @@
 
 Este projeto desenvolve uma plataforma analítica para apoiar o planejamento financeiro a partir da base fornecida pela **CTI Global**. O trabalho combina preparação de dados, análise estatística, indicadores financeiros e engenharia de software para transformar projeções em informações que permitam comparar cenários e avaliar desempenho, liquidez, risco e retorno.
 
-Conforme o contexto registrado no notebook do grupo, os dados representam projeções de uma concessão de infraestrutura, com cenários de simulação de Monte Carlo. Cada cenário é uma alternativa para a mesma operação. A solução será construída progressivamente: a primeira entrega concentra a preparação e as análises iniciais; a segunda integra regressão, indicadores e visualizações em um dashboard publicado.
+Os dados representam projeções de uma concessão de infraestrutura, com cenários de simulação de Monte Carlo. Cada cenário é uma alternativa para a mesma operação. A primeira entrega concentra a preparação e as análises iniciais; a segunda integra regressão, indicadores e visualizações em um dashboard publicado.
 
 ### Objetivos
 
@@ -41,7 +41,9 @@ Conforme o contexto registrado no notebook do grupo, os dados representam proje�
 
 ## Entrega 2: painel integrado
 
-A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPIs financeiros, ticket e metas acadêmicas, distribuição entre cenários, sensibilidade e regressão por trajetórias. Por padrão, o painel usa os **agregados reais publicáveis** de `app/dados/agregados_cti.json` (médias e percentis por ano, sem cenário individual). Fonte ausente ou inválida interrompe a produção. A demonstração fictícia exige `CTI_DEMO=1`; a base CTI completa é utilizada apenas no ambiente local autorizado.
+O dashboard reúne indicadores financeiros, evolução anual, filtros, distribuição entre cenários, análise de sensibilidade, regressão e exportação de relatórios. Utiliza agregados autorizados da CTI; a base completa permanece local.
+
+**[Acessar o FinSight](https://projeto6cti.streamlit.app/)**
 
 - [Como executar e preparar a publicação](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/EXECUCAO_E2.md)
 - [Regressão: notebook executado](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Regressao_CTI.ipynb) e [relatório](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Analise_Inferencial_CTI.pdf)
@@ -50,16 +52,7 @@ A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPI
 - [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
 - Banner FinSight: [arquivo editável](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.pptx) · [imagem](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.png)
 
-Instale `requirements-e2-dev.txt` em ambiente Python 3.13 e execute `python -m streamlit run app/app.py`. Para testes, use `python -m pytest -q`. As dependências E2 são separadas do ambiente E1.
-
-Validação local atualizada em 07/11/2026: 15 verificações da preparação e cobertura individual aprovadas; 216 KPIs e 24 identidades conferidos com a planilha E1; notebook E2 com 6/6 células sem erro em kernel local; 44 testes automatizados aprovados. A comparação com a planilha utiliza seus valores salvos, sem afirmar novo recálculo do Excel. As métricas de regressão são associativas, com limitações contábeis e temporais documentadas.
-
-**Dashboard publicado:** [Abrir painel CTI](https://projeto6cti.streamlit.app/). Acesso público sem login, seis abas, CSV e novo PDF gerencial conferidos em 07/11/2026. Usa agregados reais autorizados da CTI; a base completa permanece local. A aprovação acadêmica da plataforma ainda não foi informada.
-
-A aba Metodologia identifica o commit do checkout em execução, quando disponível, para conferir a correspondência entre código e hospedagem.
-
-### Revisão E2 em 07/11/2026
-O painel acrescenta leitura gerencial das médias, guia por público, quadro de encerramento com Anos 11–12 e relatório PDF do recorte, disponível em Metodologia. O quadro de encerramento tem recorte próprio explicitamente identificado; não é uma ponte de caixa. O PDF registra população, anos, fórmulas, fonte e hipóteses vigentes da Sensibilidade. Agregados, fórmulas E1 e resultados da regressão permanecem iguais aos conferidos; não há ranking ou exposição de cenários individuais.
+Para executar o dashboard localmente, instale `requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
 
 ## Estrutura de pastas
 
@@ -159,22 +152,7 @@ Abra [01_perfil.ipynb](src/notebooks/01_perfil.ipynb) (perfil e auditoria) e [02
 
 No Google Colab, ajuste `CSV_NO_DRIVE` na célula de configuração de cada notebook para o caminho da cópia autorizada no seu Drive. Essa célula clona o repositório e copia a base para o ambiente de execução.
 
-Os dois notebooks versionados foram executados integralmente em sessões separadas do Google Colab em 24/09/2026, sobre o commit `3ab2a1e677ca95a5b9bc10692f755971cde7eeed`. Como a montagem do Drive não concluiu nessas sessões, a mesma cópia autorizada foi transferida de forma compactada para o armazenamento efêmero do Colab, conferida pelo SHA-256 e expandida apenas dentro do clone temporário. Nenhum dado da CTI foi incluído no Git.
-
-| Notebook | Registro (BRT) | Ambiente do Colab | Resultado observado |
-|---|---|---|---|
-| `01_perfil.ipynb` | 24/09/2026 15:59 | Python 3.13.15 · pandas 2.2.3 · pyarrow 23.0.1 | 20/20 células de código; V1–V7 executadas; 14.400 grupos de ano e cenário; 14.400 resultados líquidos positivos, nenhum zero ou negativo. |
-| `02_preparacao.ipynb` | 24/09/2026 15:59 | Python 3.13.15 · pandas 2.2.3 · pyarrow 23.0.1 | 10/10 células de código; 15/15 verificações aprovadas; base do passo a passo idêntica à saída do script e à releitura do Parquet. |
-
-A entrada tinha 75.085.191 bytes e SHA-256 `a93fb4555eab2eee7a437b98c2ff5cf4c392336d745a835b529974635cf8a3fc`, confirmado no início e no fim das duas sessões. A revisão independente pelo grupo permanece pendente.
-
 O notebook 01 gera duas figuras em `imagens/`, que podem ser atualizadas ao executar novamente. Sem acesso à base, é possível consultar o código e as saídas já salvas no GitHub, mas não reproduzir integralmente a análise.
-
-### Verificação técnica das frentes de Inferencial e Finanças (25/09/2026)
-
-O [notebook da Análise Inferencial](documentos/Entrega%201/An%C3%A1lise%20Inferencial%20de%20Dados/Entrega_1_Analise_Descritiva_CTI_%281%29.ipynb), publicado em `cc0f6dfe3e5faa357683b3930087a93a9c6cb152`, foi executado por inteiro no Google Colab com a cópia autorizada da base: 6/6 células de código concluídas, 1.002.000 linhas lidas, 799 grupos de conta e ano analisados e duas figuras geradas. A execução final não apresentou erro. O CSV foi enviado apenas ao armazenamento temporário do runtime, sem entrar no Git.
-
-A [planilha de validação financeira](documentos/Entrega%201/Contabilidade%20e%20Finan%C3%A7as/Entrega%201%20de%20Contabilidae%20e%20Finan%C3%A7as%20-%20DevLeaders%28Validacao%20KPI%29.xlsx) foi corrigida em `6d8a3ded727d64edb063eaee08bdc906b3806203`: o nome da conta de patrimônio líquido corresponde à fonte e o resultado final exige 216 controles de KPI e 24 identidades de balanço aceitos. Após recálculo, os 240 controles passam; a alteração deliberada de um valor de entrada e a remoção de um controle fazem o resultado final reprovar. Esses testes automatizados não substituem a conferência independente do grupo nem o comprovante de submissão oficial.
 
 ## Licença
 
