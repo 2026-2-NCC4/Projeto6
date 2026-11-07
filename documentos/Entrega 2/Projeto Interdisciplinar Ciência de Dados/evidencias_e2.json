@@ -1,5 +1,5 @@
 {
-  "data_utc": "2026-11-06T21:56:09.456377+00:00",
+  "data_utc": "2026-11-07T16:40:19.213300+00:00",
   "modo": "CTI",
   "qualidade": {
     "contagens": {
@@ -1592,17 +1592,17 @@
       "Modelos foram ajustados só no treino; escolha na validação; métricas finais no teste."
     ]
   },
-  "commit_implementacao": "fcb6f7d03d4b742b27daeccc31d390d163fcbd25",
+  "commit_implementacao": "bceb611807a866d140ffd9230f0e810fa3f8d178",
   "testes": {
-    "tests": 40,
+    "tests": 44,
     "errors": 0,
     "failures": 0,
     "skipped": 0,
-    "ambiente": "Windows Python 3.13.14; execução real em 06/11/2026",
-    "duracao_segundos": 19.24
+    "duracao_segundos": 18.992,
+    "ambiente": "Windows Python 3.13.14; execução real em 07/11/2026"
   },
   "notebook": {
-    "ambiente": "kernel local limpo; reexecutado em 06/11/2026",
+    "ambiente": "kernel local limpo; reexecutado em 07/11/2026",
     "celulas_executadas": 6,
     "erros": 0,
     "colab_executado": false
@@ -1625,13 +1625,32 @@
   "publicacao": {
     "estado": "acesso_publico_validado",
     "url": "https://projeto6cti.streamlit.app/",
-    "commit_observado": "707af174ffc9f2848aa1dabdc8bf4ff19a5465f0",
-    "commit_codigo_equivalente": "fcb6f7d03d4b742b27daeccc31d390d163fcbd25",
+    "commit_observado": "bceb611807a866d140ffd9230f0e810fa3f8d178",
+    "commit_codigo_equivalente": "bceb611807a866d140ffd9230f0e810fa3f8d178",
     "acesso_externo_testado": true,
     "abas": 6,
     "csv_linhas": 198,
     "csv_vs_local_igual": true,
     "logs_instalacao_auditados": false,
-    "descricao": "Acesso sem login e seis abas conferidos em navegador independente em 06/11/2026. CSV público com 198 linhas idêntico ao local. Commit observado 707af174ffc9; código da aplicação equivalente ao fcb6f7d03d4b. Aprovação acadêmica da plataforma ainda não informada."
+    "descricao": "Acesso sem login, seis abas, PDF gerencial de três páginas e CSV com 198 linhas conferidos em navegador independente em 07/11/2026. Dados e estados do CSV iguais ao cálculo local; diferenças de terminadores/serialização não indicam diferença de cálculo. Ano 12 e população de 1.107 sem cópias acessados sem exceção. Versão de implementação observada bceb611807a866d140ffd9230f0e810fa3f8d178. Aprovação acadêmica da plataforma ainda não informada."
+  },
+  "revisao_07_11": {
+    "pipeline_cti": "reexecutado; hash original preservado",
+    "agregados_iguais": true,
+    "regressoes_iguais": true,
+    "pdf_gerencial_casos": 6,
+    "pdf_gerencial_paginas_por_caso": 3,
+    "qr_banner_destino": "https://projeto6cti.streamlit.app/",
+    "qr_metodo": "Decodificação automática do QR no PNG e na imagem embutida no PPTX; sem teste físico de impressão/câmera.",
+    "reconciliacao_ebitda": "Divergência confirmada para RO menos D&A assinado; fornecido preservado até confirmação do domínio.",
+    "estimadores": "Razão de médias, média de razões e mediana confrontadas localmente; não são o mesmo estimador.",
+    "capturas": "versão local; agregados reais, 1440x1000, população completa, Ano 11",
+    "mobile": "390x844, sem overflow horizontal no documento",
+    "extensao": "adiada pelo usuário; não executada nesta etapa",
+    "aprovacoes_docentes": "não recebidas",
+    "sensibilidade_publica": "Desconto 100% alterou desvio; Restaurar retornou desconto e desvio a zero.",
+    "csv_publico": "198 linhas conferidas contra cálculo local; valores numéricos comparados com tolerância 1e-12 e absoluta 1e-6; estados e fórmulas iguais.",
+    "pdf_publico": "3 páginas baixadas pelo botão real; fonte, filtros e commit de implementação corretos.",
+    "github_project": "Credencial sem escopo read:project; submissão não confirmada."
   }
 }

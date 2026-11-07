@@ -54,7 +54,7 @@ Instale `requirements-e2-dev.txt` em ambiente Python 3.13 e execute `python -m s
 
 Validação local atualizada em 07/11/2026: 15 verificações da preparação e cobertura individual aprovadas; 216 KPIs e 24 identidades conferidos com a planilha E1; notebook E2 com 6/6 células sem erro em kernel local; 44 testes automatizados aprovados. A comparação com a planilha utiliza seus valores salvos, sem afirmar novo recálculo do Excel. As métricas de regressão são associativas, com limitações contábeis e temporais documentadas.
 
-**Dashboard publicado:** [Abrir painel CTI](https://projeto6cti.streamlit.app/). Acesso público sem login, seis abas e exportação conferidos em 06/11/2026. Usa agregados reais autorizados da CTI; a base completa permanece local. A aprovação acadêmica da plataforma ainda não foi informada.
+**Dashboard publicado:** [Abrir painel CTI](https://projeto6cti.streamlit.app/). Acesso público sem login, seis abas, CSV e novo PDF gerencial conferidos em 07/11/2026. Usa agregados reais autorizados da CTI; a base completa permanece local. A aprovação acadêmica da plataforma ainda não foi informada.
 
 A aba Metodologia identifica o commit do checkout em execução, quando disponível, para conferir a correspondência entre código e hospedagem.
 
