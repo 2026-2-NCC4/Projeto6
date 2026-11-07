@@ -43,6 +43,8 @@ Os dados representam projeções de uma concessão de infraestrutura, com cenár
 
 O dashboard reúne indicadores financeiros, evolução anual, filtros, distribuição entre cenários, análise de sensibilidade, regressão e exportação de relatórios. Utiliza agregados autorizados da CTI; a base completa permanece local.
 
+O mapa financeiro interativo permite explorar os indicadores, simular desconto e custos e aplicar as hipóteses à análise de sensibilidade. O modo **Apresentar** amplia a visualização para demonstrações e apresentações.
+
 **[Acessar o FinSight](https://projeto6cti.streamlit.app/)**
 
 - [Como executar e preparar a publicação](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/EXECUCAO_E2.md)
