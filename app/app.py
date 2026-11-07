@@ -85,8 +85,7 @@ except (OSError,ValueError,TypeError,KeyError) as exc:
     st.error("Não foi possível carregar uma base válida. Confira o arquivo e o contrato de dados.")
     st.caption(type(exc).__name__)
     st.stop()
-st.image(str(ROOT/"imagens/logo_finsight.png"),width=280)
-st.title("FinSight")
+st.image(str(ROOT/"imagens/logo_finsight.png"),width=400)
 st.caption("Dados financeiros em perspectiva")
 st.caption("DevLeaders · PI CTI · Entrega 2")
 if modo=="local":
