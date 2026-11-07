@@ -15,6 +15,14 @@ python -m venv .venv
 Produção: agregados reais CTI em app/dados/agregados_cti.json ou CTI_AGREGADOS. CTI_BASE_LOCAL seleciona a base completa local; CTI_DEMO=1 seleciona explicitamente a demonstração. Fonte ausente ou inválida bloqueia o painel.
 Cinco KPIs, filtros, financeiro, metas/ticket simulados, sensibilidade, regressão e metodologia estão no mesmo painel.
 
+## Leitura gerencial e PDF (07/11)
+
+Visão geral inclui resumo de sinais e variações das médias entre anos consecutivos do recorte. O quadro de encerramento compara sempre Anos 11 e 12 da população selecionada e explicita esse recorte independente dos outros gráficos. Não soma percentis nem apresenta uma ponte contábil incompleta como se fosse validada.
+
+Em Metodologia, use **Preparar relatório PDF** e **Baixar relatório PDF**. A saída usa o intervalo, população e ano dos cartões e as hipóteses atuais da Sensibilidade, com evolução, fórmulas, fonte e limites. O PDF está disponível nos modos agregado e fictício; não exporta a base completa local. A dependência ReportLab acompanha `app/requirements.txt`. Para reproduzir uma alteração de hipótese, gere novamente o PDF.
+
+As fórmulas financeiras seguem a planilha E1. Uma comparação numérica local confirmou diferença entre EBITDA fornecido e a alternativa Resultado Operacional menos Depreciação/Amortização assinada; sem confirmação contábil, a conta fornecida não foi substituída. PC com sinal não negativo mantém estados pendentes. Mediana dos KPIs, média das razões e razão das médias são estimadores diferentes: o painel continua usando a última regra, documentada e conferida contra E1.
+
 ## Base CTI local
 
 Use somente uma cópia autorizada:

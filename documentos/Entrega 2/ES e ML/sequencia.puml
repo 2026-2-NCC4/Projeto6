@@ -6,6 +6,7 @@ actor Usuario
 participant App
 participant "dados / agregados" as Fonte
 participant Sensibilidade
+participant "Relatorio PDF" as PDF
 Usuario -> App : abrir e escolher recorte
 App -> Fonte : selecionar fonte / validar
 alt CTI_DEMO=1
@@ -26,5 +27,11 @@ Usuario -> App : alterar hipoteses
 App -> Sensibilidade : simular(R,C,desconto,custo,volume,meta)
 Sensibilidade --> App : resultado / erro
 App --> Usuario : comparacao / mensagem
+opt exportacao agregada ou ficticia
+Usuario -> App : preparar PDF do recorte
+App -> PDF : medias / ano / fonte / hipoteses
+PDF --> App : PDF agregado
+App --> Usuario : download PDF
+end
 end
 @enduml

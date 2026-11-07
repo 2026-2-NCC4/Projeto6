@@ -38,7 +38,7 @@ def capa(disciplina,professor,subtitulo):
             Spacer(1,12),h(disciplina),p(subtitulo),
             table([["Identificação","Entrega 2"],["Grupo","6 - DevLeaders"],
                    ["Integrantes","Gustavo Pires; Lúcio Vecchio; Luiz Henrique Zaim da Cruz; Eric Aloise"],
-                   ["Orientação",professor],["Data de referência","06/11/2026"],
+                   ["Orientação",professor],["Data de referência","07/11/2026"],
                    ["Código testado (referência)",R["commit_implementacao"][:12]],
                    ["Repositório","github.com/2026-2-NCC4/Projeto6"]],[105,385]),Spacer(1,18)]
 def rodape(canvas,doc):
@@ -112,7 +112,7 @@ salvar("Análise Inferencial de Dados","E2_Analise_Inferencial_CTI.pdf",s)
 s=capa("Contabilidade e Finanças","Orientadores do PI: Eduardo Savino, Luis Pires, Mauricio Lopes e Rodnil da Silva","Painel operacional, regras de cálculo e sensibilidade")
 s += [h("1. Decisões apoiadas"),p("O painel integra receita, custos, margem após custos, resultado líquido e geração de caixa. As abas Financeiro e Sensibilidade oferecem os indicadores E1, ticket hipotético, meta acadêmica, evolução anual e comparação entre referência e simulação."),
       p("Os cenários são alternativas da mesma concessão. Para cada ano, calculamos a média de cada conta e depois o indicador. Não somamos faturamento entre cenários nem saldos patrimoniais entre anos. O padrão mantém todos os 1.200 cenários; a opção sem cópias retém 1.107 trajetórias."),
-      p("A versão de produção utiliza médias e percentis reais da CTI, conferidos com a base preparada E1. O arquivo completo permanece local. O painel identifica a fonte e oferece a comparação de 1.200 cenários com 1.107 trajetórias únicas."),br(),
+      p("A versão de produção utiliza médias e percentis reais da CTI, conferidos com a base preparada E1. O arquivo completo permanece local. O painel identifica a fonte e oferece a comparação de 1.200 cenários com 1.107 trajetórias únicas. O guia de uso orienta gestão, financeiro e análise. A Visão geral acrescenta leitura textual e quadro próprio dos Anos 11-12; a tabela de encerramento não constitui ponte contábil e preserva a população escolhida."),br(),
       h("2. Dicionário operacional")]
 from src.cti.indicadores import calcular
 s += [table([["KPI","Unidade","Regra"]]+[[k.nome,k.unidade,k.formula] for k in calcular({})],[160,65,265]),
@@ -124,7 +124,7 @@ s += [table([["Indicador","Fórmula / interpretação","Validação"],
              ["Resultado líquido","DRE - Resultado Líquido","Conta da base, sem substituir por margem parcial."],
              ["Geração de caixa","FLU - Geração de Caixa","Conta anual; não equivale a EBITDA."],
              ["MVA","Indisponível","Falta valor de mercado; não atribuir zero."]],[115,220,155]),
-      Spacer(1,15),p("Denominador zero ou conta ausente deixa o indicador indisponível. PC não negativo mantém os indicadores dependentes pendentes. Ano 12 preserva ausência de estoques, PL e ELP. EBITDA é fornecido, sem memória de cálculo reconciliada. EVA simplificado é hipótese sobre capital próprio, não cálculo completo de EVA econômico."),
+      Spacer(1,15),p("Denominador zero ou conta ausente deixa o indicador indisponível. PC não negativo mantém os indicadores dependentes pendentes. Ano 12 preserva ausência de estoques, PL e ELP. EBITDA é fornecido: a conferência local confirmou diferença para a alternativa Resultado Operacional menos Depreciação/Amortização assinada. Sem confirmação contábil da memória de cálculo, a conta fornecida foi mantida e a pendência explicitada. EVA simplificado é hipótese sobre capital próprio, não cálculo completo de EVA econômico."),
       h("4. Sensibilidade implementada"),
       p("Com receita R e custo assinado C: R_sim = R × (1 - desconto); C_sim = C × (1 + variação); margem = R_sim + C_sim. Mantém volume e demais contas constantes. Não recalcula tributos, EBITDA ou resultado líquido."),
       p("Desconto permitido: 0-100%; variação de custo: -100% a +200%. São limites do exercício, não elasticidades estimadas. Parâmetros nulos reproduzem a referência. Restaurar hipóteses e trocar ano/população devolvem a meta à margem do recorte. Receita simulada zero torna a margem percentual indisponível."),
@@ -133,17 +133,17 @@ s += [table([["Indicador","Fórmula / interpretação","Validação"],
 s += [table([["Verificação atual","Resultado"],["KPIs numéricos vs. planilha E1","161 conferidos"],["Indisponibilidades / pendências","55 estados coerentes"],["Total de KPIs","216/216, sem divergência"],["Identidades por ano","24/24"],["Entradas da planilha","165 valores numéricos + 3 ausências conferidos"],["Teste negativo","Receita alterada em 10% detectada; validação reprovou como esperado"]],[230,260]),
       Spacer(1,15),p("A referência independente é a planilha avaliada da E1, preservada. Comparação dos valores salvos após recálculo histórico, com tolerância de KPI relativa 1e-6 e absoluta R$0,01. As identidades devem ter resíduo inferior a R$1. Esta etapa não afirma um novo recálculo do Excel."),
       p("Testes sintéticos também cobrem fórmulas com valores esperados calculados manualmente, receita zero, sinal de PC, conta ausente, quantidade zero, limites dos controles e restauração da referência. Fórmulas são compartilhadas pelo painel e pela rotina de validação; os relatórios documentam as mesmas regras."),
-      p("Uso: escolher anos e política de repetição; escolher o ano dos cartões; consultar evolução; ajustar somente as hipóteses acadêmicas em Sensibilidade; ler estados na tabela Financeiro. Download de KPIs agregados reais disponível na produção; demo fictícia exige CTI_DEMO=1."),
+      p("Uso: escolher anos e política de repetição; escolher o ano dos cartões; consultar evolução; ajustar somente as hipóteses acadêmicas em Sensibilidade; ler estados na tabela Financeiro. Download de KPIs agregados reais e de PDF gerencial disponível na produção; demo fictícia exige CTI_DEMO=1. O PDF registra recorte, fórmulas e hipóteses atuais da Sensibilidade. Não publica cenários individuais."),
       p("Referências: dicionário e planilha de Contabilidade e Finanças E1; enunciado FINAL FECAP, seções 5.4, 10 e 11. Implementação: src/cti/indicadores.py, recortes.py e sensibilidade.py; teste independente: src/cti/executar_e2.py.") ]
 salvar("Contabilidade e Finanças","E2_Painel_Financeiro_CTI.pdf",s)
 
 # Engenharia
 s=capa("Engenharia de Software e Arquitetura de Sistemas","Luis Pires","Design de software e UML aplicados ao produto")
 s += [h("1. Arquitetura implementada"),p("Arquitetura modular em Python: a interface Streamlit coordena serviços de domínio; preparação e validação isolam os dados; cálculos financeiros e regressão são reutilizáveis por CLI, notebook e painel. O sistema não exige banco nem API próprios para o volume atual."),
-      p("Entradas: CSV CTI autorizado ou Parquet preparado; gerador fictício independente para demonstração; filtros de ano e repetição; hipóteses de desconto, custo, volume e meta. Processamento: validação, recorte, médias anuais, KPIs, simulação e ajuste por trajetórias. Saídas: tabelas, gráficos, indicadores com estado, PDF, evidências e CSV de indicadores agregados reais."),
+      p("Entradas: CSV CTI autorizado ou Parquet preparado; gerador fictício independente para demonstração; filtros de ano e repetição; hipóteses de desconto, custo, volume e meta. Processamento: validação, recorte, médias anuais, KPIs, simulação e ajuste por trajetórias. Saídas: tabelas, gráficos, indicadores com estado, PDF gerencial do recorte, PDFs acadêmicos, evidências e CSV de indicadores agregados reais."),
       p("Decisões: reaproveitar prepara.py evita divergência com E1; funções puras separam regra e apresentação; Parquet reduz custo de leitura; cache evita repetir carga e ajuste sem alteração de dados. O modo público não inclui upload ou exportação de dados privados."),
       p("Alternativa de banco/API aumentaria manutenção sem requisito atual de concorrência de escrita. A arquitetura admite substituição futura do carregador sem duplicar fórmulas."),br(),
-      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app utiliza dados/recortes, agregados, indicadores, sensibilidade, distribuição, formatação, regressão e versão. executar_e2 prepara e avalia; a versão pública lê agregados_cti.json e evidencias_e2.json. A base completa é local; demonstração é uma opção explícita."),
+      h("2. UML de componentes"),UML("componentes"),p("O consumidor aponta para o provedor por dependência tracejada. app utiliza dados/recortes, agregados, indicadores, sensibilidade, distribuição, formatação, regressão, versão, leitura gerencial e relatório PDF. O relatório reutiliza regras financeiras e leitura gerencial. executar_e2 prepara e avalia; a versão pública lê agregados_cti.json e evidencias_e2.json. A base completa é local; demonstração é uma opção explícita."),
       p("Fontes editáveis: componentes.puml e sequencia.puml; figuras PNG renderizadas dessas fontes. O gerador PDF incorpora as mesmas figuras, eliminando um desenho manual independente. Dependências representam consumo de módulos e artefatos; não são ordem de execução."),br(),
       h("3. UML de sequência"),UML("sequencia"),
       p("Participantes: usuário, app, dados/agregados e sensibilidade. Linhas de vida tracejadas, mensagens e retornos; fragmento alt distingue entrada inválida e válida. Resultado com falha é apresentado como mensagem, nunca substituído silenciosamente por zero."),
@@ -154,7 +154,7 @@ s += [table([["Requisitos FECAP","Implementação / evidência"],
              ["RF06-RF07: análise e regressão","E1 descritiva preservada; regressao.py + notebook E2 com 6/6 células"],
              ["RF08 / RF11: KPIs e cenários","indicadores.py e sensibilidade.py; 216 KPIs + 24 identidades conferidos"],
              ["RF09-RF10 / RF13: relatório e painel","Quatro PDFs; cinco cartões, evolução, tabelas, filtros e notas"],
-             ["RF12: exportação autorizada","CSV agregado real disponível; base completa e linhas individuais não exportadas"],
+             ["RF12: exportação autorizada","CSV e PDF do recorte agregado disponíveis; base completa e linhas individuais não exportadas"],
              ["RF14: execução e publicação",STATUS_NUVEM],
              ["Confiabilidade / manutenção",f"{N_TESTES} testes aprovados, incluindo entradas inválidas, recortes, fórmulas, modelo, interface, versão e teste negativo real"],
              ["Reprodução / segurança","Dependências específicas E2; base completa ignorada pelo Git; produção CTI agregada como padrão"]],[155,335]),
@@ -166,7 +166,7 @@ s += [p("Esperado: integrar as disciplinas em um único painel, preservar a base
       p("Revisão cruzada: a meta ficou presa ao primeiro ano e o botão Restaurar gerou aviso de estado; ambos foram corrigidos e retestados. Os desenhos UML manuais do PDF divergiam das fontes: as figuras agora são renderizadas diretamente dos .puml versionados. A identificação do commit passou a ser consultada no checkout em execução."),
       p("As datas e o método de E1 foram mantidos como história, sem inventar reuniões, validação empresarial ou aceites. A nova preparação não sobrescreve relatórios E1. Código específico de plataforma foi separado do ambiente antigo de Windows."),
       p("Melhorias futuras: esclarecer convenções CTI, testar estabilidade do modelo em outras partições, avaliar modelos de dependência temporal e acrescentar autenticação somente se houver publicação autorizada de dados restritos. O protótipo não sustenta decisão econômica real sem validação do domínio."),
-      p(STATUS_NUVEM),p("Aprovação acadêmica da plataforma não informada. Banner e documento de extensão permanecem pendentes, em etapa posterior conforme prioridade do grupo."),
+      p(STATUS_NUVEM),p("Aprovação acadêmica da plataforma não informada. Banner em PNG e PPTX disponível no GitHub, com QR do dashboard decodificado; aprovação acadêmica e conferência de impressão ainda não informadas. Documento de extensão fica para etapa posterior conforme prioridade do grupo."),
       p("Referências: enunciado FINAL FECAP, seções 4-6 e 11; artefatos E1; módulos e testes E2 do repositório. Diagramas e descrições foram confrontados com os arquivos existentes.") ]
 salvar("ES e ML","E2_Engenharia_Software_CTI.pdf",s)
 
@@ -184,8 +184,8 @@ s += [table([["Área","Comportamento"],["Visão geral","Cinco indicadores: recei
              ["Financeiro","18 indicadores e estados da E1, regras, premissas e limitações"],
              ["Sensibilidade","Desconto, custo, volume hipotético, ticket e meta; comparação referência/simulação e restauração"],
              ["Regressão","Evidências publicadas no modo agregado; ajuste sob demanda no modo local, com validação por trajetória"],
-             ["Metodologia","Origem, esquema, unidade, atualização, regras e CSV agregado real"]],[125,365]),
-      Spacer(1,15),p("Todos os indicadores financeiros usam o mesmo recorte e as mesmas médias. O modelo usa Anos 1-11 para manter desenho fixo e informa isso explicitamente, sem aparentar responder ao filtro anual do financeiro. A política de cópias afeta sua população."),
+             ["Metodologia","Origem, esquema, unidade, atualização, regras, CSV agregado e PDF gerencial do recorte"]],[125,365]),
+      Spacer(1,15),p("Todos os indicadores financeiros usam o mesmo recorte e as mesmas médias. O quadro de encerramento usa Anos 11-12 da população escolhida, com aviso explícito de recorte independente do filtro anual. A leitura textual compara somente anos consecutivos presentes no intervalo. O PDF gerencial resume o recorte financeiro e as hipóteses de tela; não inclui modelos individuais. O modelo usa Anos 1-11 para manter desenho fixo e informa isso explicitamente, sem aparentar responder ao filtro anual do financeiro. A política de cópias afeta sua população."),
       p("Metadados: versão e2-v1, data da entrega, modo da base, unidade por indicador, fórmula e estado. Calendário 2026 + ano e R$ são convenções acadêmicas. As telas alertam sobre ausência, encerramento e indisponibilidades."),br(),
       h("3. Execução e implantação")]
 s += [p("Python 3.13. Criar ambiente virtual; instalar app/requirements.txt para o painel ou requirements-e2-dev.txt para análise, testes e geração de documentos. O requirements.txt E1 permanece preservado."),
@@ -208,4 +208,9 @@ s += [br(),h("5. Evidências visuais do produto"),
       p(f"Suíte local: {N_TESTES} testes aprovados, sem falhas ou omissões. Notebook: 6/6 células sem erro em kernel local limpo. As seis abas e o CSV foram conferidos na URL pública, além da inspeção em largura de celular."),
       p("Código em execução é identificado na aba Metodologia quando o checkout Git está disponível. O SHA da análise numérica identifica a execução do pipeline; não deve ser confundido com a versão do deploy."),
       p(STATUS_NUVEM)]
+s += [br(),h("7. Leitura gerencial e encerramento"),
+      p("Revisão de 07/11: guia para gestão, financeiro e análise; resumo textual do ano escolhido; quadro dos Anos 11-12 e PDF gerencial do recorte. Foram reaproveitados os agregados autorizados. Não há exposição ou classificação de cenários individuais."),
+      tela("encerramento"),
+      p("Quadro com recorte explicitamente independente do filtro anual e mesma população selecionada. Contas são exibidas separadamente; não se somam percentis nem se afirma uma ponte contábil completa.", "SmallPT"),
+      p("Em Metodologia, preparar e baixar PDF reúne evolução, indicadores, fórmulas, fonte, versão e hipóteses atuais de Sensibilidade. Distribuição e regressão conservam seus próprios relatórios e notas. Casos com anos isolados e as duas populações foram conferidos; valores e estados acompanham o recorte.")]
 salvar("Projeto Interdisciplinar Ciência de Dados","E2_PI_Ciencia_de_Dados_CTI.pdf",s)

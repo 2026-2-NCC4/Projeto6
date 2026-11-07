@@ -21,6 +21,7 @@ from src.cti.distribuicao import CONTAS as CONTAS_DIST, percentis_anuais, propor
 from src.cti import agregados as ag
 from src.cti.formatacao import numero, reais_mi, valor_kpi, parcela, data_hora
 from src.cti.versao import commit_em_execucao
+from src.cti.leitura import resumo, encerramento
 
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
@@ -88,6 +89,10 @@ except (OSError,ValueError,TypeError,KeyError) as exc:
 st.image(str(ROOT/"imagens/logo_finsight.png"),width=400)
 st.caption("Dados financeiros em perspectiva")
 st.caption("DevLeaders · PI CTI · Entrega 2")
+with st.expander("Como usar o FinSight"):
+    st.markdown("**Gestão:** compare receita, resultado e caixa na Visão geral; leia o resumo e o encerramento.\n\n"
+                "**Financeiro:** confira fórmulas e estados em Financeiro e teste hipóteses em Sensibilidade.\n\n"
+                "**Análise:** examine faixas e riscos em Distribuição, modelos em Regressão e fontes em Metodologia.")
 if modo=="local":
     st.info("BASE CTI LOCAL · projeções simuladas da concessão. Acesso restrito a este ambiente; não publicar o arquivo.")
 elif modo=="agregados" and agg["origem"].get("corresponde_referencia_E1") is True:
@@ -141,11 +146,24 @@ with overview:
         tooltip=[alt.Tooltip("ano:O",title="Ano"),"Indicador:N",alt.Tooltip("valor:Q",title="R$ milhões",format=",.2f")])
     st.altair_chart(grafico.configure(locale=LOCALE),width="stretch")
     st.caption("Margem após custos exclui tributos e demais despesas; não equivale a lucro líquido.")
+    st.subheader(f"Leitura gerencial · Ano {ano}")
+    for texto in resumo(medias, ano):
+        st.write(texto)
+    st.caption("Comparação de médias da mesma população, dentro do intervalo escolhido. Variação entre projeções não comprova desempenho realizado ou causa e efeito.")
     st.dataframe(pd.DataFrame({"Ano":[int(a) for a in medias.index],
                                **{nome:[reais_mi(v) for v in medias[conta]] for conta,nome in
                                   {"DRE - Receita":"Receita","DRE - Custos":"Custos (assinado)",
                                    "DRE - Resultado Líquido":"Resultado líquido","FLU - Geração de Caixa":"Geração de caixa"}.items()}}),
                  width="stretch",hide_index=True)
+    with st.expander("Encerramento da concessão · Ano 12", expanded=ano==12):
+        st.write("O Ano 12 encerra a concessão e tem estrutura diferente dos anos operacionais. Este quadro sempre compara os Anos 11 e 12 da população selecionada, mesmo quando o intervalo dos outros gráficos termina no Ano 11.")
+        ultimos=ag.medias(agg,populacao,(11,12)) if agg else medias_anuais(filtrar(base,(11,12),unicas))
+        terminal=encerramento(ultimos)
+        for coluna in terminal.columns:
+            if coluna != "Ano": terminal[coluna]=terminal[coluna].map(reais_mi)
+        st.dataframe(terminal,hide_index=True,width="stretch")
+        st.caption("Valores médios em milhões de reais. As contas acima são apresentadas separadamente; não constituem uma ponte de caixa nem uma identidade completa de liquidação. Saldo inicial/final e todos os fluxos seriam necessários para essa reconciliação.")
+        st.info("Contas patrimoniais ausentes não viram zero. Razões com contas ausentes ou denominador inválido permanecem indisponíveis. As faixas da aba Distribuição são percentis marginais; somá-los não representa uma trajetória real.")
 with distribuicao:
     st.subheader("Distribuição entre os cenários")
     st.caption("Os cenários são futuros alternativos simulados para a mesma concessão. A faixa mostra como eles se espalham em cada ano; não é intervalo de confiança nem probabilidade real.")
@@ -219,6 +237,7 @@ with sensibilidade:
     delta=cols[1].slider("Variação dos custos (%)",-100.0,200.0,key="custo_delta")/100
     volume=cols[0].number_input("Quantidade hipotética de transações no ano",min_value=1.0,key="volume")
     alvo_pct=cols[1].number_input("Meta acadêmica de margem (% da receita original)",min_value=-200.0,max_value=100.0,key="meta_pct")
+    resultado=None
     try:
         meta=meta_percentual(r,c,alvo_pct/100)
         st.caption(f"Meta em valor: {dinheiro(meta)}. Referência original: {numero(referencia_pct)}%. O percentual é uma hipótese do exercício, aplicada à receita original; mantém a comparação após desconto. Ao trocar o ano ou a população, a meta volta à margem de referência.")
@@ -235,6 +254,10 @@ with sensibilidade:
 with regressao:
     st.subheader("Associação entre receita, custos e resultado")
     st.caption("Ajuste fixo nos Anos 1–11; o filtro anual da visão financeira não altera o desenho estatístico. A opção de trajetórias altera a população do modelo.")
+    with st.expander("Como interpretar e comparar os modelos"):
+        st.write("Pergunta: como receita e custos se associam ao resultado líquido, controlando o ano? O modelo simples usa receita; o múltiplo acrescenta custos e efeitos de ano. A validação escolhe pelo RMSE; o teste é reservado até a escolha.")
+        st.write("MAE é o erro absoluto médio; RMSE dá mais peso aos erros grandes; ambos estão em milhões de reais. R² mede ajuste à variabilidade desta amostra. Métricas de modelos com desfechos, anos ou populações diferentes não são diretamente comparáveis.")
+        st.write("Trajetórias iguais permanecem no mesmo grupo da divisão 60%/20%/20%. Erros-padrão são agrupados por trajetória; diagnósticos de resíduos e colinearidade complementam as métricas. Um ajuste alto pode refletir relações contábeis e não capacidade de prever o futuro.")
     if agg:
         evidencias=ROOT/ag.EVIDENCIAS
         try:
@@ -287,4 +310,15 @@ with metodologia:
         st.download_button("Exportar KPIs agregados (CSV)",tabela(medias).to_csv(index=False).encode("utf-8-sig"),"kpis_agregados_cti.csv","text/csv")
     else:
         st.download_button("Exportar KPIs fictícios (CSV)",tabela(medias).to_csv(index=False).encode("utf-8-sig"),"kpis_ficticios.csv","text/csv")
+    if modo != "local":
+        st.subheader("Relatório gerencial do recorte")
+        st.caption("PDF com os anos e a população selecionados, indicadores do ano dos cartões, evolução e hipóteses atuais da Sensibilidade. Distribuição e regressão permanecem nas respectivas abas e relatórios técnicos.")
+        if st.button("Preparar relatório PDF"):
+            from src.cti.relatorio import gerar_pdf
+            fonte_pdf=(f"Fonte: CTI, agregados {agg['schema']}, gerados em {data_hora(agg['gerado_em_utc'])}; SHA-256 de entrada {agg['origem'].get('entrada_sha256','não informado')}."
+                       if agg else "DEMONSTRAÇÃO FICTÍCIA: dados gerados, sem relação com resultados CTI.")
+            pdf=gerar_pdf(medias,ano,"trajetórias únicas" if unicas else "todos os cenários",fonte_pdf,commit,
+                          resultado, {"Desconto (%)":desconto*100,"Variação dos custos (%)":delta*100,
+                                      "Quantidade hipotética":volume,"Meta de margem (%)":alvo_pct})
+            st.download_button("Baixar relatório PDF",pdf,"FinSight_Relatorio_Gerencial.pdf","application/pdf",on_click="ignore")
 st.caption(f"Processamento desta interação: {time.perf_counter()-inicio:.2f} s · Valores são projeções/simulações, não resultados realizados.")

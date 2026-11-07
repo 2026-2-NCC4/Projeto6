@@ -12,6 +12,8 @@ component agregados as Ag
 component regressao as Reg
 component executar_e2 as Exec
 component versao as Versao
+component "leitura gerencial" as Leitura
+component "relatorio PDF" as Relatorio
 artifact agregados_cti.json as Json
 artifact evidencias_e2.json as Ev
 artifact "Parquet / prepara E1" as Local
@@ -22,6 +24,11 @@ App ..> Dist
 App ..> Ag
 App ..> Reg
 App ..> Versao
+App ..> Leitura
+App ..> Relatorio : sob demanda
+Relatorio ..> KPI
+Relatorio ..> Leitura
+Relatorio ..> Dist : formatacao
 Versao ..> Git : identifica checkout
 Dados ..> Local
 Ag ..> Json : medias / percentis
