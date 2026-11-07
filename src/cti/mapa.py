@@ -2,6 +2,7 @@
 from functools import lru_cache
 from pathlib import Path
 import math
+import hashlib
 
 CONTAS = {"receita": "DRE - Receita", "custos": "DRE - Custos",
           "resultado": "DRE - Resultado Líquido", "caixa": "FLU - Geração de Caixa"}
@@ -38,7 +39,9 @@ def validar_aplicacao(evento, ano, populacao):
 @lru_cache(maxsize=1)
 def _componente(html, css, js):
     from streamlit.components.v2 import component
-    return component("finsight_mapa", html=html, css=css, js=js)
+    # Identidade por conteúdo evita reutilizar CSS/JS antigos após atualização do site.
+    versao = hashlib.sha256((html+css+js).encode("utf-8")).hexdigest()[:12]
+    return component("finsight_mapa_"+versao, html=html, css=css, js=js)
 
 
 def mostrar_mapa(dados):
