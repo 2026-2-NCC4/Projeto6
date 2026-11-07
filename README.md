@@ -48,7 +48,7 @@ A implementação E2 reúne cinco indicadores, evolução anual, filtros, 18 KPI
 - [Painel financeiro e regras](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/E2_Painel_Financeiro_CTI.pdf) e [validação](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/VALIDACAO_E2.md)
 - [Design de software e dois UML](documentos/Entrega%202/ES%20e%20ML/E2_Engenharia_Software_CTI.pdf)
 - [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
-- Banner FinSight (rascunho): [arquivo editável](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight_Rascunho.pptx) · [imagem](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight_Rascunho.png)
+- Banner FinSight: [arquivo editável](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.pptx) · [imagem](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.png)
 
 Instale `requirements-e2-dev.txt` em ambiente Python 3.13 e execute `python -m streamlit run app/app.py`. Para testes, use `python -m pytest -q`. As dependências E2 são separadas do ambiente E1.
 
