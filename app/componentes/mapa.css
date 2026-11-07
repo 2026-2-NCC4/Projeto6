@@ -91,6 +91,39 @@ input[type=range] {display:block;width:100%;accent-color:var(--blue);margin:14px
 .fs-map:fullscreen .node-name {font-size:16px;}
 .fs-map:fullscreen .node-value {font-size:27px;}
 .fs-map.wide .map-canvas {height:500px;}
+@media (max-height:800px) and (min-width:900px) {
+ .fs-map:fullscreen {padding:1vh 2vw;line-height:1.3;}
+ .fs-map:fullscreen .map-header {padding:14px 20px 10px;}
+ .fs-map:fullscreen h2 {font-size:30px;margin:4px 0 6px;}
+ .fs-map:fullscreen .context-line {padding:0 20px 10px;}
+ .fs-map:fullscreen .map-canvas {height:300px;}
+ .fs-map:fullscreen .node {padding:6px 12px;}
+ .fs-map:fullscreen .node-top {height:12px;min-height:12px;margin-bottom:2px;}
+ .fs-map:fullscreen .icon {height:12px;width:12px;}
+ .fs-map:fullscreen .node-tag {font-size:8px;line-height:1.2;}
+ .fs-map:fullscreen .network-caption {margin-bottom:12px;}
+ .fs-map:fullscreen .node-name {font-size:13px;line-height:1.2;}
+ .fs-map:fullscreen .node-value {font-size:22px;line-height:1.1;margin:3px 0;}
+ .fs-map:fullscreen .node-kind {font-size:9px;line-height:1.1;}
+ .fs-map:fullscreen .margem .node-value {font-size:25px;}
+ .fs-map:fullscreen .detail {padding:14px 18px;}
+ .fs-map:fullscreen .detail h3 {margin:8px 0 6px;font-size:19px;}
+ .fs-map:fullscreen .detail-unit {font-size:9px;line-height:1.2;margin-bottom:2px;}
+ .fs-map:fullscreen .detail-value {font-size:28px;}
+ .fs-map:fullscreen .change-row {min-height:18px;margin:4px 0 7px;}
+ .fs-map:fullscreen .detail-description {font-size:12px;line-height:1.4;margin-bottom:10px;}
+ .fs-map:fullscreen .chart-heading {padding-top:8px;font-size:8px;}
+ .fs-map:fullscreen .trend {height:48px;margin:3px 0;}
+ .fs-map:fullscreen .chart-years {font-size:8px;}
+ .fs-map:fullscreen .formula-note {font-size:9px;line-height:1.4;margin-top:8px;}
+ .fs-map:fullscreen .lab {padding:12px 18px;margin:0 20px 8px;}
+ .fs-map:fullscreen .lab h3 {font-size:20px;}
+ .fs-map:fullscreen .lab-controls {margin-top:14px;}
+ .fs-map:fullscreen input[type=range] {margin-top:10px;}
+ .fs-map:fullscreen .lab-foot {margin-top:12px;padding-top:10px;}
+ .fs-map:fullscreen .apply {padding:8px 12px;}
+ .fs-map:fullscreen .map-foot {padding-bottom:6px;}
+}
 @container financial (max-width:850px) {
  .workspace {grid-template-columns:minmax(0,1fr) 30%;}
  .detail {padding:22px 15px;}.detail-value{font-size:24px;}.detail h3{font-size:17px;}
