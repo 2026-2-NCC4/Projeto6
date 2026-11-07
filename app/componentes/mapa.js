@@ -19,13 +19,6 @@ export default function(component) {
   const original = data.valores;
   const names = {receita:'Receita',custos:'Custos',margem:'Margem após custos',resultado:'Resultado líquido',caixa:'Geração de caixa'};
   const order = Object.keys(names);
-  const icons = {
-    receita:'<path d="M4 17l6-6 4 3 6-9M14 5h6v6"/>',
-    custos:'<path d="M4 7l8-4 8 4-8 4-8-4zm0 5l8 4 8-4M4 17l8 4 8-4"/>',
-    margem:'<path d="M4 19L19 4M5 6h.01M18 18h.01"/><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/>',
-    resultado:'<path d="M7 3h9l4 4v14H4V3h3zm8 0v5h5M8 12h8M8 16h6"/>',
-    caixa:'<path d="M3 6h16v14H3V6zm1 0V3h12v3m-2 7h7v4h-7v-4z"/>'
-  };
   const descriptions = {
     receita:'Receita média da população selecionada. O desconto reduz somente esta referência, mantendo o volume constante.',
     custos:'Custos apresentados em módulo. A simulação aplica a variação sobre o custo assinado da base.',
@@ -126,7 +119,6 @@ export default function(component) {
   $('.source-label').textContent=data.modo==='ficticio'?'Dados fictícios · demonstração':(data.modo==='sem_origem'?'Origem sem conferência E1':'Projeções CTI');
   $('.terminal-note').textContent=data.ano===12?'Ano 12 · encerramento; comparar com cautela.':'';
   root.querySelectorAll('[data-node]').forEach(node=>{
-    node.querySelector('.icon').innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${icons[node.dataset.node]}</svg>`;
     listen(node,'click',()=>{active=node.dataset.node;render(true);$('.screen-reader').textContent=names[active]+'. '+$('.detail-value').textContent+' milhões de reais. '+descriptions[active];});
   });
   $('.discount').value=String(discount);$('.cost').value=String(cost);

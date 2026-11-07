@@ -27,7 +27,7 @@ from src.cti.mapa import preparar_mapa, mostrar_mapa
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
 
-st.set_page_config(page_title="FinSight | Dados financeiros em perspectiva",page_icon="📊",layout="wide")
+st.set_page_config(page_title="FinSight | Dados financeiros em perspectiva",page_icon=str(ROOT/"imagens/logo_finsight.png"),layout="wide")
 st.markdown("<style>.block-container{max-width:1350px;padding-top:2rem} div[data-testid='stMetric']{border:1px solid #94a3b8;border-radius:10px;padding:12px} div[data-testid='stMetricValue']{font-size:1.3rem}</style>",unsafe_allow_html=True)
 
 @st.cache_data
@@ -247,7 +247,7 @@ with sensibilidade:
         st.caption(f"Meta em valor: {dinheiro(meta)}. Referência original: {numero(referencia_pct)}%. O percentual é uma hipótese do exercício, aplicada à receita original; mantém a comparação após desconto. Ao trocar o ano ou a população, a meta volta à margem de referência.")
         resultado=simular(r,c,desconto,delta,volume,meta)
         a,b,d=st.columns(3)
-        a.metric("Margem simulada",dinheiro(resultado["margem"]),dinheiro(resultado["variacao_margem"]))
+        a.metric("Margem simulada",dinheiro(resultado["margem"]),dinheiro(resultado["variacao_margem"]),delta_arrow="off")
         b.metric("Ticket simulado por transação",dinheiro(resultado["ticket_simulado"]))
         d.metric("Desvio da meta acadêmica",dinheiro(resultado["desvio_meta"]))
         comparacao=pd.DataFrame({"Medida":["Receita","Custos assinados","Margem após custos"],"Referência":[r,c,r+c],"Simulação":[resultado["receita"],resultado["custo"],resultado["margem"]]})

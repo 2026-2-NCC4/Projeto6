@@ -25,7 +25,7 @@ h2 {font-size:32px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin
 .edge-label {font:9px "Segoe UI",sans-serif;letter-spacing:1.6px;fill:#728b9c;text-anchor:middle;}
 .node {position:absolute;display:flex;flex-direction:column;align-items:flex-start;text-align:left;justify-content:center;padding:15px 14px;background:white;border:1px solid #c6dce8;border-radius:14px;color:var(--ink);box-shadow:0 3px 12px #003e6008;transition:border-color .2s,box-shadow .2s,transform .2s;z-index:1;min-width:0;}
 .node:hover {transform:translateY(-3px);border-color:var(--blue);box-shadow:0 7px 20px #003e6014;}
-.node-top {display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:8px;}
+.node-top {display:flex;align-items:center;justify-content:flex-end;width:100%;margin-bottom:8px;}
 .icon {display:block;width:20px;height:20px;color:#007bb6;}
 .icon svg {height:100%;width:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
 .node-tag {font-size:8px;letter-spacing:.06em;font-weight:650;color:#6d8797;}
@@ -133,7 +133,7 @@ input[type=range] {display:block;width:100%;accent-color:var(--blue);margin:14px
 }
 @container financial (max-width:640px) {
  .map-header{padding:22px 18px 14px;gap:10px;} h2{font-size:26px;}.intro{font-size:12px;}
- .presentation {padding:9px;}.presentation span{display:none;}
+ .presentation {padding:9px;}.presentation span{display:inline;}
  .context-line{padding:0 18px 14px;flex-wrap:wrap;gap:6px;font-size:10px;}
  .workspace {display:flex;flex-direction:column;}
  .network-area {padding:0 4px;}
