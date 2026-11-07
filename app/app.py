@@ -91,6 +91,15 @@ st.image(str(ROOT/"imagens/logo_finsight.png"),width=400)
 st.caption("Dados financeiros em perspectiva")
 st.caption("DevLeaders · PI CTI · Entrega 2")
 with st.expander("Como usar o FinSight"):
+    st.markdown("**Passo a passo do mapa financeiro**\n\n"
+                "1. Escolha o intervalo de anos e o ano dos cartões na barra lateral. Marque **Remover cópias de trajetórias** para analisar a população sem trajetórias repetidas.\n"
+                "2. Na Visão geral, toque em Receita, Custos, Margem após custos, Resultado líquido ou Geração de caixa. O painel ao lado (ou abaixo, no celular) mostra o valor, a explicação e a evolução da referência.\n"
+                "3. Mova os controles de desconto e custos para experimentar uma hipótese. A prévia muda receita, custos e margem; resultado líquido e caixa permanecem na referência.\n"
+                "4. Clique em **Aplicar à Sensibilidade** para usar a hipótese na aba Sensibilidade e no PDF. Até aplicar, ela fica apenas na prévia do mapa.\n"
+                "5. Use **Apresentar** para ampliar o mapa no pitch e **Sair** para voltar ao painel.\n\n"
+                "**Zerar prévia** zera os controles do mapa; para levar essa mudança à análise, aplique novamente. "
+                "**Restaurar hipóteses**, na aba Sensibilidade, restaura os parâmetros da análise. "
+                "Para baixar o relatório, abra Metodologia e use **Preparar relatório PDF** e **Baixar relatório PDF**.")
     st.markdown("**Gestão:** compare receita, resultado e caixa na Visão geral; leia o resumo e o encerramento.\n\n"
                 "**Financeiro:** confira fórmulas e estados em Financeiro e teste hipóteses em Sensibilidade.\n\n"
                 "**Análise:** examine faixas e riscos em Distribuição, modelos em Regressão e fontes em Metodologia.")
