@@ -1,24 +1,24 @@
 @startuml
-title CTI E2 - componentes de producao
+title FinSight - componentes de produção
 left to right direction
 skinparam componentStyle uml2
 skinparam defaultFontSize 16
 skinparam backgroundColor white
 component "app/app.py" as App
-component "dados / recortes" as Dados
-component "indicadores /\nsensibilidade" as KPI
-component "distribuicao /\nformatacao" as Dist
-component agregados as Ag
-component regressao as Reg
-component executar_e2 as Exec
-component versao as Versao
-component "leitura gerencial" as Leitura
-component "relatorio PDF" as Relatorio
-component "mapa financeiro" as Mapa
+component "dados / recortes\n<size:12>dados.py, recortes.py</size>" as Dados
+component "indicadores / sensibilidade\n<size:12>indicadores.py, sensibilidade.py</size>" as KPI
+component "distribuição / formatação\n<size:12>distribuicao.py, formatacao.py</size>" as Dist
+component "agregados\n<size:12>agregados.py</size>" as Ag
+component "regressão\n<size:12>regressao.py</size>" as Reg
+component "pipeline E2\n<size:12>executar_e2.py</size>" as Exec
+component "versão em execução\n<size:12>versao.py</size>" as Versao
+component "leitura gerencial\n<size:12>leitura.py</size>" as Leitura
+component "relatório PDF\n<size:12>relatorio.py</size>" as Relatorio
+component "mapa financeiro\n<size:12>mapa.py</size>" as Mapa
 artifact "HTML / CSS / JS\ncomponente Streamlit v2" as Visual
 artifact agregados_cti.json as Json
 artifact evidencias_e2.json as Ev
-artifact "Parquet / prepara E1" as Local
+artifact "base analítica (Parquet)\n<size:12>preparada por prepara.py (E1)</size>" as Local
 artifact "Git HEAD local" as Git
 App ..> Dados
 App ..> KPI
@@ -28,25 +28,25 @@ App ..> Reg
 App ..> Versao
 App ..> Leitura
 App ..> Relatorio : sob demanda
-App ..> Mapa : somente medias
-Mapa ..> Visual : apresentacao interativa
+App ..> Mapa : somente médias
+Mapa ..> Visual : apresentação interativa
 note bottom of Mapa
 Callback valida contexto e limites.
-Aplica hipoteses no estado da Sensibilidade.
+Aplica hipóteses no estado da Sensibilidade.
 end note
 Relatorio ..> KPI
 Relatorio ..> Leitura
-Relatorio ..> Dist : formatacao
+Relatorio ..> Dist : formatação
 Versao ..> Git : identifica checkout
 Dados ..> Local
-Ag ..> Json : medias / percentis
-Ag ..> Ev : regressao publicada
-Exec ..> Local : preparacao
-Exec ..> Reg : avaliacao
+Ag ..> Json : médias / percentis
+Ag ..> Ev : regressão publicada
+Exec ..> Local : preparação
+Exec ..> Reg : avaliação
 note bottom of App
-Producao: CTI agregada.
+Produção: CTI agregada.
 Demo: CTI_DEMO=1.
 Local: CTI_BASE_LOCAL.
-Fonte invalida: bloqueio.
+Fonte inválida: bloqueio.
 end note
 @enduml

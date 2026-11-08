@@ -1,0 +1,31 @@
+@startuml
+title FinSight - implantação
+skinparam defaultFontSize 15
+skinparam backgroundColor white
+top to bottom direction
+node "Ambiente local do grupo" as Local {
+  artifact "CSV CTI\n<size:12>privado, fora do Git</size>" as CSV
+  component "pipeline E1/E2\n<size:12>prepara.py, executar_e2.py</size>" as Pipe
+  artifact "base analítica (Parquet)\n<size:12>privada, fora do Git</size>" as Parquet
+  component "gerador de agregados\n<size:12>agregados.py</size>" as Gen
+}
+node "GitHub: 2026-2-NCC4/Projeto6\n<size:12>repositório oficial, branch main</size>" as Oficial {
+  artifact "código + agregados_cti.json\n+ evidencias_e2.json" as Repo
+}
+node "GitHub: lucio734/Projeto6\n<size:12>cópia de hospedagem sincronizada</size>" as Fork
+node "Streamlit Community Cloud\n<size:12>Python 3.13</size>" as Cloud {
+  component "app/app.py\n<size:12>projeto6cti.streamlit.app</size>" as App
+}
+actor "Usuário\n<size:12>navegador</size>" as User
+CSV -right-> Pipe : leitura
+Pipe -down-> Parquet : 15 verificações
+Parquet -left-> Gen
+Gen -down-> Repo : commit só de agregados
+Repo --> Fork : sincronização
+Fork --> App : deploy da main
+User --> App : HTTPS, sem login
+note bottom of Local
+CSV e Parquet completos não saem do ambiente local.
+Publicação restrita a médias e percentis autorizados.
+end note
+@enduml

@@ -1,44 +1,44 @@
 @startuml
-title CTI E2 - selecao de fonte e consulta
+title FinSight - seleção de fonte e consulta
 skinparam defaultFontSize 16
 skinparam backgroundColor white
-actor Usuario
+actor "Usuário" as Usuario
 participant App
 participant "dados / agregados" as Fonte
 participant Sensibilidade
-participant "Relatorio PDF" as PDF
+participant "Relatório PDF" as PDF
 participant "Mapa financeiro" as Mapa
 Usuario -> App : abrir e escolher recorte
 App -> Fonte : selecionar fonte / validar
 alt CTI_DEMO=1
-Fonte -> Fonte : gerar ficticios identificados
+Fonte -> Fonte : gerar fictícios identificados
 else CTI_BASE_LOCAL definido
 Fonte -> Fonte : carregar Parquet e validar
-else producao
-Fonte -> Fonte : ler agregados reais / evidencias
+else produção
+Fonte -> Fonte : ler agregados reais / evidências
 end
-alt fonte invalida
+alt fonte inválida
 Fonte --> App : erro de contrato
-App --> Usuario : mensagem e interrupcao
-note right of App : st.stop(): nao prossegue
-else fonte valida
-Fonte --> App : medias / percentis
-App --> Usuario : KPIs e distribuicao
-App -> Mapa : medias anuais autorizadas
-Usuario -> Mapa : explorar / simular previa
+App --> Usuario : mensagem e interrupção
+note right of App : st.stop(): não prossegue
+else fonte válida
+Fonte --> App : médias / percentis
+App --> Usuario : KPIs e distribuição
+App -> Mapa : médias anuais autorizadas
+Usuario -> Mapa : explorar / simular prévia
 Mapa --> Usuario : receita / custos / margem
-opt aplicar previa valida
-Usuario -> Mapa : aplicar a Sensibilidade
-Mapa -> App : hipoteses e contexto do recorte
-App -> App : validar / atualizar hipoteses
+opt aplicar prévia válida
+Usuario -> Mapa : aplicar à Sensibilidade
+Mapa -> App : hipóteses e contexto do recorte
+App -> App : validar / atualizar hipóteses
 end
-Usuario -> App : alterar hipoteses
-App -> Sensibilidade : simular(R,C,desconto,custo,volume,meta)
+Usuario -> App : alterar hipóteses
+App -> Sensibilidade : simular(R, C, desconto, custo, volume, meta)
 Sensibilidade --> App : resultado / erro
-App --> Usuario : comparacao / mensagem
-opt exportacao agregada ou ficticia
+App --> Usuario : comparação / mensagem
+opt exportação agregada ou fictícia
 Usuario -> App : preparar PDF do recorte
-App -> PDF : medias / ano / fonte / hipoteses
+App -> PDF : médias / ano / fonte / hipóteses
 PDF --> App : PDF agregado
 App --> Usuario : download PDF
 end
