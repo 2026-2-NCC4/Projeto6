@@ -1,6 +1,8 @@
 """Gera relatórios acadêmicos E2 com evidências agregadas da execução local."""
 from pathlib import Path
 import json
+import re
+import subprocess
 from xml.sax.saxutils import escape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, Image, KeepTogether
 from reportlab.lib.utils import ImageReader
@@ -36,15 +38,25 @@ def table(rows,widths=None):
     return t
 from src.cti.versao import commit_em_execucao
 DATA_REFERENCIA="08/11/2026"
-CODIGO=(commit_em_execucao(ROOT) or R["commit_implementacao"])[:12]  # checkout usado para gerar os PDFs
-def capa(disciplina,professor,subtitulo):
+def codigo_referencia():
+    """A referência não muda quando um commit contém apenas PDFs ou capturas."""
+    try:
+        sha=subprocess.run(["git","-C",str(ROOT),"log","-1","--format=%H","--",
+                            "app","src","tests",".streamlit","requirements-e2-dev.txt","pytest.ini"],
+                           capture_output=True,text=True,check=True,timeout=3).stdout.strip()
+        if re.fullmatch(r"[0-9a-f]{40}",sha): return sha
+    except (OSError,subprocess.SubprocessError):
+        pass
+    return commit_em_execucao(ROOT) or R["commit_implementacao"]
+CODIGO=codigo_referencia()[:12]
+def capa(disciplina,professor,subtitulo,rotulo_orientacao="Orientação"):
     return [p("FECAP | Ciência da Computação | 2026/2","SmallPT"),Spacer(1,26),
             p("FinSight","Title"),p("Dados financeiros em perspectiva"),
             Spacer(1,12),h(disciplina),p(subtitulo),
             table([["Identificação","Entrega 2"],["Grupo","6 - DevLeaders"],
                    ["Integrantes","Gustavo Pires; Lúcio Vecchio; Luiz Henrique Zaim da Cruz; Eric Aloise"],
-                   ["Orientação",professor],["Data de referência",DATA_REFERENCIA],
-                   ["Versão do código",CODIGO],
+                   [rotulo_orientacao,professor],["Data da documentação",DATA_REFERENCIA],
+                   ["Código de referência",CODIGO],
                    ["Repositório","github.com/2026-2-NCC4/Projeto6"]],[105,385]),Spacer(1,18)]
 def rodape(canvas,doc):
     canvas.setStrokeColor(colors.HexColor("#b8ccd8")); canvas.line(42,42,553,42)
@@ -140,12 +152,12 @@ s += [table(rows,[170,160,160]),Spacer(1,14),
 s += [table([["Termo","Coeficiente","IC 95% inferior","IC 95% superior"]]+[[c["termo"],num(c["coeficiente"]),num(c["IC95_inferior"]),num(c["IC95_superior"])] for c in REG["coeficientes"]],[148,110,116,116]),Spacer(1,12),
       p("Receita: mantendo ano e custo constantes, mais R$ 1 milhão associa-se a cerca de R$ 0,593 milhão de resultado. O custo é assinado: aumentar a despesa em módulo reduz seu regressor. Seu IC inclui zero; isso não significa ausência de importância econômica, pois há forte colinearidade e condicionamento."),
       p("Os coeficientes de ano são diferenças em relação ao Ano 1. O intercepto não tem interpretação econômica isolada fora do domínio observado. Os intervalos agrupados não resolvem possível dependência entre cenários de um mesmo simulador."),br(),
-      p("Auditoria contábil: resultado líquido = receita + tributos + custos + depreciação/amortização + resultado financeiro + outros resultados operacionais + IR/CSLL. Resíduo máximo na base: cerca de R$0,0000505, arredondado a zero. O modelo usa só parte dessas parcelas."),
+      p("Auditoria contábil: resultado líquido = receita + tributos + custos + depreciação/amortização + resultado financeiro + outros resultados operacionais + IR/CSLL. Resíduo máximo na base: cerca de R$ 0,0000505, arredondado a zero. O modelo usa só parte dessas parcelas."),
       p("Taxas agregadas de tributos e IR/CSLL: aproximadamente 8,45% e 34,37%. O produto (1-t)(1-ir) = 0,6008 é comparação descritiva, não demonstra que o coeficiente parcial 0,5929 seja repasse tributário. Taxas variáveis, variáveis omitidas e controles de ano impedem essa conclusão. O intervalo do custo inclui zero; omissão de parcelas é hipótese a investigar, não explicação comprovada."),
       h("5. Diagnósticos e limitações"),
       Image(str(FIGURA),width=490,height=312),
-      p(f"Breusch-Pagan exploratório: LM {num(REG['diagnostico']['breusch_pagan_LM'])}; p = {REG['diagnostico']['breusch_pagan_p_exploratorio']:.3g}. A dependência em painel limita a calibração desse p-valor. Correlação defasada dos resíduos dentro de cenário: {num(REG['diagnostico']['correlacao_residuo_defasado'])}."),
-      p(f"VIF: receita {num(REG['diagnostico']['VIF']['receita_milhoes'])}; custos {num(REG['diagnostico']['VIF']['custos_milhoes'])}; máximo entre regressores {max(REG['diagnostico']['VIF'].values()):.2f}. Colinearidade alta e dependência temporal tornam inadequada uma interpretação causal dos coeficientes."),
+      p(f"Breusch-Pagan exploratório: LM {num(REG['diagnostico']['breusch_pagan_LM'])}; p = {format(REG['diagnostico']['breusch_pagan_p_exploratorio'],'.3g').replace('.',',')}. A dependência em painel limita a calibração desse p-valor. Correlação defasada dos resíduos dentro de cenário: {num(REG['diagnostico']['correlacao_residuo_defasado'])}."),
+      p(f"VIF: receita {num(REG['diagnostico']['VIF']['receita_milhoes'])}; custos {num(REG['diagnostico']['VIF']['custos_milhoes'])}; máximo entre regressores {numero(max(REG['diagnostico']['VIF'].values()))}. Colinearidade alta e dependência temporal tornam inadequada uma interpretação causal dos coeficientes."),
       p("As figuras revelam padrões de resíduos; não se pressupõe normalidade ou homocedasticidade. Médias por faixa e por ano podem ocultar extremos individuais. Os quantis Q-Q são agregados. Erros-padrão agrupados são usados no lugar dos iid."),br(),
       h("6. Sensibilidade e reprodutibilidade")]
 s += [table([["Recorte","RMSE de teste (milhões)","R² de teste"]]+[[label,num(R[key]["teste"]["RMSE_milhoes"]),num(R[key]["teste"]["R2"])] for label,key in [("Anos 1-11","regressao"),("Sem cópias","sensibilidade_sem_copias"),("Inclui Ano 12","sensibilidade_com_encerramento")]],[200,165,125]),
@@ -158,7 +170,7 @@ s += [table([["Recorte","RMSE de teste (milhões)","R² de teste"]]+[[label,num(
 salvar("Análise Inferencial de Dados","E2_Analise_Inferencial_CTI.pdf",s)
 
 # Finanças
-s=capa("Contabilidade e Finanças","Orientadores do PI: Eduardo Savino, Luis Pires, Mauricio Lopes e Rodnil da Silva","Painel operacional, regras de cálculo e sensibilidade")
+s=capa("Contabilidade e Finanças","Eduardo Savino, Luis Pires, Mauricio Lopes e Rodnil da Silva","Painel operacional, regras de cálculo e sensibilidade",rotulo_orientacao="Orientação do PI")
 s += [h("1. Decisões apoiadas"),p("O painel integra receita, custos, margem após custos, resultado líquido e geração de caixa. As abas Financeiro e Sensibilidade oferecem os indicadores E1, ticket hipotético, meta acadêmica, evolução anual e comparação entre referência e simulação."),
       p("Os cenários são alternativas da mesma concessão. Para cada ano, calculamos a média de cada conta e depois o indicador. Não somamos faturamento entre cenários nem saldos patrimoniais entre anos. O padrão mantém todos os 1.200 cenários; a opção sem cópias retém 1.107 trajetórias."),
       p("A versão de produção utiliza médias e percentis reais da CTI, conferidos com a base preparada E1. O arquivo completo permanece local. O painel identifica a fonte e oferece a comparação de 1.200 cenários com 1.107 trajetórias únicas. O guia de uso orienta gestão, financeiro e análise. A Visão geral acrescenta leitura textual e quadro próprio dos Anos 11-12; a tabela de encerramento não constitui ponte contábil e preserva a população escolhida."),br(),

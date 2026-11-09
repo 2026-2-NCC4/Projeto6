@@ -309,7 +309,7 @@ with metodologia:
         st.write(f"Arquivo de agregados: versão {agg['schema']}, gerado em {data_hora(agg['gerado_em_utc'])} (horário de Brasília). "
                  f"SHA-256 da entrada CTI: {origem.get('entrada_sha256') or 'não informado'}. "
                  f"Corresponde à referência da E1: {'sim' if origem.get('corresponde_referencia_E1') is True else 'não comprovado'}.")
-    st.write("Versão do contrato: e2-v1. Versão da entrega: E2, 06/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
+    st.write("Versão do contrato: e2-v1. Entrega: E2. Data original do enunciado: 06/11/2026. Calendário 2026 + Ano e R$ são convenções acadêmicas; os filtros usam Ano 1 a 12.")
     st.write("A base bruta é preservada. A preparação valida chaves e identidades; a entrada E2 confere os 12 anos por cenário e a marcação de trajetórias repetidas.")
     st.write("Contas são agregadas por média dentro de cada ano. Não somamos saldos patrimoniais ao longo dos anos. Dados ausentes permanecem indisponíveis.")
     st.write("Distribuição: percentis P5, P25, P50, P75 e P95 de cada indicador entre os cenários do recorte, ano a ano, e parcela dos cenários abaixo de um limite. São agregados; nenhum cenário individual é exibido. A distribuição aos acionistas é uma saída de caixa e aparece como valor pago.")

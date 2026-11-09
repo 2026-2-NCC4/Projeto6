@@ -12,7 +12,10 @@ export default function(component) {
   let cost = Number(data.hipoteses.custo);
   const applied = {discount, cost};
   const valid = v => typeof v === 'number' && Number.isFinite(v);
-  const num = (v,digits=2) => new Intl.NumberFormat('pt-BR',{minimumFractionDigits:digits,maximumFractionDigits:digits}).format(v);
+  const num = (v,digits=2) => {
+    const text=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:digits,maximumFractionDigits:digits}).format(v);
+    return /^-0(?:,0+)?$/.test(text)?text.slice(1):text;
+  };
   const short = v => !valid(v) ? 'Indisponível' : 'R$ '+num(v/(Math.abs(v)>=1e9?1e9:1e6))+(Math.abs(v)>=1e9?' bi':' mi');
   const millions = v => valid(v) ? num(v/1e6) : 'Indisponível';
   const signed = v => (v>0?'+':'')+num(v);
@@ -132,10 +135,17 @@ export default function(component) {
     setTriggerValue('aplicar',{ano:data.ano,populacao:data.populacao,desconto:discount,custo:cost});
   });
   const presentationButton=$('.presentation');
+  let wasPresenting=false;
+  const presenting=()=>root.matches(':fullscreen')||root.classList.contains('wide');
   function presentationLabel() {
-    const enabled=root.matches(':fullscreen')||root.classList.contains('wide');
+    const enabled=presenting();
     presentationButton.querySelector('span').textContent=enabled?'Sair':'Apresentar';
     presentationButton.setAttribute('aria-label',enabled?'Sair do modo de apresentação':'Ampliar mapa para apresentação');
+    presentationButton.setAttribute('aria-expanded',String(enabled));
+    if(enabled){root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');}
+    else {root.removeAttribute('role');root.removeAttribute('aria-modal');}
+    if(wasPresenting&&!enabled)presentationButton.focus({preventScroll:true});
+    wasPresenting=enabled;
   }
   listen(presentationButton,'click',async()=>{
     if(root.matches(':fullscreen'))await document.exitFullscreen();
@@ -145,6 +155,23 @@ export default function(component) {
     presentationLabel();
   });
   listen(document,'fullscreenchange',presentationLabel);
+  listen(document,'keydown',async e=>{
+    if(e.key!=='Escape'||!presenting())return;
+    e.preventDefault();
+    if(root.matches(':fullscreen')){
+      try{await document.exitFullscreen();}catch{/* O navegador pode ter saído pelo comando nativo. */}
+    }
+    root.classList.remove('wide');presentationLabel();
+  });
+  listen(root,'keydown',e=>{
+    if(e.key!=='Tab'||!presenting())return;
+    const controls=[...root.querySelectorAll('button:not(:disabled),input:not(:disabled)')];
+    const first=controls[0],last=controls.at(-1);
+    const activeElement=root.getRootNode().activeElement;
+    if(e.shiftKey&&activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&activeElement===last){e.preventDefault();first.focus();}
+  });
+  presentationLabel();
   render(true);
-  return ()=>{controller.abort();frames.forEach(id=>cancelAnimationFrame(id));};
+  return ()=>{controller.abort();root.classList.remove('wide');frames.forEach(id=>cancelAnimationFrame(id));};
 }

@@ -18,6 +18,9 @@ def numero(v, casas=2):
     if not _valido(v):
         return INDISPONIVEL
     texto = f"{float(v):,.{casas}f}"
+    # O sinal acompanha o número visível, sem alterar o valor usado nos cálculos.
+    if texto.startswith("-") and not any(c in "123456789" for c in texto):
+        texto = texto[1:]
     return texto.replace(",", "X").replace(".", ",").replace("X", ".")
 
 

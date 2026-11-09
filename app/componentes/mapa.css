@@ -28,7 +28,7 @@ h2 {font-size:32px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin
 .node-top {display:flex;align-items:center;justify-content:flex-end;width:100%;margin-bottom:8px;}
 .icon {display:block;width:20px;height:20px;color:#007bb6;}
 .icon svg {height:100%;width:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
-.node-tag {font-size:8px;letter-spacing:.06em;font-weight:650;color:#6d8797;}
+.node-tag {font-size:8px;letter-spacing:.06em;font-weight:650;color:#536c7c;}
 .node-name {font-size:clamp(10px,1.95cqw,13px);line-height:1.3;white-space:nowrap;}
 .node-value {font-size:clamp(15px,2.7cqw,23px);font-weight:650;letter-spacing:-.04em;white-space:nowrap;line-height:1.3;margin:4px 0;}
 .node-kind {font-size:clamp(8px,1.45cqw,10px);color:var(--muted);line-height:1.3;}
@@ -47,7 +47,7 @@ h2 {font-size:32px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin
 .detail {border-left:1px solid var(--line);padding:25px 22px;background:#fafcfd;min-width:0;}
 .detail-top {display:flex;justify-content:space-between;align-items:center;gap:5px;}
 .detail-top .eyebrow {font-size:9px;letter-spacing:.1em;}
-.detail-number {font-size:9px;color:#688393;font-variant-numeric:tabular-nums;}
+.detail-number {font-size:9px;color:#536c7c;font-variant-numeric:tabular-nums;}
 .detail h3 {font-weight:650;line-height:1.35;color:var(--navy);font-size:19px;letter-spacing:-.025em;margin:20px 0 10px;}
 .detail-unit {display:block;font-size:10px;color:var(--muted);margin-bottom:3px;}
 .detail-value {font-size:28px;letter-spacing:-.045em;line-height:1.2;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--navy);}
@@ -71,7 +71,7 @@ h2 {font-size:32px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin
 .control>span:first-child {display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--ink);}
 output {font-variant-numeric:tabular-nums;color:var(--blue);font-size:13px;}
 input[type=range] {display:block;width:100%;accent-color:var(--blue);margin:14px 0 5px;height:7px;cursor:pointer;}
-.range-labels {display:flex;justify-content:space-between;font-size:9px;color:#657f8f;margin-top:5px;}
+.range-labels {display:flex;justify-content:space-between;font-size:9px;color:#536c7c;margin-top:5px;}
 .lab-foot {display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid var(--line);margin-top:18px;padding-top:15px;}
 .live-note {font-size:11px;line-height:1.5;margin:0;color:var(--muted);max-width:50%;}
 .actions {display:flex;align-items:center;gap:14px;}
@@ -81,48 +81,50 @@ input[type=range] {display:block;width:100%;accent-color:var(--blue);margin:14px
 .apply span {font-size:15px;}
 .map-foot {font-size:9px;line-height:1.5;color:#5c7585;padding:0 26px 18px;display:flex;justify-content:space-between;gap:18px;}
 .terminal-note {color:#80531f;max-width:38%;}
+.scale-note {font-size:9px;line-height:1.5;color:var(--muted);margin:0;padding:8px 30px;}
 .screen-reader {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
-.fs-map:fullscreen {border:0;border-radius:0;padding:2vh 3vw;overflow-y:auto;max-height:100vh;}
-.fs-map:fullscreen .workspace {grid-template-columns:minmax(0,1fr) 28%;}
-.fs-map:fullscreen .map-canvas {height:min(48vh,570px);}
-.fs-map:fullscreen h2 {font-size:38px;}
-.fs-map:fullscreen .detail-value {font-size:36px;}
-.fs-map:fullscreen .detail-description {font-size:14px;}
-.fs-map:fullscreen .node-name {font-size:16px;}
-.fs-map:fullscreen .node-value {font-size:27px;}
-.fs-map.wide .map-canvas {height:500px;}
+.fs-map:is(:fullscreen,.wide) {border:0;border-radius:0;padding:2vh 3vw;overflow-y:auto;max-height:100vh;}
+.fs-map:is(:fullscreen,.wide) .workspace {grid-template-columns:minmax(0,1fr) 28%;}
+.fs-map:is(:fullscreen,.wide) .map-canvas {height:min(42vh,570px);}
+.fs-map:is(:fullscreen,.wide) h2 {font-size:38px;}
+.fs-map:is(:fullscreen,.wide) .detail-value {font-size:36px;}
+.fs-map:is(:fullscreen,.wide) .detail-description {font-size:14px;}
+.fs-map:is(:fullscreen,.wide) .node-name {font-size:16px;}
+.fs-map:is(:fullscreen,.wide) .node-value {font-size:27px;}
+.fs-map.wide {position:fixed;inset:0;z-index:2147483000;width:100vw;height:100dvh;overscroll-behavior:contain;}
 @media (max-height:800px) and (min-width:900px) {
- .fs-map:fullscreen {padding:1vh 2vw;line-height:1.3;}
- .fs-map:fullscreen .map-header {padding:14px 20px 10px;}
- .fs-map:fullscreen h2 {font-size:30px;margin:4px 0 6px;}
- .fs-map:fullscreen .context-line {padding:0 20px 10px;}
- .fs-map:fullscreen .map-canvas {height:300px;}
- .fs-map:fullscreen .node {padding:6px 12px;}
- .fs-map:fullscreen .node-top {height:12px;min-height:12px;margin-bottom:2px;}
- .fs-map:fullscreen .icon {height:12px;width:12px;}
- .fs-map:fullscreen .node-tag {font-size:8px;line-height:1.2;}
- .fs-map:fullscreen .network-caption {margin-bottom:12px;}
- .fs-map:fullscreen .node-name {font-size:13px;line-height:1.2;}
- .fs-map:fullscreen .node-value {font-size:22px;line-height:1.1;margin:3px 0;}
- .fs-map:fullscreen .node-kind {font-size:9px;line-height:1.1;}
- .fs-map:fullscreen .margem .node-value {font-size:25px;}
- .fs-map:fullscreen .detail {padding:14px 18px;}
- .fs-map:fullscreen .detail h3 {margin:8px 0 6px;font-size:19px;}
- .fs-map:fullscreen .detail-unit {font-size:9px;line-height:1.2;margin-bottom:2px;}
- .fs-map:fullscreen .detail-value {font-size:28px;}
- .fs-map:fullscreen .change-row {min-height:18px;margin:4px 0 7px;}
- .fs-map:fullscreen .detail-description {font-size:12px;line-height:1.4;margin-bottom:10px;}
- .fs-map:fullscreen .chart-heading {padding-top:8px;font-size:8px;}
- .fs-map:fullscreen .trend {height:48px;margin:3px 0;}
- .fs-map:fullscreen .chart-years {font-size:8px;}
- .fs-map:fullscreen .formula-note {font-size:9px;line-height:1.4;margin-top:8px;}
- .fs-map:fullscreen .lab {padding:12px 18px;margin:0 20px 8px;}
- .fs-map:fullscreen .lab h3 {font-size:20px;}
- .fs-map:fullscreen .lab-controls {margin-top:14px;}
- .fs-map:fullscreen input[type=range] {margin-top:10px;}
- .fs-map:fullscreen .lab-foot {margin-top:12px;padding-top:10px;}
- .fs-map:fullscreen .apply {padding:8px 12px;}
- .fs-map:fullscreen .map-foot {padding-bottom:6px;}
+ .fs-map:is(:fullscreen,.wide) {padding:1vh 2vw;line-height:1.3;}
+ .fs-map:is(:fullscreen,.wide) .map-header {padding:14px 20px 8px;}
+ .fs-map:is(:fullscreen,.wide) h2 {font-size:30px;margin:4px 0 6px;}
+ .fs-map:is(:fullscreen,.wide) .context-line {padding:0 20px 6px;}
+ .fs-map:is(:fullscreen,.wide) .scale-note {padding:4px 20px;}
+ .fs-map:is(:fullscreen,.wide) .map-canvas {height:300px;}
+ .fs-map:is(:fullscreen,.wide) .node {padding:6px 12px;}
+ .fs-map:is(:fullscreen,.wide) .node-top {height:12px;min-height:12px;margin-bottom:2px;}
+ .fs-map:is(:fullscreen,.wide) .icon {height:12px;width:12px;}
+ .fs-map:is(:fullscreen,.wide) .node-tag {font-size:8px;line-height:1.2;}
+ .fs-map:is(:fullscreen,.wide) .network-caption {margin-bottom:12px;}
+ .fs-map:is(:fullscreen,.wide) .node-name {font-size:13px;line-height:1.2;}
+ .fs-map:is(:fullscreen,.wide) .node-value {font-size:22px;line-height:1.1;margin:3px 0;}
+ .fs-map:is(:fullscreen,.wide) .node-kind {font-size:9px;line-height:1.1;}
+ .fs-map:is(:fullscreen,.wide) .margem .node-value {font-size:25px;}
+ .fs-map:is(:fullscreen,.wide) .detail {padding:14px 18px;}
+ .fs-map:is(:fullscreen,.wide) .detail h3 {margin:8px 0 6px;font-size:19px;}
+ .fs-map:is(:fullscreen,.wide) .detail-unit {font-size:9px;line-height:1.2;margin-bottom:2px;}
+ .fs-map:is(:fullscreen,.wide) .detail-value {font-size:28px;}
+ .fs-map:is(:fullscreen,.wide) .change-row {min-height:18px;margin:4px 0 7px;}
+ .fs-map:is(:fullscreen,.wide) .detail-description {font-size:12px;line-height:1.4;margin-bottom:10px;}
+ .fs-map:is(:fullscreen,.wide) .chart-heading {padding-top:8px;font-size:8px;}
+ .fs-map:is(:fullscreen,.wide) .trend {height:48px;margin:3px 0;}
+ .fs-map:is(:fullscreen,.wide) .chart-years {font-size:8px;}
+ .fs-map:is(:fullscreen,.wide) .formula-note {font-size:9px;line-height:1.4;margin-top:8px;}
+ .fs-map:is(:fullscreen,.wide) .lab {padding:12px 18px;margin:0 20px 8px;}
+ .fs-map:is(:fullscreen,.wide) .lab h3 {font-size:20px;}
+ .fs-map:is(:fullscreen,.wide) .lab-controls {margin-top:14px;}
+ .fs-map:is(:fullscreen,.wide) input[type=range] {margin-top:10px;}
+ .fs-map:is(:fullscreen,.wide) .lab-foot {margin-top:10px;padding-top:10px;}
+ .fs-map:is(:fullscreen,.wide) .apply {padding:8px 12px;}
+ .fs-map:is(:fullscreen,.wide) .map-foot {padding-bottom:4px;}
 }
 @container financial (max-width:850px) {
  .workspace {grid-template-columns:minmax(0,1fr) 30%;}
@@ -141,7 +143,7 @@ input[type=range] {display:block;width:100%;accent-color:var(--blue);margin:14px
  .connections {display:none;}
  .node {position:relative;inset:auto;width:auto;height:115px;padding:14px;}
  .node-name{font-size:12px;}.node-value{font-size:clamp(16px,5.2cqw,22px);}.node-kind{font-size:9px;}
- .fs-map:fullscreen .node-name{font-size:12px;}.fs-map:fullscreen .node-value{font-size:clamp(16px,5.2cqw,22px);}
+ .fs-map:is(:fullscreen,.wide) .node-name{font-size:12px;}.fs-map:is(:fullscreen,.wide) .node-value{font-size:clamp(16px,5.2cqw,22px);}
  .margem {grid-column:1/-1;grid-row:2;justify-self:center;width:84%;height:126px;}
  .custos {grid-column:2;grid-row:1;}.receita{grid-column:1;grid-row:1;}
  .resultado{grid-column:1;grid-row:3;}.caixa{grid-column:2;grid-row:3;}
