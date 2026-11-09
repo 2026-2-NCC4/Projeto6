@@ -34,10 +34,10 @@ Os dados representam projeções de uma concessão de infraestrutura, com cenár
 
 | Disciplina | Entrega 1 | Entrega 2 |
 |---|---|---|
-| Análise Inferencial de Dados | [Documentos](documentos/Entrega%201/An%C3%A1lise%20Inferencial%20de%20Dados) | [Documentos](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados) |
-| Contabilidade e Finanças | [Documentos](documentos/Entrega%201/Contabilidade%20e%20Finan%C3%A7as) | [Documentos](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as) |
-| Engenharia de Software e Arquitetura de Sistemas | [PDF](documentos/Entrega%201/ES%20e%20ML/E1_Engenharia_Software_CTI.pdf) | [Documentos](documentos/Entrega%202/ES%20e%20ML) |
-| Projeto Interdisciplinar: Ciência de Dados | [Notebook](src/notebooks/02_preparacao.ipynb) · [Documentos](documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) | [Documentos](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) |
+| Análise Inferencial de Dados | [Acessar entrega 1](documentos/Entrega%201/An%C3%A1lise%20Inferencial%20de%20Dados) | [Acessar entrega 2](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados) |
+| Contabilidade e Finanças | [Acessar entrega 1](documentos/Entrega%201/Contabilidade%20e%20Finan%C3%A7as) | [Acessar entrega 2](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as) |
+| Engenharia de Software e Arquitetura de Sistemas | [Acessar entrega 1](documentos/Entrega%201/ES%20e%20ML) | [Acessar entrega 2](documentos/Entrega%202/ES%20e%20ML) |
+| Projeto Interdisciplinar: Ciência de Dados | [Acessar entrega 1](documentos/Entrega%201/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) | [Acessar entrega 2](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados) |
 
 ## Entrega 2: painel integrado
 
@@ -167,6 +167,6 @@ O notebook 01 gera duas figuras em `imagens/`, que podem ser atualizadas ao exec
 <a href="https://github.com/2026-2-NCC4/Projeto6">FinSight (DevLeaders)</a> © 2026 by
 
 <a href="https://www.linkedin.com/in/gustavo-pires0/">Gustavo Pires</a>, <a href="https://www.linkedin.com/in/lucio-vecchio/">Lúcio Vecchio</a>, <a href="https://www.linkedin.com/in/luiz-zaim-9867b224b/">Luiz Henrique</a>, <a href="https://www.linkedin.com/in/eric-aloise/">Eric Aloise</a>, <a href="https://www.fecap.br/">FECAP</a>
-is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" width="20" height="20" valign="middle"></p>
+is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20" height="20" valign="middle"> <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20" height="20" valign="middle"></p>
 
 Os dados fornecidos pela CTI não estão incluídos nesta licença. Seu acesso, uso e divulgação seguem as condições da empresa e as orientações do projeto. A publicação de planilhas, figuras ou resultados deve respeitar essas condições.
