@@ -82,7 +82,7 @@ O notebook em Análise Inferencial importa os mesmos módulos. Execute desde o c
 
 Para regenerar os PDFs a partir das evidências agregadas versionadas:
 ```bash
-python -m tools.gerar_documentos_e2
+python -m src.apoio.tools.gerar_documentos_e2
 ```
 A geração lê evidencias_e2.json e as fórmulas compartilhadas; requer reportlab. Não precisa da base privada e não recalcula ou modifica a planilha E1. Para incorporar uma nova execução, atualizar antes as evidências agregadas e identificar o commit correspondente.
 

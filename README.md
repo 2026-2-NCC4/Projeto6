@@ -75,15 +75,18 @@ Projeto6/
 │       └── Projeto Interdisciplinar Ciência de Dados/
 ├── imagens/
 ├── src/
+│   ├── apoio/            # Testes, ferramentas e configuração de testes
+│   │   ├── tests/
+│   │   ├── tools/
+│   │   └── pytest.ini
 │   ├── data/
 │   │   ├── raw/
 │   │   ├── staging/
 │   │   └── processed/
 │   ├── notebooks/
 │   └── prepara.py
-├── tests/                # Verificações automatizadas
-├── tools/                # Geração dos PDFs acadêmicos
 ├── LICENSE
+├── requirements-e2-dev.txt
 ├── requirements.txt
 └── README.md
 ```

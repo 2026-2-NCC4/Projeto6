@@ -11,7 +11,7 @@ from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[3]
 BASE=ROOT/"documentos/Entrega 2"
 R=json.loads((BASE/"Projeto Interdisciplinar Ciência de Dados/evidencias_e2.json").read_text(encoding="utf-8"))
 REG=R["regressao"]
@@ -42,7 +42,7 @@ def codigo_referencia():
     """A referência não muda quando um commit contém apenas PDFs ou capturas."""
     try:
         sha=subprocess.run(["git","-C",str(ROOT),"log","-1","--format=%H","--",
-                            "app","src","tests",".streamlit","requirements-e2-dev.txt","pytest.ini"],
+                            "app","src",".streamlit","requirements-e2-dev.txt"],
                            capture_output=True,text=True,check=True,timeout=3).stdout.strip()
         if re.fullmatch(r"[0-9a-f]{40}",sha): return sha
     except (OSError,subprocess.SubprocessError):
