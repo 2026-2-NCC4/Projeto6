@@ -13,7 +13,7 @@ from reportlab.lib.pagesizes import A4
 
 ROOT=Path(__file__).resolve().parents[3]
 BASE=ROOT/"documentos/Entrega 2"
-R=json.loads((BASE/"Projeto Interdisciplinar Ciência de Dados/evidencias_e2.json").read_text(encoding="utf-8"))
+R=json.loads((ROOT/"app/dados/evidencias_e2.json").read_text(encoding="utf-8"))
 REG=R["regressao"]
 from src.cti.regressao import figuras
 FIGURA=figuras(REG,ROOT/"src/data/processed/e2_documentos")
@@ -72,7 +72,7 @@ def num(x): return f"{x:,.4f}".replace(",","X").replace(".",",").replace("X","."
 
 def UML(tipo):
     """A figura é renderizada da fonte .puml versionada, sem desenho manual paralelo."""
-    arquivo=BASE/"ES e ML"/(tipo+".png")
+    arquivo=ROOT/"src/apoio/documentacao/uml"/(tipo+".png")
     w,h=ImageReader(str(arquivo)).getSize()
     escala=min(490/w,475/h)
     return Image(str(arquivo),width=w*escala,height=h*escala)
@@ -210,7 +210,7 @@ s += [h("1. Arquitetura implementada"),p("Arquitetura modular em Python: a inter
       p("Participantes: usuário, app, dados/agregados, mapa financeiro, sensibilidade e relatório PDF. Linhas de vida tracejadas, mensagens e retornos; fragmento alt distingue entrada inválida e válida. Resultado com falha é apresentado como mensagem, nunca substituído silenciosamente por zero."),
       p("O processamento da simulação recebe cópia dos valores de referência. Restaurar hipóteses e a troca de ano/população reinicializam a meta na margem do recorte; não escrevem na base. No modo agregado, a regressão lê evidências já calculadas; no modo local, é iniciada por comando explícito. Seu recorte 1-11 é informado separadamente."),br()]
 SECOES_ES=iter(range(4,10))
-if (BASE/"ES e ML"/"implantacao.png").exists():
+if (ROOT/"src/apoio/documentacao/uml/implantacao.png").exists():
     s += [h(f"{next(SECOES_ES)}. UML de implantação"),UML("implantacao"),
           p("O diagrama mostra onde cada parte roda. O CSV da CTI e a base analítica ficam no ambiente local do grupo, fora do Git. O pipeline gera os agregados autorizados, versionados no repositório oficial junto com o código. Uma cópia de hospedagem sincronizada alimenta o Streamlit Community Cloud, que entrega o painel ao navegador por HTTPS, sem login."),
           p("A cópia de hospedagem existe porque a publicação no Streamlit exige permissão de administrador no repositório, que a conta do grupo não tem no repositório oficial. A sincronização mantém os mesmos commits, e o painel exibe o commit em execução para conferência."),br()]

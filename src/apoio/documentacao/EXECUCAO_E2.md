@@ -78,13 +78,13 @@ python -m src.cti.executar_e2
 Sem `--csv` ou `--base`, a segunda rotina usa dados fictícios. Suas saídas são identificadas pelo modo; para não substituir a evidência CTI, usar `--saida src/data/processed/e2_ficticio`.
 A suíte omite explicitamente o teste privado quando a base não está disponível.
 
-O notebook em Análise Inferencial importa os mesmos módulos. Execute desde o começo, com kernel do ambiente E2. Sem variável CTI_BASE_LOCAL, usa dados fictícios. A execução salva do notebook é CTI local; não foi executada no Colab nesta etapa.
+O notebook de Análise Inferencial está em `src/notebooks/E2_Regressao_CTI.ipynb` e importa os mesmos módulos. Execute desde o começo, com kernel do ambiente E2. Sem variável CTI_BASE_LOCAL, usa dados fictícios. A execução salva do notebook é CTI local; não foi executada no Colab nesta etapa.
 
 Para regenerar os PDFs a partir das evidências agregadas versionadas:
 ```bash
 python -m src.apoio.tools.gerar_documentos_e2
 ```
-A geração lê evidencias_e2.json e as fórmulas compartilhadas; requer reportlab. Não precisa da base privada e não recalcula ou modifica a planilha E1. Para incorporar uma nova execução, atualizar antes as evidências agregadas e identificar o commit correspondente.
+A geração lê `app/dados/evidencias_e2.json` e as fórmulas compartilhadas; requer reportlab. Não precisa da base privada e não recalcula ou modifica a planilha E1. Para incorporar uma nova execução, atualizar antes as evidências agregadas e identificar o commit correspondente.
 
 As quatro capas usam a mesma referência: o último commit que alterou código, testes ou configuração do painel. Um commit somente de PDF/captura não troca essa referência. A data da documentação é distinta da data original do enunciado, indicada na Metodologia.
 
@@ -118,7 +118,7 @@ Na produção, CSV principal de 198 linhas comparado por dados/estados ao cálcu
 
 A aba Metodologia consulta o HEAD do checkout Git. Se o servidor não disponibilizar Git, informa a indisponibilidade sem inventar versão. O commit de referência dos testes/artefatos não precisa coincidir com o commit documental que os incorpora; alterações posteriores no código exigem nova verificação.
 
-Para atualizar UML, renderizar componentes.puml, sequencia.puml e implantacao.puml com PlantUML local em UTF-8 e substituir os PNG de mesmo nome antes de gerar os PDFs. Os PDFs incorporam esses PNG; não há desenho manual paralelo.
+Para atualizar UML, renderizar componentes.puml, sequencia.puml e implantacao.puml em `src/apoio/documentacao/uml/` com PlantUML local em UTF-8 e substituir os PNG de mesmo nome antes de gerar os PDFs. Os PDFs incorporam esses PNG; não há desenho manual paralelo.
 
 ## Verificação externa de 06/11/2026
 URL aberta sem login do proprietário. Seis abas acessíveis; agregados CTI reais e cinco cartões coerentes com o local. CSV público de 198 linhas igual à exportação local (Ano 1-11). Commit observado inicialmente 707af174ffc9, contendo a implementação fcb6f7d03d4b e a configuração de desenvolvimento adicionada pelo Streamlit. A configuração foi preservada e alinhada para Python 3.13 e dependências E2; execução do devcontainer não foi realizada.

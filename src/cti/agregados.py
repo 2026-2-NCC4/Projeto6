@@ -26,7 +26,7 @@ from .distribuicao import CONTAS as CONTAS_DISTRIBUICAO, percentis_anuais
 SCHEMA = "agregados-e2-v1"
 ARQUIVO = Path("app/dados/agregados_cti.json")
 BASE_PADRAO = Path("src/data/processed/e2/base_analitica.parquet")
-EVIDENCIAS = Path("documentos/Entrega 2/Projeto Interdisciplinar Ciência de Dados/evidencias_e2.json")
+EVIDENCIAS = Path("app/dados/evidencias_e2.json")
 ANOS = list(range(1, 13))
 POPULACOES = {"todos": False, "sem_copias": True}  # nome -> remove as cópias excedentes de trajetórias
 GRADE = {f"P{i}": i / 100 for i in range(1, 100)}

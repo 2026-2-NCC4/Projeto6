@@ -47,13 +47,14 @@ O mapa financeiro interativo permite explorar os indicadores, simular desconto e
 
 **[Acessar o FinSight](https://projeto6cti.streamlit.app/)**
 
-- [Como executar e preparar a publicação](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/EXECUCAO_E2.md)
-- [Regressão: notebook executado](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Regressao_CTI.ipynb) e [relatório](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Analise_Inferencial_CTI.pdf)
-- [Painel financeiro e regras](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/E2_Painel_Financeiro_CTI.pdf) e [validação](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/VALIDACAO_E2.md)
-- [Design de software e dois UML](documentos/Entrega%202/ES%20e%20ML/E2_Engenharia_Software_CTI.pdf)
+- [Como executar e preparar a publicação](src/apoio/documentacao/EXECUCAO_E2.md)
+- [Regressão: notebook executado](src/notebooks/E2_Regressao_CTI.ipynb) e [relatório](documentos/Entrega%202/An%C3%A1lise%20Inferencial%20de%20Dados/E2_Analise_Inferencial_CTI.pdf)
+- [Painel financeiro e regras](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/E2_Painel_Financeiro_CTI.pdf) e [validação](src/apoio/documentacao/VALIDACAO_E2.md)
+- [Design de software e UML](documentos/Entrega%202/ES%20e%20ML/E2_Engenharia_Software_CTI.pdf) · [fontes dos diagramas](src/apoio/documentacao/uml)
 - [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
 - Banner FinSight: [arquivo editável](documentos/Banner_FinSight.pptx) · [imagem](documentos/Banner_FinSight.png)
 - Documento de extensão: [PDF](documentos/Documento_Projeto_de_Extensao_FinSight.pdf) · [arquivo editável](documentos/Documento_Projeto_de_Extensao_FinSight.docx)
+- Declarações de uso de IA: PDFs nas pastas da Entrega 2; [arquivos Word editáveis](src/apoio/documentacao).
 
 Para executar o dashboard localmente, instale `src/apoio/requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
 
@@ -76,6 +77,7 @@ Projeto6/
 ├── imagens/
 ├── src/
 │   ├── apoio/            # Testes, ferramentas e configuração de testes
+│   │   ├── documentacao/ # Guias, Word editáveis e fontes UML
 │   │   ├── tests/
 │   │   ├── tools/
 │   │   ├── pytest.ini
