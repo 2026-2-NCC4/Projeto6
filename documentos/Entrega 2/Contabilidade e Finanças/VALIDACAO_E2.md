@@ -3,6 +3,8 @@
 Referência independente: dicionário e planilha avaliados na E1, preservados.
 Implementação única: `src/cti/indicadores.py`. Agregação: média de cada conta por ano e depois razão dos componentes. Nunca somar cenários alternativos.
 
+Em 08/11, 65 testes passaram sem falhas ou omissões, incluindo a conferência privada da planilha disponível. A correção de zero negativo afeta somente a apresentação após arredondamento: o P5 de geração de caixa do Ano 7 aparece como R$ 0,00 mi, com ambas as populações. Valores negativos que permanecem visíveis conservam o sinal; fórmulas, estados, agregados e dados originais não mudaram.
+
 Execução CTI em 05/11, repetida em 06/11 e 07/11 com o mesmo resultado:
 - 216 KPIs: 161 numéricos e 55 estados indisponíveis/pendentes, sem divergências.
 - 24 identidades de balanço aprovadas.

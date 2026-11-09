@@ -29,7 +29,9 @@ O mapa abre na Visão geral e recebe apenas as médias anuais de receita, custos
 
 Os controles do mapa produzem uma prévia local, imediata, de receita/custos/margem. Resultado líquido e caixa não são recalculados. **Aplicar à Sensibilidade** valida o ano, a população e os limites e atualiza os mesmos controles usados pelo cálculo Python e pelo PDF. **Zerar prévia** zera somente os dois controles do mapa até aplicar; o botão Restaurar da aba Sensibilidade continua restaurando as hipóteses completas.
 
-**Apresentar** amplia o mapa; o botão Sair retorna à página. A animação respeita a preferência de movimento reduzido. O componente usa HTML, CSS e JavaScript próprios, sem serviços externos, além da API de componentes v2 do Streamlit 1.67 já instalado. Arquivos em `app/componentes/` e contrato Python em `src/cti/mapa.py`. Não há upload ou exposição de cenários individuais.
+**Apresentar** amplia o mapa em tela cheia ou, quando o navegador a recusa, em uma apresentação dentro da janela. **Sair** e **Escape** encerram os dois modos. Tab e Shift+Tab percorrem os controles da apresentação e o foco retorna ao botão ao sair. Em celular, os controles continuam acessíveis por rolagem interna. A legenda explica os valores compactos: mi são milhões, bi são bilhões; detalhe e evolução ficam em milhões de reais.
+
+A animação respeita a preferência de movimento reduzido. O componente usa HTML, CSS e JavaScript próprios, sem serviços externos, além da API de componentes v2 do Streamlit 1.67 já instalado. Arquivos em `app/componentes/` e contrato Python em `src/cti/mapa.py`. Não há upload ou exposição de cenários individuais.
 
 ## Preparação da base CTI local
 
@@ -84,7 +86,9 @@ python -m tools.gerar_documentos_e2
 ```
 A geração lê evidencias_e2.json e as fórmulas compartilhadas; requer reportlab. Não precisa da base privada e não recalcula ou modifica a planilha E1. Para incorporar uma nova execução, atualizar antes as evidências agregadas e identificar o commit correspondente.
 
-## Publicação provisória
+As quatro capas usam a mesma referência: o último commit que alterou código, testes ou configuração do painel. Um commit somente de PDF/captura não troca essa referência. A data da documentação é distinta da data original do enunciado, indicada na Metodologia.
+
+## Publicação
 
 Destino: Streamlit Community Cloud, com agregados reais CTI autorizados por Lúcio em 06/11. Aprovação acadêmica da plataforma ainda não informada.
 - Repositório de hospedagem `lucio734/Projeto6`; branch `main`, sincronizada com a main oficial `2026-2-NCC4/Projeto6` antes de cada publicação.
@@ -94,6 +98,8 @@ Destino: Streamlit Community Cloud, com agregados reais CTI autorizados por Lúc
 - Conferir início limpo, filtros, cinco KPIs, simulação, regressão e CSV agregado real por sessão independente.
 - Registrar a URL e o commit efetivamente publicado após o teste externo.
 
+Se uma atualização de módulos não aparecer na interface, [reinicie o aplicativo](https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app/reboot-your-app) na administração do Community Cloud. A plataforma também reconstrói o ambiente ao detectar uma alteração no manifesto de dependências. Conferir o caso afetado na tela: o SHA do checkout, isoladamente, não comprova que um módulo já carregado em memória foi atualizado.
+
 **URL pública verificada:** https://projeto6cti.streamlit.app/ — acesso sem login, seis abas e CSV conferidos em 06/11/2026. Logs internos de instalação não foram auditados; não confundir o teste funcional externo com inspeção de logs.
 
 ## Atualização de 06/11/2026
@@ -101,12 +107,18 @@ Produção real agregada como padrão; demonstração somente com CTI_DEMO=1. Co
 
 Cópia pessoal de publicação: https://github.com/lucio734/Projeto6, sincronizada com a versão oficial. O usuário concluiu a autenticação e publicou em https://projeto6cti.streamlit.app/. O GPT verificou o acesso por sessão independente.
 
-## Evidências técnicas desta revisão
+## Verificação técnica de 08/11/2026
+
+65 testes aprovados, sem falhas, erros ou omissões (22,45 s), incluindo a comparação financeira privada disponível e nove casos novos de formatação. Zero arredondado é exibido sem sinal negativo, mantendo negativos visíveis e valores de cálculo. O modo alternativo foi conferido nas cinco seleções em 1280×720 e 1920×1080 sem rolagem; teclado, Escape, foco, tela cheia real e celular emulado também foram exercitados. A aplicação de desconto de 10% continuou produzindo margem de R$ 7.746.537.944,97 no Ano 11 da população completa.
+
+Na produção, CSV principal de 198 linhas comparado por dados/estados ao cálculo local e PDF gerencial de três páginas baixados pelo navegador. O P5 da geração de caixa do Ano 7 foi conferido visualmente como R$ 0,00 mi nas duas populações após reconstrução do ambiente. As quatro capturas usadas no PDF do PI foram atualizadas. PDFs acadêmicos: 5/4/6/7 páginas, mesma referência de código 658a6b47574d. Não houve nova execução integral do pipeline ou notebook nesta etapa; os resultados numéricos anteriores foram preservados.
+
+## Histórico de evidências técnicas de 06/11
 40 testes aprovados, sem falhas ou omissões, no código fcb6f7d03d4b. Pipeline CTI reexecutado sem divergências em 216 KPIs e 24 identidades; notebook reexecutado em kernel local limpo, 6/6 células sem erro. Agregados versionados conferidos contra a base reprocessada. Download CSV pelo navegador: 198 linhas (18 indicadores × 11 anos), idênticas ao cálculo do mesmo recorte. Capturas das seis abas em imagens/e2; são evidências locais.
 
 A aba Metodologia consulta o HEAD do checkout Git. Se o servidor não disponibilizar Git, informa a indisponibilidade sem inventar versão. O commit de referência dos testes/artefatos não precisa coincidir com o commit documental que os incorpora; alterações posteriores no código exigem nova verificação.
 
-Para atualizar UML, renderizar componentes.puml e sequencia.puml com PlantUML e substituir os PNG de mesmo nome antes de gerar os PDFs. Os PDFs incorporam esses PNG; não há desenho manual paralelo.
+Para atualizar UML, renderizar componentes.puml, sequencia.puml e implantacao.puml com PlantUML local em UTF-8 e substituir os PNG de mesmo nome antes de gerar os PDFs. Os PDFs incorporam esses PNG; não há desenho manual paralelo.
 
 ## Verificação externa de 06/11/2026
 URL aberta sem login do proprietário. Seis abas acessíveis; agregados CTI reais e cinco cartões coerentes com o local. CSV público de 198 linhas igual à exportação local (Ano 1-11). Commit observado inicialmente 707af174ffc9, contendo a implementação fcb6f7d03d4b e a configuração de desenvolvimento adicionada pelo Streamlit. A configuração foi preservada e alinhada para Python 3.13 e dependências E2; execução do devcontainer não foi realizada.

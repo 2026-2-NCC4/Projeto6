@@ -1594,12 +1594,12 @@
   },
   "commit_implementacao": "4f914d69646fc93c97f06fcea75e23c9106d776b",
   "testes": {
-    "tests": 56,
+    "tests": 65,
     "errors": 0,
     "failures": 0,
     "skipped": 0,
-    "duracao_segundos": 19.19,
-    "ambiente": "Windows Python 3.13.14; execução real do mapa em 07/11/2026"
+    "duracao_segundos": 22.45,
+    "ambiente": "Windows Python 3.13.14; reexecução final com correções de apresentação e nove casos de formatação em 08/11/2026"
   },
   "notebook": {
     "ambiente": "kernel local limpo; reexecutado em 07/11/2026",
@@ -1662,5 +1662,28 @@
     "acessibilidade": "Botões/teclado; preferência de movimento reduzido; cartões em 390x844 sem overflow; sem auditoria com leitor de tela.",
     "dados_e_calculos_preservados": true,
     "interacao_publica": "Componente carregado em navegador independente; desconto 10% aplicado à Sensibilidade; margem R$7.746.537.944,97; tela cheia real e saída pelo botão, sem exceção."
+  },
+  "revisao_final_08_11": {
+    "codigo_referencia": "658a6b47574ddf238357546da6b78d6623808824",
+    "data_utc": "2026-11-09T00:59:56.856902+00:00",
+    "escopo": "correções de apresentação, formatação e documentação; sem alteração de fórmulas financeiras, dados ou modelo",
+    "navegador_local": {
+      "fallback_720p_1080p": "cinco seleções sem rolagem ou controles fora da tela",
+      "escape": "modo alternativo e tela cheia real",
+      "teclado": "foco cíclico, controles e aplicação de hipótese",
+      "celular_emulado": "390x844 sem rolagem horizontal; controles alcançáveis por rolagem interna",
+      "margem_10pct_reais": 7746537944.97
+    },
+    "notebook_e_pipeline": "não reexecutados nesta rodada; resultados históricos preservados",
+    "codigo_correcao": "4a2ab1d1d89ce6fee558253946e08bb4e0d281fa",
+    "reconstrucao_publicacao": "658a6b4: mudança documental no manifesto, sem alterar versões das dependências",
+    "publicacao": {
+      "codigo_verificado": "658a6b47574ddf238357546da6b78d6623808824",
+      "abas_sem_excecao": 6,
+      "zero_ano7": "P5 exibido como R$ 0,00 mi; populações todos e sem_copias após reconstrução",
+      "csv_principal": "download real; 198 linhas iguais ao cálculo local, rtol 1e-12 e atol 1e-6",
+      "pdf_gerencial": "download real; três páginas; fonte, recorte, hipóteses e código conferidos",
+      "capturas": "quatro capturas novas da produção, Ano 11, população completa, intervalo 1-11"
+    }
   }
 }
