@@ -1,3 +1,4 @@
+# Reconstrução do ambiente para carregar os módulos corrigidos em 4a2ab1d.
 pandas==3.1.1
 numpy==2.5.4
 pyarrow==26.0.1
