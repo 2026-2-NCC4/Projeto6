@@ -4,7 +4,7 @@
 
 Documento único do grupo 6 DevLeaders para as Entregas 1 e 2 das quatro disciplinas do PI FinSight, Ciência da Computação, 4º semestre, 2026/2. Os registros por disciplina são reproduzidos em documentos/README.md e src/README.md.
 
-Os modelos foram informados pelo grupo em 09/11/2026. Os pedidos da E1 abaixo são trechos literais da integração conduzida por Lúcio. Os quatro prompts da E2 mantêm o conteúdo anterior como síntese das instruções de revisão, sem alegação de transcrição literal dos históricos individuais. O apoio à identidade visual, ao banner, à extensão e a esta declaração também é registrado na E2.
+Os modelos foram informados pelo grupo em 09/11/2026. Os prompts da E1 abaixo reproduzem trechos de comandos de integração, execução e revisão. Os quatro prompts da E2 mantêm o conteúdo anterior como síntese das instruções de revisão, sem alegação de transcrição literal dos históricos individuais. O apoio à identidade visual, ao banner, à extensão e a esta declaração também é registrado na E2.
 
 Documento coletivo para assinatura: [PDF](../documentos/Declaracao_Uso_IA_FinSight.pdf) · [Word editável](../documentos/Declaracao_Uso_IA_FinSight.docx). As quatro assinaturas pessoais permanecem pendentes.
 
@@ -21,7 +21,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Engenharia de Software e Arquitetura de Sistemas — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Estruturação e revisão dos requisitos, critérios de aceitação e backlog; apoio à redação técnica e conferência das evidências de execução e dos documentos de Engenharia. |
-| **Prompts principais utilizados** | Pedido de integração de Lúcio: “integre os oito arquivos revisados, confira as entregas 1 de Ciência de Dados e Engenharia”. |
+| **Prompts principais utilizados** | “integre os oito arquivos revisados, confira as entregas 1 de Ciência de Dados e Engenharia”. |
 | **Trechos ou entregas afetadas** | Relatório E1 de Engenharia em DOCX/PDF e backlog_E1.md: requisitos, aceitação, responsabilidades e evidências de integração. |
 
 ### Projeto Interdisciplinar Ciência de Dados
@@ -33,7 +33,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Projeto Interdisciplinar Ciência de Dados — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à programação, revisão e execução do pipeline de preparação; conferência dos notebooks, dicionário, validações e relatório de Ciência de Dados, preservando a fonte CTI. |
-| **Prompts principais utilizados** | Pedido de execução de Lúcio: “execute os dois notebooks no Google Colab com uma cópia autorizada da base CTI”. |
+| **Prompts principais utilizados** | “execute os dois notebooks no Google Colab com uma cópia autorizada da base CTI”. |
 | **Trechos ou entregas afetadas** | src/prepara.py; notebooks 01_perfil.ipynb e 02_preparacao.ipynb; relatório E1 de Ciência de Dados e dicionario_dados.md. |
 
 ### Análise Inferencial de Dados
@@ -45,7 +45,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Análise Inferencial de Dados — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção do notebook e do relatório descritivo, conferência de agrupamentos, medidas e gráficos e execução no Colab sobre a cópia autorizada. |
-| **Prompts principais utilizados** | Pedido de correção de Lúcio: “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
+| **Prompts principais utilizados** | “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
 | **Trechos ou entregas afetadas** | Notebook Entrega_1_Analise_Descritiva_CTI_(1).ipynb e Relatorio Entrega1 Analise Inferencial de Dados.pdf: medidas, agrupamentos, figuras e explicações. |
 
 ### Contabilidade e Finanças
@@ -57,7 +57,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção das fórmulas, rótulos e controles da planilha de KPIs e do dicionário financeiro, com recálculo e comparação dos resultados. |
-| **Prompts principais utilizados** | Pedido de correção de Lúcio: “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
+| **Prompts principais utilizados** | “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
 | **Trechos ou entregas afetadas** | Planilha E1 de validação de KPIs e PDF do dicionário de KPIs: fórmulas, fonte, sinais, controles de validação e explicações financeiras. |
 
 ## Entrega 2
