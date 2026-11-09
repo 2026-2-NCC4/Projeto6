@@ -54,7 +54,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 |---|---|
 | **Aluno(s) responsável(veis)** | Eric Aloise — RA 25027482 |
 | **Ferramenta utilizada** | Gemini e Claude. |
-| **Versão/modelo** | Gemini (versão não informada); Claude Opus 5.5. |
+| **Versão/modelo** | Gemini 3.8 Flash; Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção das fórmulas, rótulos e controles da planilha de KPIs e do dicionário financeiro, com recálculo e comparação dos resultados. |
 | **Prompts principais utilizados** | Relacione cada KPI às contas da CTI e documente fórmula, unidade, periodicidade e regra de validação. Confira os sinais de passivos, as contas ausentes no Ano 12 e os denominadores; recalcule a planilha e os controles de balanço. |
@@ -104,7 +104,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 |---|---|
 | **Aluno(s) responsável(veis)** | Eric Aloise — RA 25027482 |
 | **Ferramenta utilizada** | Gemini e Claude. |
-| **Versão/modelo** | Gemini (versão não informada); Claude Opus 5.5. |
+| **Versão/modelo** | Gemini 3.8 Flash; Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 2 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão dos KPIs, fórmulas, metas e sensibilidade, com comparação à planilha E1 e conferência das premissas e valores calculados. |
 | **Prompts principais utilizados** | Implemente no painel os indicadores do dicionário E1, calculados após as médias das contas por ano. Simule desconto na receita e variação de custos, mantendo o volume constante; diferencie ticket hipotético, meta acadêmica e valores indisponíveis, sem recalcular o resultado líquido. |
