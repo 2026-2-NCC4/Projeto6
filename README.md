@@ -52,7 +52,7 @@ O mapa financeiro interativo permite explorar os indicadores, simular desconto e
 - [Painel financeiro e regras](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/E2_Painel_Financeiro_CTI.pdf) e [validação](documentos/Entrega%202/Contabilidade%20e%20Finan%C3%A7as/VALIDACAO_E2.md)
 - [Design de software e dois UML](documentos/Entrega%202/ES%20e%20ML/E2_Engenharia_Software_CTI.pdf)
 - [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
-- Banner FinSight: [arquivo editável](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.pptx) · [imagem](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/Banner_FinSight.png)
+- Banner FinSight: [arquivo editável](documentos/Banner_FinSight.pptx) · [imagem](documentos/Banner_FinSight.png)
 - Documento de extensão: [PDF](documentos/Documento_Projeto_de_Extensao_FinSight.pdf) · [arquivo editável](documentos/Documento_Projeto_de_Extensao_FinSight.docx)
 
 Para executar o dashboard localmente, instale `requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
