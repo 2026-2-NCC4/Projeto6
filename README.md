@@ -55,7 +55,7 @@ O mapa financeiro interativo permite explorar os indicadores, simular desconto e
 - Banner FinSight: [arquivo editável](documentos/Banner_FinSight.pptx) · [imagem](documentos/Banner_FinSight.png)
 - Documento de extensão: [PDF](documentos/Documento_Projeto_de_Extensao_FinSight.pdf) · [arquivo editável](documentos/Documento_Projeto_de_Extensao_FinSight.docx)
 
-Para executar o dashboard localmente, instale `requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
+Para executar o dashboard localmente, instale `src/apoio/requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
 
 ## Estrutura de pastas
 
@@ -78,7 +78,9 @@ Projeto6/
 │   ├── apoio/            # Testes, ferramentas e configuração de testes
 │   │   ├── tests/
 │   │   ├── tools/
-│   │   └── pytest.ini
+│   │   ├── pytest.ini
+│   │   ├── requirements.txt
+│   │   └── requirements-e2-dev.txt
 │   ├── data/
 │   │   ├── raw/
 │   │   ├── staging/
@@ -86,8 +88,6 @@ Projeto6/
 │   ├── notebooks/
 │   └── prepara.py
 ├── LICENSE
-├── requirements-e2-dev.txt
-├── requirements.txt
 └── README.md
 ```
 
@@ -116,10 +116,10 @@ No Prompt de Comando do Windows, a partir da raiz do projeto:
 
 ```bat
 py -3.13 -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe -m pip install -r src/apoio/requirements.txt
 ```
 
-Os comandos usam diretamente o Python do ambiente virtual, sem exigir a ativação por script do PowerShell. As versões fixadas em `requirements.txt` refletem o ambiente declarado; a instalação em outro computador ainda precisa ser validada pelo grupo.
+Os comandos usam diretamente o Python do ambiente virtual, sem exigir a ativação por script do PowerShell. As versões fixadas em `src/apoio/requirements.txt` refletem o ambiente declarado; a instalação em outro computador ainda precisa ser validada pelo grupo.
 
 ### 3. Disponibilizar a entrada autorizada
 

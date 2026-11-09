@@ -7,7 +7,7 @@ Python 3.13. A partir da raiz do projeto:
 ```bash
 python -m venv .venv
 # Windows:
-.venv\Scripts\python.exe -m pip install -r requirements-e2-dev.txt
+.venv\Scripts\python.exe -m pip install -r src/apoio/requirements-e2-dev.txt
 .venv\Scripts\python.exe -m streamlit run app/app.py
 # Linux/macOS: substituir .venv\Scripts\python.exe por .venv/bin/python
 ```

@@ -17,7 +17,7 @@
       ]
     }
   },
-  "updateContentCommand": "python -m pip install -r requirements-e2-dev.txt",
+  "updateContentCommand": "python -m pip install -r src/apoio/requirements-e2-dev.txt",
   "postAttachCommand": {
     "server": "python -m streamlit run app/app.py --server.address 0.0.0.0"
   },

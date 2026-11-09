@@ -42,7 +42,7 @@ def codigo_referencia():
     """A referência não muda quando um commit contém apenas PDFs ou capturas."""
     try:
         sha=subprocess.run(["git","-C",str(ROOT),"log","-1","--format=%H","--",
-                            "app","src",".streamlit","requirements-e2-dev.txt"],
+                            "app","src",".streamlit"],
                            capture_output=True,text=True,check=True,timeout=3).stdout.strip()
         if re.fullmatch(r"[0-9a-f]{40}",sha): return sha
     except (OSError,subprocess.SubprocessError):
@@ -265,7 +265,7 @@ s += [table([["Área","Comportamento"],["Visão geral","Mapa financeiro, cinco i
       p("O mapa financeiro, na abertura da Visão geral, conecta os cinco indicadores: linhas sólidas mostram a fórmula da margem e linhas pontilhadas, a navegação entre análises. Seus controles geram uma prévia de desconto e custos, que só passa à Sensibilidade e ao PDF quando o usuário clica em Aplicar à Sensibilidade; resultado líquido e caixa não são recalculados pela prévia."),
       p("Metadados: versão do contrato e2-v1, origem e data dos agregados, unidade por indicador, fórmula e estado. Calendário 2026 + ano e R$ são convenções acadêmicas. As telas alertam sobre ausências, encerramento e indisponibilidades."),
       hk("5. Execução e publicação")]
-s += [p("Python 3.13. Criar ambiente virtual; instalar app/requirements.txt para o painel ou requirements-e2-dev.txt para análise, testes e geração de documentos. O requirements.txt E1 permanece preservado."),
+s += [p("Python 3.13. Criar ambiente virtual; instalar app/requirements.txt para o painel ou src/apoio/requirements-e2-dev.txt para análise, testes e geração de documentos. O ambiente E1 permanece preservado em src/apoio/requirements.txt."),
       p("Produção CTI agregada: python -m streamlit run app/app.py. O arquivo real app/dados/agregados_cti.json acompanha o código. A base completa não precisa ser enviada para o servidor."),
       p('Preparação e análise CTI: python -m src.cti.executar_e2 --csv "src/data/raw/Demonstrativo Fecap v3.csv". O processo grava somente a saída ignorada src/data/processed/e2. Depois configure CTI_BASE_LOCAL para o Parquet dessa pasta ao iniciar o painel local.'),
       p("Testes: python -m pytest -q. A conferência com a base privada é pulada automaticamente onde ela não existe; os demais testes continuam executáveis. O notebook da regressão traz instruções próprias e usa dados fictícios quando a base local não está configurada."),
