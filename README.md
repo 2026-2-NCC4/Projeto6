@@ -54,7 +54,7 @@ O mapa financeiro interativo permite explorar os indicadores, simular desconto e
 - [Integração de Ciência de Dados](documentos/Entrega%202/Projeto%20Interdisciplinar%20Ci%C3%AAncia%20de%20Dados/E2_PI_Ciencia_de_Dados_CTI.pdf)
 - Banner FinSight: [arquivo editável](documentos/Banner_FinSight.pptx) · [imagem](documentos/Banner_FinSight.png)
 - Documento de extensão: [PDF](documentos/Documento_Projeto_de_Extensao_FinSight.pdf) · [arquivo editável](documentos/Documento_Projeto_de_Extensao_FinSight.docx)
-- Declarações de uso de IA: PDFs nas pastas da Entrega 2; [arquivos Word editáveis](src/apoio/documentacao).
+- Declaração coletiva de uso de IA, E1 e E2: [PDF](documentos/Declaracao_Uso_IA_FinSight.pdf) · [Word editável](documentos/Declaracao_Uso_IA_FinSight.docx). Registros por disciplina em [documentos](documentos/README.md) e [código](src/README.md).
 
 Para executar o dashboard localmente, instale `src/apoio/requirements-e2-dev.txt` em Python 3.13 e execute `python -m streamlit run app/app.py`. Consulte o guia de execução acima para mais detalhes.
 
@@ -77,7 +77,7 @@ Projeto6/
 ├── imagens/
 ├── src/
 │   ├── apoio/            # Testes, ferramentas e configuração de testes
-│   │   ├── documentacao/ # Guias, Word editáveis e fontes UML
+│   │   ├── documentacao/ # Guias e fontes UML
 │   │   ├── tests/
 │   │   ├── tools/
 │   │   ├── pytest.ini
