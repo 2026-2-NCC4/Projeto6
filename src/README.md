@@ -6,7 +6,7 @@ Documento único do grupo 6 DevLeaders para as Entregas 1 e 2 das quatro discipl
 
 Os modelos foram informados pelo grupo em 09/11/2026. Os prompts da E1 abaixo reproduzem trechos de comandos de integração, execução e revisão. Os quatro prompts da E2 mantêm o conteúdo anterior como síntese das instruções de revisão, sem alegação de transcrição literal dos históricos individuais. O apoio à identidade visual, ao banner, à extensão e a esta declaração também é registrado na E2.
 
-Documento coletivo para assinatura: [PDF](../documentos/Declaracao_Uso_IA_FinSight.pdf) · [Word editável](../documentos/Declaracao_Uso_IA_FinSight.docx). As quatro assinaturas pessoais permanecem pendentes.
+Declaração coletiva: [PDF](../documentos/Declaracao_Uso_IA_FinSight.pdf) · [Word editável](../documentos/Declaracao_Uso_IA_FinSight.docx). O documento contém as quatro assinaturas manuscritas em imagem, com data de 09/11/2026.
 
 Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fecap.br/wp-content/uploads/2026/08/Guia-para-o-Uso-Responsavel-de-IA-na-FECAP.pdf). Os seis campos do artigo 7º e o responsável são registrados para cada disciplina e entrega.
 
