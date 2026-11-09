@@ -41,8 +41,8 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | Campo | Registro |
 |---|---|
 | **Aluno(s) responsável(veis)** | Luiz Henrique Zaim da Cruz — RA 26028907 |
-| **Ferramenta utilizada** | ChatGPT / Codex e Claude. |
-| **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
+| **Ferramenta utilizada** | Gemini e ChatGPT. |
+| **Versão/modelo** | Gemini 4 Argos; GPT-6 Astra. |
 | **Disciplina / Trabalho** | Análise Inferencial de Dados — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção do notebook e do relatório descritivo, conferência de agrupamentos, medidas e gráficos e execução no Colab sobre a cópia autorizada. |
 | **Prompts principais utilizados** | Calcule média, mediana, moda, variância e desvio padrão por conta e ano. Compare Receita, Custos, Resultado Líquido e Total do Ativo com histogramas e boxplots; explique as distribuições e confira a correspondência entre notebook, tabelas e relatório. |
@@ -53,8 +53,8 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | Campo | Registro |
 |---|---|
 | **Aluno(s) responsável(veis)** | Eric Aloise — RA 25027482 |
-| **Ferramenta utilizada** | ChatGPT / Codex e Claude. |
-| **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
+| **Ferramenta utilizada** | Gemini e Claude. |
+| **Versão/modelo** | Gemini (versão não informada); Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção das fórmulas, rótulos e controles da planilha de KPIs e do dicionário financeiro, com recálculo e comparação dos resultados. |
 | **Prompts principais utilizados** | Relacione cada KPI às contas da CTI e documente fórmula, unidade, periodicidade e regra de validação. Confira os sinais de passivos, as contas ausentes no Ano 12 e os denominadores; recalcule a planilha e os controles de balanço. |
@@ -68,7 +68,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 |---|---|
 | **Aluno(s) responsável(veis)** | Lúcio Vecchio — RA 25027869 |
 | **Ferramenta utilizada** | ChatGPT / Codex, recurso de imagens do ChatGPT e Claude. |
-| **Versão/modelo** | GPT-6 Astra; Claude Opus 5.5. O recurso de imagens não informou seu identificador interno de modelo. |
+| **Versão/modelo** | GPT-6 Astra; Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Engenharia de Software e Arquitetura de Sistemas — Entrega 2 — PI FinSight |
 | **Finalidade de uso** | Apoio à implementação e revisão da arquitetura, UML, interface e testes, com conferência dos artefatos e correções pelo grupo. Apoio à criação e revisão da identidade visual FinSight e à apresentação do mapa no banner. |
 | **Prompts principais utilizados** | Represente a arquitetura implementada nos diagramas UML de componentes, sequência e implantação. Verifique a separação entre interface, dados e cálculos e o fluxo do mapa para a Sensibilidade; mantenha diagramas, código e relatório coerentes. Documente o mapa interativo e seu uso no banner. |
@@ -91,8 +91,8 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | Campo | Registro |
 |---|---|
 | **Aluno(s) responsável(veis)** | Luiz Henrique Zaim da Cruz — RA 26028907 |
-| **Ferramenta utilizada** | Gemini, ChatGPT / Codex e Claude. |
-| **Versão/modelo** | Gemini 4 Argos; GPT-6 Astra; Claude Opus 5.5. |
+| **Ferramenta utilizada** | Gemini e ChatGPT. |
+| **Versão/modelo** | Gemini 4 Argos; GPT-6 Astra. |
 | **Disciplina / Trabalho** | Análise Inferencial de Dados — Entrega 2 — PI FinSight |
 | **Finalidade de uso** | Apoio à organização e interpretação da regressão, métricas e diagnósticos, seguido de revisão das premissas e conferência dos resultados. |
 | **Prompts principais utilizados** | Compare regressões simples e múltipla do resultado líquido com receita, custos assinados e efeitos de ano. Separe treino, validação e teste por trajetórias, selecione pelo RMSE e examine resíduos, colinearidade e sensibilidade ao Ano 12, sem interpretação causal. |
@@ -103,8 +103,8 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | Campo | Registro |
 |---|---|
 | **Aluno(s) responsável(veis)** | Eric Aloise — RA 25027482 |
-| **Ferramenta utilizada** | ChatGPT / Codex e Claude. |
-| **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
+| **Ferramenta utilizada** | Gemini e Claude. |
+| **Versão/modelo** | Gemini (versão não informada); Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 2 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão dos KPIs, fórmulas, metas e sensibilidade, com comparação à planilha E1 e conferência das premissas e valores calculados. |
 | **Prompts principais utilizados** | Implemente no painel os indicadores do dicionário E1, calculados após as médias das contas por ano. Simule desconto na receita e variação de custos, mantendo o volume constante; diferencie ticket hipotético, meta acadêmica e valores indisponíveis, sem recalcular o resultado líquido. |
