@@ -1,0 +1,7 @@
+# Contabilidade e Finanças — Entrega 2
+
+- [Acessar o painel financeiro FinSight](https://projeto6cti.streamlit.app/).
+- [Relatório do painel financeiro em PDF](E2_Painel_Financeiro_CTI.pdf).
+- [Regras de cálculo e validação dos indicadores](../../../src/apoio/documentacao/VALIDACAO_E2.md).
+
+No dashboard, abra a aba **Financeiro** para consultar indicadores, fórmulas e estados. Use **Sensibilidade** para explorar desconto, custos, ticket e metas acadêmicas. Os filtros de ano e população definem o recorte apresentado.
