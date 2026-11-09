@@ -4,7 +4,7 @@
 
 Documento único do grupo 6 DevLeaders para as Entregas 1 e 2 das quatro disciplinas do PI FinSight, Ciência da Computação, 4º semestre, 2026/2. Os registros por disciplina são reproduzidos em documentos/README.md e src/README.md.
 
-Os modelos foram informados pelo grupo em 09/11/2026. Os prompts da E1 abaixo reproduzem trechos de comandos de integração, execução e revisão. Os quatro prompts da E2 mantêm o conteúdo anterior como síntese das instruções de revisão, sem alegação de transcrição literal dos históricos individuais. O apoio à identidade visual, ao banner, à extensão e a esta declaração também é registrado na E2.
+Os modelos foram informados pelo grupo em 09/11/2026. Os registros de prompts reúnem trechos de comandos e sínteses das instruções de análise e revisão. As sínteses são identificadas nos respectivos campos e não constituem transcrições literais dos históricos individuais. O apoio à identidade visual, ao banner, à extensão e a esta declaração também é registrado na E2.
 
 Declaração coletiva: [PDF](../documentos/Declaracao_Uso_IA_FinSight.pdf) · [Word editável](../documentos/Declaracao_Uso_IA_FinSight.docx). O documento contém as quatro assinaturas manuscritas em imagem, com data de 09/11/2026.
 
@@ -45,7 +45,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Análise Inferencial de Dados — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção do notebook e do relatório descritivo, conferência de agrupamentos, medidas e gráficos e execução no Colab sobre a cópia autorizada. |
-| **Prompts principais utilizados** | “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
+| **Prompts principais utilizados** | Síntese das instruções de revisão: Confira os agrupamentos por conta e ano, média, mediana, moda, variância e desvio padrão da base CTI; revise histogramas e boxplots e alinhe o notebook e a discussão do relatório aos resultados calculados. |
 | **Trechos ou entregas afetadas** | Notebook Entrega_1_Analise_Descritiva_CTI_(1).ipynb e Relatorio Entrega1 Analise Inferencial de Dados.pdf: medidas, agrupamentos, figuras e explicações. |
 
 ### Contabilidade e Finanças
@@ -57,7 +57,7 @@ Referência: [Guia oficial da FECAP, versão 2.0, de 29/07/2026](https://www.fec
 | **Versão/modelo** | GPT-6 Astra e Claude Opus 5.5. |
 | **Disciplina / Trabalho** | Contabilidade e Finanças — Entrega 1 — PI FinSight |
 | **Finalidade de uso** | Apoio à revisão e correção das fórmulas, rótulos e controles da planilha de KPIs e do dicionário financeiro, com recálculo e comparação dos resultados. |
-| **Prompts principais utilizados** | “use esse checklist que você fez pro Cloud e execute todas as mudanças pendentes pra que todas as entregas fiquem 100%”. |
+| **Prompts principais utilizados** | Síntese das instruções de revisão: Confira as fórmulas dos KPIs e os controles da planilha, respeitando os sinais das contas, as ausências e os denominadores; recalcule as identidades de balanço e alinhe o dicionário financeiro às fórmulas utilizadas. |
 | **Trechos ou entregas afetadas** | Planilha E1 de validação de KPIs e PDF do dicionário de KPIs: fórmulas, fonte, sinais, controles de validação e explicações financeiras. |
 
 ## Entrega 2
