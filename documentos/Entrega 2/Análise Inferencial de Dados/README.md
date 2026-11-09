@@ -8,3 +8,5 @@ Regressão do resultado líquido em função de receita, custos e ano, com avali
 - [Ver os resultados no dashboard FinSight](https://projeto6cti.streamlit.app/) — aba **Regressão**.
 
 O notebook está centralizado em `src/notebooks`. As saídas salvas correspondem à execução local autorizada com a base CTI. Para reexecutar, siga as instruções da abertura do notebook e do [guia de execução](../../../src/apoio/documentacao/EXECUCAO_E2.md); o Colab exige preparar o clone e as dependências. Sem a configuração da base autorizada, o código utiliza dados fictícios.
+
+Documentação comum de IA: [declaração coletiva](../../Declaracao_Uso_IA_FinSight.pdf) e [registros por disciplina](../../README.md).

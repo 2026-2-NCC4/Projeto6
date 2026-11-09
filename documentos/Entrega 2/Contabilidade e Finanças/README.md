@@ -5,3 +5,5 @@
 - [Regras de cálculo e validação dos indicadores](../../../src/apoio/documentacao/VALIDACAO_E2.md).
 
 No dashboard, abra a aba **Financeiro** para consultar indicadores, fórmulas e estados. Use **Sensibilidade** para explorar desconto, custos, ticket e metas acadêmicas. Os filtros de ano e população definem o recorte apresentado.
+
+Documentação comum de IA: [declaração coletiva](../../Declaracao_Uso_IA_FinSight.pdf) e [registros por disciplina](../../README.md).
