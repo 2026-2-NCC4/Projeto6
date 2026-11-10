@@ -1,0 +1,32 @@
+@startuml
+title FinSight — casos de uso
+skinparam backgroundColor white
+skinparam defaultFontSize 15
+left to right direction
+actor "Usuário do painel" as Usuario
+rectangle "FinSight" {
+  usecase "Selecionar ano\ne população" as Filtro
+  usecase "Explorar mapa\nfinanceiro" as Mapa
+  usecase "Consultar indicadores\ne perspectivas" as Indicadores
+  usecase "Comparar resultado\ne caixa" as Comparacao
+  usecase "Consultar ponte\nde caixa" as Ponte
+  usecase "Simular desconto,\ncustos e meta" as Simulacao
+  usecase "Explorar WACC e\nEVA hipotético" as WACC
+  usecase "Consultar distribuição\ne regressão" as Analise
+  usecase "Exportar relatório\ne KPIs agregados" as Exportar
+}
+Usuario --> Filtro
+Usuario --> Mapa
+Usuario --> Indicadores
+Usuario --> Comparacao
+Usuario --> Ponte
+Usuario --> Simulacao
+Usuario --> WACC
+Usuario --> Analise
+Usuario --> Exportar
+note bottom of Usuario
+Gestão, Investidor e Analista são roteiros
+de leitura disponíveis à mesma pessoa;
+não representam permissões de acesso.
+end note
+@enduml

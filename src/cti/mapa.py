@@ -1,5 +1,4 @@
 """Mapa de navegação e simulação parcial; recebe apenas médias anuais autorizadas."""
-from functools import lru_cache
 from pathlib import Path
 import math
 import hashlib
@@ -36,7 +35,6 @@ def validar_aplicacao(evento, ano, populacao):
     return float(evento["desconto"]), float(evento["custo"])
 
 
-@lru_cache(maxsize=1)
 def _componente(html, css, js):
     from streamlit.components.v2 import component
     # Identidade por conteúdo evita reutilizar CSS/JS antigos após atualização do site.

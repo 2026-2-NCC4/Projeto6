@@ -45,6 +45,8 @@ O dashboard reúne indicadores financeiros, evolução anual, filtros, distribui
 
 O mapa financeiro interativo permite explorar os indicadores, simular desconto e custos e aplicar as hipóteses à análise de sensibilidade. O modo **Apresentar** amplia a visualização para demonstrações e apresentações.
 
+O painel também reúne perspectivas de leitura, comparação entre resultado e caixa, ponte de caixa do Ano 12 e uma análise hipotética de WACC e EVA.
+
 **[Acessar o FinSight](https://projeto6cti.streamlit.app/)**
 
 - [Como executar e preparar a publicação](src/apoio/documentacao/EXECUCAO_E2.md)

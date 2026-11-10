@@ -23,6 +23,8 @@ from src.cti.formatacao import numero, reais_mi, valor_kpi, parcela, data_hora
 from src.cti.versao import commit_em_execucao
 from src.cti.leitura import resumo, encerramento
 from src.cti.mapa import preparar_mapa, mostrar_mapa
+from src.cti.analises_gerenciais import (CONTAS_PONTE, ARQUIVO_PONTE, ponte_caixa,
+    eva_hipotetico, ler_medias_ponte, contas_ponte_publica)
 
 # Números dos gráficos no padrão brasileiro: vírgula decimal e ponto de milhar
 LOCALE=alt.Locale(number=alt.NumberLocale(decimal=",",thousands=".",grouping=[3],currency=["R$ ",""]))
@@ -99,7 +101,8 @@ with st.expander("Como usar o FinSight"):
                 "5. Use **Apresentar** para ampliar o mapa no pitch e **Sair** para voltar ao painel.\n\n"
                 "**Zerar prévia** zera os controles do mapa; para levar essa mudança à análise, aplique novamente. "
                 "**Restaurar hipóteses**, na aba Sensibilidade, restaura os parâmetros da análise. "
-                "Para baixar o relatório, abra Metodologia e use **Preparar relatório PDF** e **Baixar relatório PDF**.")
+                "Para baixar o relatório, abra Metodologia e use **Preparar relatório PDF** e **Baixar relatório PDF**.\n\n"
+                "Na Visão geral, abra **Resultado e geração de caixa**, **Perspectivas** e **Encerramento da concessão** para acessar a comparação, os roteiros e a ponte. Em Sensibilidade, abra **Sensibilidade do custo de capital** e informe EBIT e capital hipotéticos para explorar o WACC.")
     st.markdown("**Gestão:** compare receita, resultado e caixa na Visão geral; leia o resumo e o encerramento.\n\n"
                 "**Financeiro:** confira fórmulas e estados em Financeiro e teste hipóteses em Sensibilidade.\n\n"
                 "**Análise:** examine faixas e riscos em Distribuição, modelos em Regressão e fontes em Metodologia.")
@@ -159,6 +162,35 @@ with overview:
         tooltip=[alt.Tooltip("ano:O",title="Ano"),"Indicador:N",alt.Tooltip("valor:Q",title="R$ milhões",format=",.2f")])
     st.altair_chart(grafico.configure(locale=LOCALE),width="stretch")
     st.caption("Margem após custos exclui tributos e demais despesas; não equivale a lucro líquido.")
+    with st.expander("Resultado e geração de caixa"):
+        st.write("Compare as médias da mesma população e do mesmo ano. A geração de caixa inclui investimentos, financiamento e distribuição; não é uma medida direta de conversão do lucro.")
+        comparativo = pd.DataFrame({"Indicador": ["Resultado líquido", "Geração de caixa"],
+                                   "Valor": [float(contas["DRE - Resultado Líquido"])/1e6,
+                                             float(contas["FLU - Geração de Caixa"])/1e6]})
+        st.altair_chart(alt.Chart(comparativo).mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4).encode(
+            x=alt.X("Indicador:N", title=None, sort=None),
+            y=alt.Y("Valor:Q", title="Média (R$ milhões)", axis=alt.Axis(format=",.0f")),
+            color=alt.Color("Indicador:N", scale=alt.Scale(range=["#276a9b", "#173f5f"]), legend=None),
+            tooltip=["Indicador:N", alt.Tooltip("Valor:Q", title="R$ milhões", format=",.2f")]
+        ).configure(locale=LOCALE), width="stretch")
+        st.caption(f"Ano {ano}. São valores médios de projeções; a diferença não identifica causas nem reconcilia fluxo de caixa e resultado contábil.")
+    with st.expander("Perspectivas para explorar o painel"):
+        perfil = st.radio("Escolha sua perspectiva", ["Gestão", "Investidor", "Analista"], horizontal=True, key="perspectiva")
+        if perfil == "Gestão":
+            st.write("Acompanhe receita e margem, compare resultado e caixa e explore hipóteses de desconto e custos.")
+            itens = [("Receita", contas["DRE - Receita"]), ("Margem após custos", contas["DRE - Receita"]+contas["DRE - Custos"])]
+            st.caption("Continue em Sensibilidade para ajustar as hipóteses e metas acadêmicas.")
+        elif perfil == "Investidor":
+            st.write("Observe resultado líquido e geração de caixa; use a distribuição aos acionistas para examinar a dispersão entre cenários.")
+            itens = [("Resultado líquido", contas["DRE - Resultado Líquido"]), ("Geração de caixa", contas["FLU - Geração de Caixa"])]
+            st.caption("Continue em Distribuição e selecione Distribuição aos acionistas. Não representa retorno observado.")
+        else:
+            st.write("Confira EBITDA e geração de caixa, consulte as fórmulas e examine limites e diagnósticos da regressão.")
+            itens = [("EBITDA informado", contas["DRE - EBITDA"]), ("Geração de caixa", contas["FLU - Geração de Caixa"])]
+            st.caption("Continue em Financeiro, Regressão e Metodologia para consultar as evidências.")
+        for col, (nome, valor) in zip(st.columns(2), itens):
+            col.metric(nome, reais_mi(valor))
+        st.caption("Os perfis são roteiros de leitura; não alteram permissões nem filtros.")
     st.subheader(f"Leitura gerencial · Ano {ano}")
     for texto in resumo(medias, ano):
         st.write(texto)
@@ -177,6 +209,31 @@ with overview:
         st.dataframe(terminal,hide_index=True,width="stretch")
         st.caption("Valores médios em milhões de reais. As contas acima são apresentadas separadamente; não constituem uma ponte de caixa nem uma identidade completa de liquidação. Saldo inicial/final e todos os fluxos seriam necessários para essa reconciliação.")
         st.info("Contas patrimoniais ausentes não viram zero. Razões com contas ausentes ou denominador inválido permanecem indisponíveis. As faixas da aba Distribuição são percentis marginais; somá-los não representa uma trajetória real.")
+        with st.expander("Ponte de caixa conciliada · Ano 12"):
+            try:
+                if modo == "agregados":
+                    ponte_publicada = ler_medias_ponte(ROOT/ARQUIVO_PONTE, agg)
+                    contas_da_ponte = contas_ponte_publica(ponte_publicada, agg, populacao, 12)
+                else:
+                    dados_ano = filtrar(base, (12, 12), unicas)
+                    if any(c not in dados_ano.columns or dados_ano[c].isna().any() for c in CONTAS_PONTE):
+                        raise ValueError("As contas necessárias estão ausentes ou incompletas.")
+                    contas_da_ponte = dados_ano[list(CONTAS_PONTE)].mean()
+                tabela_ponte = ponte_caixa(contas_da_ponte)
+                grafico_ponte = tabela_ponte.assign(
+                    inicio_mi=tabela_ponte["Início"]/1e6, fim_mi=tabela_ponte["Fim"]/1e6,
+                    valor_mi=tabela_ponte["Valor"]/1e6)
+                st.altair_chart(alt.Chart(grafico_ponte).mark_bar().encode(
+                    x=alt.X("Etapa:N", sort=tabela_ponte["Etapa"].tolist(), title=None,
+                            axis=alt.Axis(labelAngle=-35, labelLimit=150)),
+                    y=alt.Y("inicio_mi:Q", title="Média (R$ milhões)"), y2="fim_mi:Q",
+                    color=alt.Color("Tipo:N", scale=alt.Scale(domain=["Saldo", "Entrada", "Saída"],
+                                                              range=["#173f5f", "#238780", "#bd5a55"])),
+                    tooltip=["Etapa:N", alt.Tooltip("valor_mi:Q", title="Média (R$ milhões)", format=",.2f")]
+                ).configure(locale=LOCALE), width="stretch")
+                st.caption("Médias da mesma população no Ano 12. A soma das movimentações foi conferida contra a geração, e o saldo inicial mais a geração contra o saldo final; não são somados percentis.")
+            except (OSError, KeyError, TypeError, ValueError) as exc:
+                st.warning(f"Ponte de caixa indisponível: {exc}")
 with distribuicao:
     st.subheader("Distribuição entre os cenários")
     st.caption("Os cenários são futuros alternativos simulados para a mesma concessão. A faixa mostra como eles se espalham em cada ano; não é intervalo de confiança nem probabilidade real.")
@@ -264,6 +321,25 @@ with sensibilidade:
         st.dataframe(comparacao,hide_index=True,width="stretch")
         st.caption("Ticket = receita simulada / quantidade hipotética. Meta e quantidade são entradas acadêmicas, não observações ou metas da CTI.")
     except ValueError as exc: st.warning(str(exc))
+    with st.expander("Sensibilidade do custo de capital · hipótese"):
+        st.write("Explore o efeito de um WACC hipotético sobre o EVA operacional. Informe EBIT e capital investido em milhões; não são valores preenchidos com dados da CTI.")
+        a, b = st.columns(2)
+        ebit = a.number_input("EBIT hipotético (R$ milhões)", value=None, step=1.0, key="eva_ebit")
+        capital = b.number_input("Capital investido hipotético (R$ milhões)", min_value=0.0, value=None, step=1.0, key="eva_capital")
+        aliquota = a.slider("Alíquota hipotética (%)", 0.0, 100.0, 34.0, key="eva_aliquota")
+        wacc = b.slider("WACC hipotético (% ao ano)", 0.0, 100.0, 10.0, key="eva_wacc")
+        if ebit is None or capital is None:
+            st.info("Preencha EBIT e capital para calcular a hipótese.")
+        else:
+            try:
+                hipotese = eva_hipotetico(ebit, aliquota/100, capital, wacc/100)
+                c1, c2, c3 = st.columns(3)
+                c1.metric("NOPAT hipotético", reais_mi(hipotese["nopat"]*1e6))
+                c2.metric("Custo do capital hipotético", reais_mi(hipotese["custo_capital"]*1e6))
+                c3.metric("EVA operacional hipotético", reais_mi(hipotese["eva"]*1e6))
+            except ValueError as exc:
+                st.warning(str(exc))
+        st.caption("NOPAT = EBIT × (1 − alíquota); EVA = NOPAT − WACC × capital investido. O cálculo é ilustrativo, aplica a alíquota ao EBIT inclusive se negativo e não altera o EVA simplificado da E1 nem reconstrói o simulador da CTI.")
 with regressao:
     st.subheader("Associação entre receita, custos e resultado")
     st.caption("Ajuste fixo nos Anos 1–11; o filtro anual da visão financeira não altera o desenho estatístico. A opção de trajetórias altera a população do modelo.")

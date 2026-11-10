@@ -124,3 +124,11 @@ Para atualizar UML, renderizar componentes.puml, sequencia.puml e implantacao.pu
 URL aberta sem login do proprietário. Seis abas acessíveis; agregados CTI reais e cinco cartões coerentes com o local. CSV público de 198 linhas igual à exportação local (Ano 1-11). Commit observado inicialmente 707af174ffc9, contendo a implementação fcb6f7d03d4b e a configuração de desenvolvimento adicionada pelo Streamlit. A configuração foi preservada e alinhada para Python 3.13 e dependências E2; execução do devcontainer não foi realizada.
 
 Imagens em imagens/e2 são capturas da URL pública; a descrição de cada PDF identifica o contexto. O commit dos documentos incorpora evidências anteriores e não exige auto-referência circular em seus próprios arquivos. A versão atual pode ser consultada na aba Metodologia. A aprovação docente da plataforma segue sem confirmação.
+
+## Ponte de caixa e leituras gerenciais
+
+O painel inclui comparação entre resultado e caixa, perspectivas de Gestão, Investidor e Analista, ponte de caixa conciliada do Ano 12 e sensibilidade ilustrativa de WACC/EVA. Os perfis não criam permissões. O WACC usa EBIT, capital investido e alíquota informados pelo usuário; não altera o EVA simplificado da E1.
+
+`app/dados/ponte_cti.json` contém somente médias anuais adicionais autorizadas das oito contas necessárias, nas duas populações. O carregamento confere a origem e reconcilia geração e saldo final para todos os anos. Para regenerá-lo a partir da base E2 local já conferida, execute `python -m src.apoio.tools.gerar_ponte`; o script recusa uma origem diferente e não publica cenários individuais. O diagrama de casos de uso está em `src/apoio/documentacao/uml`.
+
+Após regenerar os PDFs acadêmicos originais pelo gerador E2, `python -m src.apoio.tools.adicionar_melhorias_e2` acrescenta uma página complementar às três disciplinas afetadas, sem mudar as páginas originais. O script recusa execução duplicada e requer as dependências de desenvolvimento.

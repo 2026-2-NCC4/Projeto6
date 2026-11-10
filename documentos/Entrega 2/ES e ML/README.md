@@ -1,7 +1,7 @@
 # Engenharia de Software e Arquitetura de Sistemas — Entrega 2
 
 - [Relatório de design de software e UML em PDF](E2_Engenharia_Software_CTI.pdf).
-- [Fontes editáveis e imagens dos diagramas UML](../../../src/apoio/documentacao/uml) — componentes, sequência e implantação.
+- [Fontes editáveis e imagens dos diagramas UML](../../../src/apoio/documentacao/uml) — componentes, sequência, implantação e casos de uso.
 - [Código da interface](../../../app) e [módulos de análise e domínio](../../../src/cti).
 - [Acessar o dashboard FinSight](https://projeto6cti.streamlit.app/).
 

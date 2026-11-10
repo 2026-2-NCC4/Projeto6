@@ -6,6 +6,6 @@
 - [Preparação dos dados](../../../src/prepara.py), [módulos compartilhados](../../../src/cti) e [evidências agregadas da E2](../../../app/dados/evidencias_e2.json).
 - [Guia de execução e preparação dos dados](../../../src/apoio/documentacao/EXECUCAO_E2.md).
 
-O painel integra as quatro disciplinas. Na aba **Metodologia**, consulte as fontes, os limites e a geração do relatório PDF do recorte selecionado.
+O painel integra as quatro disciplinas, com roteiros por perfil, comparação entre resultado e caixa e ponte de caixa reconciliada. Na aba **Metodologia**, consulte as fontes, os limites e a geração do relatório PDF do recorte selecionado.
 
 Documentação comum de IA: [declaração coletiva](../../Declaracao_Uso_IA_FinSight.pdf) e [registros por disciplina](../../README.md).
