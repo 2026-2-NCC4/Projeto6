@@ -167,8 +167,8 @@ with overview:
         comparativo = pd.DataFrame({"Indicador": ["Resultado líquido", "Geração de caixa"],
                                    "Valor": [float(contas["DRE - Resultado Líquido"])/1e6,
                                              float(contas["FLU - Geração de Caixa"])/1e6]})
-        st.altair_chart(alt.Chart(comparativo).mark_bar(cornerRadiusTopLeft=4, cornerRadiusTopRight=4).encode(
-            x=alt.X("Indicador:N", title=None, sort=None),
+        st.altair_chart(alt.Chart(comparativo).mark_bar(size=80, cornerRadiusTopLeft=4, cornerRadiusTopRight=4).encode(
+            x=alt.X("Indicador:N", title=None, sort=None, axis=alt.Axis(labelAngle=0, labelLimit=180)),
             y=alt.Y("Valor:Q", title="Média (R$ milhões)", axis=alt.Axis(format=",.0f")),
             color=alt.Color("Indicador:N", scale=alt.Scale(range=["#276a9b", "#173f5f"]), legend=None),
             tooltip=["Indicador:N", alt.Tooltip("Valor:Q", title="R$ milhões", format=",.2f")]
